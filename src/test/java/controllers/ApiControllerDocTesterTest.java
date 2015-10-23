@@ -132,7 +132,7 @@ public class ApiControllerDocTesterTest extends NinjaDocTester {
         Article article = getGsonWithLongToDateParsing().fromJson(response.payload, Article.class);
         // one new result:
         sayAndAssertThat("And we got back the first article"
-                , article.id
+                , article.getId()
                 , CoreMatchers.is(1L));
     }
 
