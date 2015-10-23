@@ -2,3 +2,5 @@ target/
 .classpath
 .settings
 .project
+depdendency-reduced-pom.xml
+*.log
