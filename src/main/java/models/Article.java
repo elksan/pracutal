@@ -19,25 +19,66 @@ public class Article {
     
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
-    public Long id;
+    private Long id;
     
-    public String title;
+    private String title;
     
-    public Date postedAt;
+    private Date postedAt;
     
     @Column(length = 5000) //init with VARCHAR(1000)
-    public String content;
+    private String content;
     
     @ElementCollection(fetch=FetchType.EAGER)
-    public List<Long> authorIds;
+    private List<Long> authorIds;
     
     public Article() {}
     
     public Article(User author, String title, String content) {
-        this.authorIds = Lists.newArrayList(author.id);
+        this.authorIds = Lists.newArrayList(author.getId());
         this.title = title;
         this.content = content;
         this.postedAt = new Date();
     }
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public Date getPostedAt() {
+		return postedAt;
+	}
+
+	public void setPostedAt(Date postedAt) {
+		this.postedAt = postedAt;
+	}
+
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+
+	public List<Long> getAuthorIds() {
+		return authorIds;
+	}
+
+	public void setAuthorIds(List<Long> authorIds) {
+		this.authorIds = authorIds;
+	}
  
+    
 }

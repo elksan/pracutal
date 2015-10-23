@@ -17,6 +17,7 @@
 package dao;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 import models.User;
@@ -38,12 +39,22 @@ public class UserDao {
             EntityManager entityManager = entityManagerProvider.get();
             
             Query q = entityManager.createQuery("SELECT x FROM User x WHERE username = :usernameParam");
-            User user = (User) q.setParameter("usernameParam", username).getSingleResult();   
+            
+            User user= null;
+            try{
+            	
+            	user = (User) q.setParameter("usernameParam", username).getSingleResult();  
+            }
+            catch(NoResultException nrex){
+            	
+            	
+            }
+             
 
             
             if (user != null) {
                 
-                if (user.password.equals(password)) {
+                if (user.getPassword().equals(password)) {
 
                     return true;
                 }

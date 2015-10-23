@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite failures="0" time="0.011" errors="0" skipped="0" tests="2" name="controllers.ApiControllerMockTest">
+<testsuite failures="0" time="0.031" errors="0" skipped="0" tests="2" name="controllers.ApiControllerMockTest">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk1.7.0_09\jre\bin"/>
@@ -61,6 +61,6 @@
     <property name="sun.desktop" value="windows"/>
     <property name="sun.cpu.isalist" value="amd64"/>
   </properties>
-  <testcase time="0.011" classname="controllers.ApiControllerMockTest" name="testThatPostArticleReturnsNotFoundWhenArticleDaoReturnsFalse"/>
-  <testcase time="0" classname="controllers.ApiControllerMockTest" name="testThatPostArticleReturnsOkWhenArticleDaoReturnsTrue"/>
+  <testcase time="0.03" classname="controllers.ApiControllerMockTest" name="testThatPostArticleReturnsNotFoundWhenArticleDaoReturnsFalse"/>
+  <testcase time="0.001" classname="controllers.ApiControllerMockTest" name="testThatPostArticleReturnsOkWhenArticleDaoReturnsTrue"/>
 </testsuite>
