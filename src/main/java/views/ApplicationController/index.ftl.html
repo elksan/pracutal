@@ -2,8 +2,19 @@
 <@layout.myLayout "Home page">    
 
 
-        
-<#if frontArticle??>
+	<div id="first_logo" >
+	
+		<div class="title">
+			<h1 >${i18n("title.welcome")}</h1>
+			<h2>${i18n("title.h2")}</h2>
+		</div>
+		
+	
+	</div>
+
+
+
+	<#if frontArticle??>
 
     <div class="jumbotron">
         <h1>
@@ -14,7 +25,6 @@
     </div>
 </#if>
 
-<hr/>
 
 <#if olderArticles??>
     

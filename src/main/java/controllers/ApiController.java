@@ -26,7 +26,6 @@ import ninja.SecureFilter;
 import ninja.params.PathParam;
 
 import com.google.inject.Inject;
-import com.google.inject.Singleton;
 
 import dao.ArticleDao;
 import etc.LoggedInUser;

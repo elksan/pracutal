@@ -19,7 +19,8 @@ public class SetupDao {
     @Inject
     Provider<EntityManager> entityManagerProvider;
 
-    @Transactional
+    @SuppressWarnings("unchecked")
+	@Transactional
     public void setup() {
         
         EntityManager entityManager = entityManagerProvider.get();
@@ -29,24 +30,24 @@ public class SetupDao {
         
         if (users.size() == 0) {
 
-            // Create a new user and save it
-            User bob = new User("bob@gmail.com", "secret", "Bob");
-            entityManager.persist(bob);
-            
-            // Create a new post
-            Article bobPost3 = new Article(bob, "My third post", lipsum);
-            entityManager.persist(bobPost3);
-
-            // Create a new post
-            Article bobPost2 = new Article(bob, "My second post", lipsum);
-            entityManager.persist(bobPost2);
-            
-            // Create a new post
-            Article bobPost1 = new Article(bob, post1Title, post1Content);
-            entityManager.persist(bobPost1);
-            
-            entityManager.setFlushMode(FlushModeType.COMMIT);
-            entityManager.flush();
+//            // Create a new user and save it
+//            User bob = new User("bob@gmail.com", "secret", "Bob");
+//            entityManager.persist(bob);
+//            
+//            // Create a new post
+//            Article bobPost3 = new Article(bob, "My third post", lipsum);
+//            entityManager.persist(bobPost3);
+//
+//            // Create a new post
+//            Article bobPost2 = new Article(bob, "My second post", lipsum);
+//            entityManager.persist(bobPost2);
+//            
+//            // Create a new post
+//            Article bobPost1 = new Article(bob, post1Title, post1Content);
+//            entityManager.persist(bobPost1);
+//            
+//            entityManager.setFlushMode(FlushModeType.COMMIT);
+//            entityManager.flush();
         }
 
     }

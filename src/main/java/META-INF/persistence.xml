@@ -85,6 +85,7 @@
             <property name="hibernate.show_sql" value="true" />
             <property name="hibernate.format_sql" value="true" /> 
             
+            <property name="hibernate.default_schema" value="pracutal"/>
             <!-- Connection Pooling settings -->
             <property name="hibernate.connection.provider_class"
                 value="org.hibernate.service.jdbc.connections.internal.C3P0ConnectionProvider" />

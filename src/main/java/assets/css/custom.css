@@ -1,3 +1,80 @@
 /* Add additional stylesheets below
 -------------------------------------------------- */
+#intro {
+	
+	height: auto;
+	margin: 0 auto;
+	width: 100%;
+	position: relative;
+	padding: 100px 0;
+}
 
+#home {
+	background: url(/assets/images/home.jpg) 50% 0 fixed;
+	height: auto;
+	margin: 0 auto;
+	width: 100%;
+	position: relative;
+	padding: 200px 0;
+}
+
+#about {
+	background: url(/assets/images/about.png) 50% 0 fixed;
+	height: auto;
+	margin: 0 auto;
+	width: 100%;
+	position: relative;
+	box-shadow: 0 0 50px rgba(0, 0, 0, 0.8);
+	padding: 100px 0;
+	color: #fff;
+}
+
+
+
+.media-object {
+	width: 64px;
+	height: 64px;
+	padding-bottom: 30px
+}
+
+.navbar{
+	background: rgba(255,255,255,0.7);
+	
+}
+
+#first_logo {
+	
+	background: linear-gradient(
+		rgba(0,0,0,0.5),
+		rgba(0,0,0,0.5)
+	), url(/assets/images/barra.jpg) no-repeat top center;
+	height: 700px;
+	background-size: cover;
+	position:relative;
+}
+
+.title{
+	top: 50%;
+	left: 50%;
+	position: absolute;
+	transform: translate(-50%, -50%);
+	text-align: center;	
+	color: white;	
+	
+}
+.title h1{
+		
+	font-weight: 700;
+	font-size: 3em;
+}
+
+@media only screen and (max-width: 320px) {
+
+  .title h1 { font-size: 2rem; }
+
+}
+
+body{
+	
+	font-family: 'Lato'
+}

@@ -74,9 +74,9 @@ public class ArticleController {
 
         if (validation.hasViolations()) {
 
-            context.getFlashCookie().error("Please correct field.");
-            context.getFlashCookie().put("title", articleDto.title);
-            context.getFlashCookie().put("content", articleDto.content);
+//            context.getFlashCookie().error("Please correct field.");
+//            context.getFlashCookie().put("title", articleDto.title);
+//            context.getFlashCookie().put("content", articleDto.content);
 
             return Results.redirect("/article/new");
 
@@ -84,7 +84,7 @@ public class ArticleController {
             
             articleDao.postArticle(username, articleDto);
             
-            context.getFlashCookie().success("New article created.");
+//            context.getFlashCookie().success("New article created.");
             
             return Results.redirect("/");
 
