@@ -3,38 +3,30 @@ package models;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.collect.Lists;
 
-@Entity
+//@Entity
 public class Article {
     
-    @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    //@Id
+    //@GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;
     
     private String title;
     
     private Date postedAt;
     
-    @Column(length = 5000) //init with VARCHAR(1000)
+    //@Column(length = 5000) //init with VARCHAR(1000)
     private String content;
     
-    @ElementCollection(fetch=FetchType.EAGER)
-    private List<Long> authorIds;
+    //@ElementCollection(fetch=FetchType.LAZY)
+    private List<Integer> authorIds;
     
     public Article() {}
     
     public Article(User author, String title, String content) {
-        this.authorIds = Lists.newArrayList(author.getId());
+        this.authorIds = Lists.newArrayList(author.getRut());
         this.title = title;
         this.content = content;
         this.postedAt = new Date();
@@ -72,11 +64,11 @@ public class Article {
 		this.content = content;
 	}
 
-	public List<Long> getAuthorIds() {
+	public List<Integer> getAuthorIds() {
 		return authorIds;
 	}
 
-	public void setAuthorIds(List<Long> authorIds) {
+	public void setAuthorIds(List<Integer> authorIds) {
 		this.authorIds = authorIds;
 	}
  

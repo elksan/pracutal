@@ -1,9 +1,9 @@
-package dao;
+package services;
 
 import models.User;
 
-public interface UserDao {
+public interface UserService {
 
 	public boolean isUserAndPasswordValid(String username, String password);
-	public User getUserById(String userId);
+	public User getUserById(String username);
 }

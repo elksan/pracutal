@@ -16,16 +16,12 @@
 
 package controllers;
 
-import java.util.List;
-import java.util.Map;
 
-import models.Article;
+import ninja.Context;
 import ninja.Result;
 import ninja.Results;
 
-import com.google.common.collect.Maps;
 import com.google.inject.Inject;
-import com.google.inject.Singleton;
 
 import dao.ArticleDao;
 import dao.SetupDao;
@@ -55,18 +51,27 @@ public class ApplicationController {
 
     }
 
-    public Result index() {
+    public Result index(Context context) {
 
-        Article frontPost = articleDao.getFirstArticleForFrontPage();
+//        Article frontPost = articleDao.getFirstArticleForFrontPage();
+//
+//        List<Article> olderPosts = articleDao.getOlderArticlesForFrontPage();
+//
+//        Map<String, Object> map = Maps.newHashMap();
+//        map.put("frontArticle", frontPost);
+//        map.put("olderArticles", olderPosts);
+//
+//        return Results.html().render("frontArticle", frontPost)
+//                .render("olderArticles", olderPosts);
 
-        List<Article> olderPosts = articleDao.getOlderArticlesForFrontPage();
-
-        Map<String, Object> map = Maps.newHashMap();
-        map.put("frontArticle", frontPost);
-        map.put("olderArticles", olderPosts);
-
-        return Results.html().render("frontArticle", frontPost)
-                .render("olderArticles", olderPosts);
-
+		//String username = context.getSessionCookie().get("username");
+    	String username = context.getSession().get("username");
+        
+    	if(username == null || username.isEmpty())    
+    		return Results.html();
+    	else
+    		return Results.redirect("/profile");
+        
+    	
     }
 }

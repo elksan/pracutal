@@ -65,7 +65,8 @@ public class ArticleDao {
         
     }
     
-    @UnitOfWork
+    @SuppressWarnings("unchecked")
+	@UnitOfWork
     public List<Article> getOlderArticlesForFrontPage() {
         
         EntityManager entityManager = entitiyManagerProvider.get();

@@ -19,6 +19,11 @@ package conf;
 import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 
+import dao.UserDao;
+import dao.impl.UserDaoImpl;
+import services.UserService;
+import services.impl.UserServiceImpl;
+
 @Singleton
 public class Module extends AbstractModule {
     
@@ -26,7 +31,8 @@ public class Module extends AbstractModule {
     protected void configure() {
         
         bind(StartupActions.class);    
-        
+        bind(UserService.class).to(UserServiceImpl.class);
+        bind(UserDao.class).to(UserDaoImpl.class);
     }
 
 }

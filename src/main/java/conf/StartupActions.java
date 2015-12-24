@@ -22,7 +22,7 @@ public class StartupActions {
         this.ninjaProperties = ninjaProperties;
     }
     
-    @Start(order=100)
+    //@Start(order=100)
     public void generateDummyDataWhenInTest() {
         
         if (!ninjaProperties.isProd()) {

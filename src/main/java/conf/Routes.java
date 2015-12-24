@@ -27,6 +27,7 @@ import controllers.ApiController;
 import controllers.ApplicationController;
 import controllers.ArticleController;
 import controllers.LoginLogoutController;
+import controllers.ProfileController;
 
 public class Routes implements ApplicationRoutes {
     
@@ -76,6 +77,11 @@ public class Routes implements ApplicationRoutes {
         router.GET().route("/api/{username}/articles.xml").with(ApiController.class, "getArticlesXml");
         router.POST().route("/api/{username}/article.json").with(ApiController.class, "postArticleJson");
         router.POST().route("/api/{username}/article.xml").with(ApiController.class, "postArticleXml");
+        
+        ////////////////////
+        //PRACUTAL
+        /////////////77
+        router.GET().route("/profile").with(ProfileController.class, "profile");
  
         ///////////////////////////////////////////////////////////////////////
         // Assets (pictures / javascript)
