@@ -27,6 +27,7 @@ import controllers.ApiController;
 import controllers.ApplicationController;
 import controllers.ArticleController;
 import controllers.LoginLogoutController;
+import controllers.OfferController;
 import controllers.ProfileController;
 
 public class Routes implements ApplicationRoutes {
@@ -82,6 +83,7 @@ public class Routes implements ApplicationRoutes {
         //PRACUTAL
         /////////////77
         router.GET().route("/profile").with(ProfileController.class, "profile");
+        router.GET().route("/offers").with(OfferController.class, "offers");
  
         ///////////////////////////////////////////////////////////////////////
         // Assets (pictures / javascript)
