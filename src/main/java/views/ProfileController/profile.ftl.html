@@ -3,9 +3,51 @@
 
 	<div id="profile" class="container">
 		
-		<h2>Informacion General</h2>
+		<h2>${i18n("profile.generalinfo")}</h2>
 		<div class="jumbotron">
+		
+			<dl class="dl-horizontal">
+				<dt>${i18n("profile.name")}:</dt>
+				<dd>${user.firstName} ${user.lastName} ${user.motherLastName}</dd>
+				<dt>${i18n("profile.registration.number")}:</dt>
+				<dd>${user.student.registrationNumber}</dd>
+				<dt>${i18n("profile.email")}:</dt>
+				<dd>${user.email}</dd>
+				<dt>${i18n("profile.career")}:</dt>
+				<dd>${user.student.career.careerName}</dd>
+				<dt>${i18n("profile.address")}:</dt>
+				<dd>${user.student.address}</dd>
+				<dt>${i18n("profile.city")}:</dt>
+				<dd>${user.student.city}</dd>
+				<dt>${i18n("profile.birthdate")}:</dt>
+				<dd>${user.student.birthdate}</dd>
+				<dt>${i18n("profile.citizenship")}:</dt>
+				<dd>${user.student.citizenship}</dd>
+				<dt>${i18n("profile.gender")}:</dt>
+				<dd>${user.student.gender}</dd>
+				<dt>${i18n("profile.phone")}:</dt>
+				<dd>${user.student.phoneNumber}</dd>
+				<dt>${i18n("profile.entry.year")}:</dt>
+				<dd>${user.student.entryYear}</dd>
+				
+			</dl>
+		</div>
+		
+		<h2>${i18n("profile.presentation")}</h2>
+		<div class="jumbotron">
+			<p> ${user.student.jobObjective}
+			</p>
+			
 			
 		</div>
 	</div>
+	
+	 <script type="text/javascript">
+		$(document).ready(function(){
+			
+			$('.navbar li.active').removeClass('active');
+			$('#menus #profile-btn').addClass('active');			
+				 
+		});	
+	</script>
 </@layout.myLayout>
