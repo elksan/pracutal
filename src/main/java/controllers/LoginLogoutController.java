@@ -54,8 +54,8 @@ public class LoginLogoutController {
         
         if (isUserNameAndPasswordValid) {
         	
-        	//context.getSessionCookie().put("username", username);
             session.put("username", username);
+            session.put("isAdmin", "true");
             flashScope.success("login.loginSuccessful");
             
             return Results.redirect("/profile");
@@ -63,7 +63,6 @@ public class LoginLogoutController {
         } else {
             
             // something is wrong with the input or password not found.
-//        	session.put("username", username);
         	flashScope.error("login.errorLogin");
 
             return Results.redirect("/login");

@@ -20,6 +20,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import models.User;
 import ninja.jpa.UnitOfWork;
 
@@ -29,6 +32,8 @@ import com.google.inject.Provider;
 import dao.UserDao;
 
 public class UserDaoImpl implements UserDao {
+	
+	Logger logger = LoggerFactory.getLogger(UserDaoImpl.class);
     
     @Inject
     Provider<EntityManager> entityManagerProvider;
@@ -86,6 +91,9 @@ public class UserDaoImpl implements UserDao {
     	try{
     		
     		user = (User) query.setParameter("userId", userId).getSingleResult();
+    		
+    		logger.debug("user logged = " + user.getEmail());
+    		logger.debug("careerName = " + user.getStudent().getCareer().getCareerName());
     		
     	}catch(NoResultException nre){
     		

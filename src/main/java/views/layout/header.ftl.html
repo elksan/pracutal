@@ -9,16 +9,26 @@
 			<a class="navbar-brand" href="/">${i18n("header.title")}</a>
 		</div>
 		<div class="navbar-collapse collapse">
-			<ul class="nav navbar-nav">
-				<li class="active"><a href="/">${i18n("header.home")}</a></li>
+			<ul id="menus" class="nav navbar-nav">
+				
+				<#if (session.username)??>
+					<#if (session.isAdmin)??>
+	                	<li id="admin-btn" ><a href="/">${i18n("header.admin")}</a></li>
+	                </#if>
+	                <li id="profile-btn"><a href="/profile">${i18n("header.profile")}</a></li>
+	                <li id="internships-btn"><a href="/">${i18n("header.offers")}</a></li>
+                
+                <#else>
+                
+                	<li id="home-btn" class="active"><a href="/">${i18n("header.home")}</a></li>
+                </#if>
 			</ul>
-			<ul class="navbar-right nav navbar-nav">
+			<ul class="navbar-right nav navbar-nav">	
 			<#if (session.username)??>
                 <li><a href="#">${session.username}</a></li>
-                <li><a href="/article/new">${i18n("header.new")}</a></li>
-                <li><a href="/logout">${i18n("header.logout")}</a></li>
-            <#else>
-                
+<!--                 <li><a href="/article/new">${i18n("header.new")}</a></li> -->
+                <li><a href="/logout">${i18n("header.logout")}</a></li>                
+            <#else>                
                 <li><a href="/login" id="login">${i18n("header.login")}</a></li>
             </#if>
 				
@@ -26,4 +36,7 @@
 		</div>
 		<!--/.navbar-collapse -->
 	</div>
+	
+	
 </div>
+

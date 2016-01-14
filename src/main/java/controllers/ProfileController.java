@@ -15,12 +15,13 @@ public class ProfileController {
 	
 	public Result profile(Session session){
 		
-
-		try {
-		User user = userService.getUserById(session.get("username"));
+		Result result = null;
 		
-		Result result = Results.html();
-		result.render(user);
+		try {
+			User user = userService.getUserById(session.get("username"));
+			
+			result = Results.html();
+			result.render(user);
 		
 		
 		
@@ -29,6 +30,6 @@ public class ProfileController {
 			//session.clear();
 		}
 		
-		return Results.html();
+		return result;
 	}
 }

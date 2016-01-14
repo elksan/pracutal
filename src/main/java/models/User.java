@@ -1,21 +1,30 @@
 package models;
 
 import java.util.Date;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 
 @Entity
 public class User {
       
-    private int rut;
+    private Integer rut;
     
     private String password;
     
     private String firstName;
     
     private String lastName;
+    
+    private String motherLastName;
     
     private Date createdAt;
     
@@ -39,6 +48,9 @@ public class User {
     
     private Date updatedAt;
     
+    private Student student;
+    
+    private Set<Role> roles;
     
     
     //private boolean isAdmin;
@@ -48,6 +60,7 @@ public class User {
     	this.signInCount = 0;
     }
     
+                                                                                                
     
 
     public User(int rut, String password, String firstName, String lastName, Date createdAt, Date currentSignInAt,
@@ -72,12 +85,11 @@ public class User {
 	}
 
 	@Id    
-    @Column(name="rut")
-	public int getRut() {
+	public Integer getRut() {
 		return rut;
 	}
 
-	public void setRut(int rut) {
+	public void setRut(Integer rut) {
 		this.rut = rut;
 	}
 
@@ -203,6 +215,35 @@ public class User {
 
 	public void setUpdatedAt(Date updatedAt) {
 		this.updatedAt = updatedAt;
+	}
+
+
+	@OneToOne(fetch=FetchType.LAZY, mappedBy="user")
+	public Student getStudent() {
+		return student;
+	}
+	public void setStudent(Student student) {
+		this.student = student;
+	}
+
+	@ManyToMany(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
+	@JoinTable(name = "role_user", joinColumns = {
+			@JoinColumn(name = "rut", nullable = false, updatable = false) }, 
+			inverseJoinColumns = { @JoinColumn(name = "role_id", nullable = false, updatable = false) })
+	public Set<Role> getRoles() {
+		return roles;
+	}
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
+	}
+
+	@Column(name="mother_last_name")
+	public String getMotherLastName() {
+		return motherLastName;
+	}
+
+	public void setMotherLastName(String motherLastName) {
+		this.motherLastName = motherLastName;
 	}
 
 
