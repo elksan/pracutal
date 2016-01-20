@@ -83,7 +83,8 @@ public class LoginLogoutController {
         session.clear();
         flashScope.success("login.logoutSuccessful");
 
-        return Results.redirect("/");
+//        return Results.redirect("/");
+        return Results.html();
 
     }
 

@@ -31,7 +31,7 @@ public class Offer {
 	private String area;
 	private boolean available;
 	
-	
+	@Column(name="organization_id")
 	public Integer getOrganizationId() {
 		return organizationId;
 	}

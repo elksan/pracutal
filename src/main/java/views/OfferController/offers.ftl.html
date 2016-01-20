@@ -1,25 +1,51 @@
 <#import "../layout/defaultLayout.ftl.html" as layout> 
 <@layout.myLayout "Ofertas">  
 
+<div class="container">
+	
+	
+	<div class="grid">
+	<#list offers as offer>
+		
+		<div class="grid-item">
+			<div class="thumbnail">
+				<img alt="" src="">
+				<div class="caption">
+					<h3>Nombre Oferta</h3>
+					<p>${offer.description}</p>
+					<p><a href="/" class="btn btn-primary">Ver Más</a>
+				</div>
+			</div>	
+		</div>
+		
+	<#else>
+  		<p>No users</p>
+	</#list>
+	
+	
+	 
+		
+		
+	</div>
+</div>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
- <script type="text/javascript">
+ 	<script type="text/javascript">
 		$(document).ready(function(){
 			
 			$('.navbar li.active').removeClass('active');
-			$('#menus #offers-btn').addClass('active');			
+			$('#menus #offers-btn').addClass('active');
+			
+			var $grid = $('.grid').isotope({
+    			itemSelector: '.grid-item',
+    			masonry: {
+    				columnWidth: 50
+    			}
+    		});
+			
+    		$grid.imagesLoaded().progress( function() {
+    			  $grid.isotope('layout');
+    			});
 				 
 		});	
 	</script>

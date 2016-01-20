@@ -19,9 +19,13 @@ package conf;
 import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 
+import dao.OfferDao;
 import dao.UserDao;
+import dao.impl.OfferDaoImpl;
 import dao.impl.UserDaoImpl;
+import services.OfferService;
 import services.UserService;
+import services.impl.OfferServiceImpl;
 import services.impl.UserServiceImpl;
 
 @Singleton
@@ -31,8 +35,12 @@ public class Module extends AbstractModule {
     protected void configure() {
         
         bind(StartupActions.class);    
+        
         bind(UserService.class).to(UserServiceImpl.class);
         bind(UserDao.class).to(UserDaoImpl.class);
+        
+        bind(OfferService.class).to(OfferServiceImpl.class);
+        bind(OfferDao.class).to(OfferDaoImpl.class);
     }
 
 }
