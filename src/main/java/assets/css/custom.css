@@ -74,6 +74,14 @@
 
 }
 
+.grid-item--width2{
+	width : 300px;
+}
+
+.grid-item--height2{
+	height : 600px;
+}
+
 body{
 	
 	font-family: 'Lato'
