@@ -25,5 +25,11 @@ Logger logger = LoggerFactory.getLogger(UserDaoImpl.class);
 		return offerDao.getAllOffers();
 		
 	}
+	
+	public Offer findOfferById(int offerId) {
+
+		return offerDao.findOfferById(offerId);
+		
+	}
 
 }

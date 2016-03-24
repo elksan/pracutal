@@ -63,7 +63,10 @@ public class UserDaoImpl implements UserDao {
             if (user != null) {
                 
                 if (user.getPassword().equals(password)) {
-
+                	
+                	user.setSignInCount(user.getSignInCount()+1);
+                	entityManager.persist(user);
+                	
                     return true;
                 }
                 

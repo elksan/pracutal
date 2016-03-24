@@ -8,4 +8,5 @@ public interface OfferDao {
 
 	
 	public List<Offer> getAllOffers();
+	public Offer findOfferById(int offerId);
 }

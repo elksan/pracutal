@@ -45,6 +45,12 @@ public class OfferDaoImpl implements OfferDao{
         }
 		return offers;
 	}
+	
+	public Offer findOfferById(int offerId){
+		
+		EntityManager entityManager = entityManagerProvider.get();
+		return entityManager.find(Offer.class, offerId);
+	}
 
 	
 }

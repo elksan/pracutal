@@ -11,6 +11,7 @@ import dto.OffersDto;
 import models.Offer;
 import ninja.Result;
 import ninja.Results;
+import ninja.params.PathParam;
 import ninja.session.Session;
 import services.OfferService;
 
@@ -34,5 +35,11 @@ public class OfferController {
 		logger.debug(String.valueOf(offersDto.offers.get(0).getDescription()));
 		
 		return Results.html().render("offers",offers);
+	}
+	
+	public Result offerDetails(Session session, @PathParam("offerId") int offerId){
+		
+		Offer selectedOffer = offerService.findOfferById(offerId);
+		return Results.html().render(selectedOffer);
 	}
 }
