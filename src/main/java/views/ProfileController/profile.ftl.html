@@ -8,34 +8,34 @@
 		
 			<dl class="dl-horizontal">
 				<dt>${i18n("profile.name")}:</dt>
-				<dd>${user.firstName} ${user.lastName} ${user.motherLastName}</dd>
+				<dd>${user.firstName!} ${user.lastName!} ${user.motherLastName!}</dd>
 				<dt>${i18n("profile.registration.number")}:</dt>
-				<dd>${user.student.registrationNumber}</dd>
+				<dd>${(user.student.registrationNumber)!"N/A"}</dd>
 				<dt>${i18n("profile.email")}:</dt>
-				<dd>${user.email}</dd>
+				<dd>${user.email!}</dd>
 				<dt>${i18n("profile.career")}:</dt>
-				<dd>${user.student.career.careerName}</dd>
+				<dd>${(user.student.career.careerName)!"N/A"}</dd>
 				<dt>${i18n("profile.address")}:</dt>
-				<dd>${user.student.address}</dd>
+				<dd>${(user.student.address)!}</dd>
 				<dt>${i18n("profile.city")}:</dt>
-				<dd>${user.student.city}</dd>
+				<dd>${(user.student.city)!}</dd>
 				<dt>${i18n("profile.birthdate")}:</dt>
-				<dd>${user.student.birthdate}</dd>
+				<dd>${(user.student.birthdate)!}</dd>
 				<dt>${i18n("profile.citizenship")}:</dt>
-				<dd>${user.student.citizenship}</dd>
+				<dd>${(user.student.citizenship)!}</dd>
 				<dt>${i18n("profile.gender")}:</dt>
-				<dd>${user.student.gender}</dd>
+				<dd>${(user.student.gender)!}</dd>
 				<dt>${i18n("profile.phone")}:</dt>
-				<dd>${user.student.phoneNumber}</dd>
+				<dd>${(user.student.phoneNumber)!}</dd>
 				<dt>${i18n("profile.entry.year")}:</dt>
-				<dd>${user.student.entryYear}</dd>
+				<dd>${(user.student.entryYear)!}</dd>
 				
 			</dl>
 		</div>
 		
 		<h2>${i18n("profile.presentation")}</h2>
 		<div class="jumbotron">
-			<p> ${user.student.jobObjective}
+			<p> ${(user.student.jobObjective)!}
 			</p>
 			
 			

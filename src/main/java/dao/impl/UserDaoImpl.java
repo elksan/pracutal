@@ -96,11 +96,14 @@ public class UserDaoImpl implements UserDao {
     		user = (User) query.setParameter("userId", userId).getSingleResult();
     		
     		logger.debug("user logged = " + user.getEmail());
-    		logger.debug("careerName = " + user.getStudent().getCareer().getCareerName());
+    		if(user.getStudent() != null && user.getStudent().getCareer() != null)
+    			logger.debug("careerName = " + user.getStudent().getCareer().getCareerName());
     		
     	}catch(NoResultException nre){
     		
     		
+    	}catch(Exception ex){
+    		ex.printStackTrace();
     	}
     	
     	return user;
