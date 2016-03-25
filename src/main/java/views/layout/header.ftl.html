@@ -1,4 +1,64 @@
-<div class="navbar navbar-default navbar-fixed-top">
+
+
+
+
+
+	<div class="navbar-fixed">
+		<nav class="white" role="navigation">
+			<div class="nav-wrapper container">
+				<a class="brand-logo" href="/">PRACUTAL</a></li>
+				<a data-activates="mobile-nav" class="button-collapse"><i class="material-icons">menu</i></a>				
+				
+				
+
+				<ul id="menus" class="right hide-on-med-and-down">
+					<#if (session.username)??>
+						<#if (session.isAdmin)??>
+		                	<li id="admin-btn" ><a href="/admin">${i18n("header.admin")}</a></li>
+		                </#if>
+
+		                <li id="profile-btn"><a href="/profile">${i18n("header.profile")}</a></li>
+	                	<li id="offers-btn"><a href="/offers">${i18n("header.offers")}</a></li>
+
+		                <li><a>${session.username}</a></li>
+		                <li><a href="/logout">${i18n("header.logout")}</a></li>                
+		            <#else> 
+		            	<li id="home-btn" class="active"><a href="/">${i18n("header.home")}</a></li>               
+		                <li id="login-btn"><a href="/login" id="login">${i18n("header.login")}</a></li>
+		            </#if>
+				</ul>
+
+				<ul class="side-nav" id="mobile-nav">
+					<#if (session.username)??>
+						<#if (session.isAdmin)??>
+		                	<li id="admin-btn" ><a href="/admin">${i18n("header.admin")}</a></li>
+		                </#if>
+
+		                <li id="profile-btn"><a href="/profile">${i18n("header.profile")}</a></li>
+	                	<li id="offers-btn"><a href="/offers">${i18n("header.offers")}</a></li>
+
+		                <li><a>${session.username}</a></li>
+		                <li><a href="/logout">${i18n("header.logout")}</a></li>                
+		            <#else> 
+		            	<li id="home-btn" class="active"><a href="/">${i18n("header.home")}</a></li>               
+		                <li><a href="/login" id="login">${i18n("header.login")}</a></li>
+		            </#if>
+				</ul>
+			</div>
+		</nav>
+	</div>
+
+	<script type="text/javascript">
+		           
+		$(document).ready(function(){
+    		
+    		 $(".button-collapse").sideNav();
+    		
+    	});
+	</script>
+
+
+<!--<div class="navbar navbar-default navbar-fixed-top">
 	<div class="container">
 		<div class="navbar-header">
 			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -26,7 +86,6 @@
 			<ul class="navbar-right nav navbar-nav">	
 			<#if (session.username)??>
                 <li><a href="#">${session.username}</a></li>
-<!--                 <li><a href="/article/new">${i18n("header.new")}</a></li> -->
                 <li><a href="/logout">${i18n("header.logout")}</a></li>                
             <#else>                
                 <li><a href="/login" id="login">${i18n("header.login")}</a></li>
@@ -34,9 +93,9 @@
 				
 			</ul>
 		</div>
-		<!--/.navbar-collapse -->
+	
 	</div>
 	
 	
 </div>
-
+-->
