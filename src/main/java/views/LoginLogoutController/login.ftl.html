@@ -4,28 +4,28 @@
 	
 	<div class="row">
 		<div class="col s12">
-
-			<form action="/login" method="post" class="form-horizontal" role="form">
-		
-			    <div class="row">
-
-			    	<div class="input-field col s12">
-			    		<label for="username">${i18n("login.username")}</label>
-			    		<input type="text" id="username" required="true" class="validate" value="${(flash.username)!""}" name="username" id="username">
-			    	</div>
-                </div>
-                
-                <div class="row">
-                	<div class="input-field col s12">
-	                    <label for="password">${i18n("login.password")}</label>
-	                    <input type="password" class="validate" required="true" name="password" id="password" value="${(flash.password)!""}">	                 
-                    </div>
-                </div>
+			<div class="card-panel white darken-1">
+				<form action="/login" method="post" class="form-horizontal" role="form">
 			
-				<button type="submit" class="btn waves-effect waves-light">${i18n("login.loginNowButton")}</button>
-				<a class="waves-effect waves-light btn right" onclick="displayTip()">Tip!</a>
-			</form>
-			
+				    <div class="row">
+
+				    	<div class="input-field col s12">
+				    		<label for="username">${i18n("login.username")}</label>
+				    		<input type="text" id="username" required="true" class="validate" value="${(flash.username)!""}" name="username" id="username">
+				    	</div>
+	                </div>
+	                
+	                <div class="row">
+	                	<div class="input-field col s12">
+		                    <label for="password">${i18n("login.password")}</label>
+		                    <input type="password" class="validate" required="true" name="password" id="password" value="${(flash.password)!""}">	                 
+	                    </div>
+	                </div>
+				
+					<button type="submit" class="btn waves-effect waves-light">${i18n("login.loginNowButton")}</button>
+					<a class="waves-effect waves-light btn right" onclick="displayTip()">Tip!</a>
+				</form>
+			<div>
 		</div>
 	</div>
 </div>
@@ -37,7 +37,6 @@
 
 			$('.navbar-fixed li.active').removeClass('active');
 			$('#menus #login-btn').addClass('active');
-			$('#username').focus();
 		});
 
 

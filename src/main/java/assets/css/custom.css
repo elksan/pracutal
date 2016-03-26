@@ -98,3 +98,27 @@ nav .brand-logo {
 .page-footer {
 	margin-top: 0 !important ;
 }
+
+.section .section-wrapper .section-icon {
+    margin-top: 40px;
+}
+
+.section {
+    padding-left: 32px !important;
+    text-align: left;
+}
+
+.section .section-wrapper {
+    background-color: #ffffff;
+    overflow: hidden;
+    margin-bottom: 24px;
+    padding-bottom: 24px !important;
+}
+
+.container-general {
+    margin-top: 24px; 
+}
+
+body{
+	background-color: #eae8e7; 
+}
