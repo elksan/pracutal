@@ -99,20 +99,48 @@ nav .brand-logo {
 	margin-top: 0 !important ;
 }
 
-.section .section-wrapper .section-icon {
-    margin-top: 40px;
-}
 
-.section {
+.info {
     padding-left: 32px !important;
     text-align: left;
 }
 
-.section .section-wrapper {
+@media only screen and (max-width: 992px){
+	.info {
+	    text-align: center;
+	    margin-top: 30px;
+	    padding-left: 0.75rem !important;
+	
+	}
+}
+
+
+
+
+
+.info .section-wrapper {
     background-color: #ffffff;
     overflow: hidden;
     margin-bottom: 24px;
     padding-bottom: 24px !important;
+}
+
+.info .section-wrapper .section-icon {
+    margin-top: 40px;
+}
+
+
+
+.profile-sidebar {
+    text-align: left;
+    color: #ffffff;
+    background-color: #5da4d9;
+    overflow: hidden;
+    display: block;
+}
+
+.profile-sidebar .icon {
+    margin-top: 40px;
 }
 
 .container-general {
