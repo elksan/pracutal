@@ -8,36 +8,142 @@
 		
 		 <div class="row">
 		 	
-		 	<div>
+		 	<div class="heading">
 		 		<div>
 		 			<img class="responsive-img" src="/assets/images/user.png">
 		 		</div>
-		 	</div>
 
+		 		<div class="col s12 m12 l9 name">   
+		            <h5>${(user.firstName)!} ${user.lastName!} ${user.motherLastName!}</h5>		            
+	        	</div>
+		 	</div>
+			
+			
 
 		 	<div class="col l12 m12 s12 ">
                 <div class="row">                               
-                    <div class="col m12 s12 l3 center"> <!-- icon -->
-                       <i class="material-icons icon">perm_identity</i>
+                    <div class="col m12 s12 l3 center">
+                       <i class="material-icons icon">person</i>
                     </div>                                
-                    <div class="col m12 s12 l9"> <!-- text -->
-                        
+                    <div class="col m12 s12 l9"> 
 					  <div class="section">
-					    <h5>Section 1</h5>
-					    <p>Stuff</p>
+					    <h6>${i18n("profile.presentation")}</h6>
+					    <p>${(user.student.jobObjective)!"..."}</p>
 					  </div>
 
 					  <div class="divider"></div>
-
-					  <div class="section">
-					    <h5>Section 1</h5>
-					    <p>Stuff</p>
-					  </div>          
+					          
                     </div>
                 </div>         
             </div>
+
+            <div class="col l12 m12 s12 ">
+                <div class="row">                               
+                    <div class="col m12 s12 l3 center"> 
+                       <i class="material-icons icon">phone</i>
+                    </div>                                
+                    <div class="col m12 s12 l9"> 
+					    <div class="section">
+					    	<h6>${(user.student.phoneNumber)!}</h6>
+							<span>${i18n("profile.phone")}</span>
+					    </div> 
+
+					  	<div class="divider"></div>
+
+					           
+                    </div>
+                </div>         
+            </div>
+
+            <div class="col l12 m12 s12 ">
+                <div class="row">                               
+                    <div class="col m12 s12 l3 center"> 
+                       <i class="material-icons icon">mail</i>
+                    </div>                                
+                    <div class="col m12 s12 l9"> 
+					    <div class="section">
+					    	<h6>${(user.email)!}</h6>
+							<span>${i18n("profile.info")}</span>
+					    </div> 
+
+					  	<div class="divider"></div>
+
+					           
+                    </div>
+                </div>         
+            </div>
+
+            <div class="col l12 m12 s12 ">
+                <div class="row">                               
+                    <div class="col m12 s12 l3 center"> 
+                       <i class="material-icons icon">home</i>
+                    </div>                                
+                    <div class="col m12 s12 l9"> 
+					    <div class="section">
+					    	<h6>${(user.student.address)!}</h6>
+							<span>${i18n("profile.address")}</span>
+					    </div> 
+						<div class="section">
+					    	<h6>${(user.student.city)!}</h6>
+							<span>${i18n("profile.city")}</span>
+					    </div>
+					  	<div class="divider"></div>
+
+					           
+                    </div>
+                </div>         
+            </div>
+
+            <div class="col l12 m12 s12 ">
+                <div class="row">                               
+                    <div class="col m12 s12 l3 center">
+                       <i class="material-icons icon">cake</i>
+                    </div>                                
+                    <div class="col m12 s12 l9"> 
+                        
+					    <div class="section">
+					    	<h6>${(user.student.birthdate)!}</h6>
+							<span>${i18n("profile.birthdate")}</span>
+					    </div>						
+					  	<div class="divider"></div>
+                    </div>
+                </div>         
+            </div>
+
+            <div class="col l12 m12 s12 ">
+                <div class="row">                               
+                    <div class="col m12 s12 l3 center"> 
+                       <i class="material-icons icon">public</i>
+                    </div>                                
+                    <div class="col m12 s12 l9"> 
+                        
+					    <div class="section">
+					    	<h6>${(user.student.citizenship)!}</h6>
+							<span>${i18n("profile.citizenship")}</span>
+					    </div>						
+					  	<div class="divider"></div>
+                    </div>
+                </div>         
+            </div>
+
+            <div class="col l12 m12 s12 ">
+                <div class="row">                               
+                    <div class="col m12 s12 l3 center"> 
+                       <i class="material-icons icon">wc</i>
+                    </div>                                
+                    <div class="col m12 s12 l9"> 
+                        
+					    <div class="section">
+					    	<h6>${(user.student.gender)!}</h6>
+							<span>${i18n("profile.gender")}</span>
+					    </div>						
+					  	<div class="divider"></div>
+                    </div>
+                </div>         
+            </div>
+
 		 </div>
-			
+							
 		</aside>
 
 		<section  class="col l8 s12 m12 info">
@@ -45,36 +151,27 @@
 
 				<div class="section-wrapper z-depth-1">
 					<div class="section-icon col s12 m12 l2 center">
-						<i class="material-icons medium">work</i>
+						<i class="material-icons medium">school</i>
 					</div>
 
 					<div class="col s12 m12 l10">
 						
-						<h2>${i18n("profile.generalinfo")}</h2>
-						<dl class="dl-horizontal">
-							<dt>${i18n("profile.name")}:</dt>
-							<dd>${(user.firstName)!} ${user.lastName!} ${user.motherLastName!}</dd>
-							<dt>${i18n("profile.registration.number")}:</dt>
-							<dd>${(user.student.registrationNumber)!"N/A"}</dd>
-							<dt>${i18n("profile.email")}:</dt>
-							<dd>${(user.email)!}</dd>
-							<dt>${i18n("profile.career")}:</dt>
-							<dd>${(user.student.career.careerName)!"N/A"}</dd>
-							<dt>${i18n("profile.address")}:</dt>
-							<dd>${(user.student.address)!}</dd>
-							<dt>${i18n("profile.city")}:</dt>
-							<dd>${(user.student.city)!}</dd>
-							<dt>${i18n("profile.birthdate")}:</dt>
-							<dd>${(user.student.birthdate)!}</dd>
-							<dt>${i18n("profile.citizenship")}:</dt>
-							<dd>${(user.student.citizenship)!}</dd>
-							<dt>${i18n("profile.gender")}:</dt>
-							<dd>${(user.student.gender)!}</dd>
-							<dt>${i18n("profile.phone")}:</dt>
-							<dd>${(user.student.phoneNumber)!}</dd>
-							<dt>${i18n("profile.entry.year")}:</dt>
-							<dd>${(user.student.entryYear)!}</dd>									
-						</dl>
+						<h2>${i18n("profile.education")}</h2>
+						
+						<div class="section">
+					    	<h5>${(user.student.registrationNumber)!}</h5>
+							<span>${i18n("profile.registration.number")}</span>
+					    </div>
+						<div class="section">
+					    	<h5>${(user.student.career.careerName)!}</h5>
+							<span>${i18n("profile.career")}</span>
+					    </div>
+
+					    <div class="section">
+					    	<h5>${(user.student.entryYear)!}</h5>
+							<span>${i18n("profile.entry.year")}</span>
+					    </div>			
+						
 					</div>
 			
 				</div>

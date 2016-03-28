@@ -62,11 +62,11 @@
 	color: white;	
 	
 }
-.title h1{
+/*.title h1{
 		
 	font-weight: 700;
 	font-size: 3em;
-}
+}*/
 
 @media only screen and (max-width: 320px) {
 
@@ -82,11 +82,11 @@
 	height : 600px;
 }
 
-body{
+/*body{
 	
 	font-family: 'Lato'
 }
-
+*/
 
 /*css modifications for materialize.css*/
 
@@ -105,14 +105,7 @@ nav .brand-logo {
     text-align: left;
 }
 
-@media only screen and (max-width: 992px){
-	.info {
-	    text-align: center;
-	    margin-top: 30px;
-	    padding-left: 0.75rem !important;
-	
-	}
-}
+
 
 
 
@@ -143,10 +136,38 @@ nav .brand-logo {
     margin-top: 40px;
 }
 
+.heading{
+	position: relative;
+}
+.profile-sidebar .heading .name {
+    position: absolute;
+    right: 11px;
+    bottom: 46px;
+}
+
 .container-general {
     margin-top: 24px; 
 }
 
+.section span{
+	opacity: 0.7;
+}
+
 body{
 	background-color: #eae8e7; 
+}
+
+
+@media only screen and (max-width: 992px){
+	.info {
+	    text-align: center;
+	    margin-top: 30px;
+	    padding-left: 0.75rem !important;
+	
+	}
+
+	.profile-sidebar{
+
+		text-align: center;
+	}
 }
