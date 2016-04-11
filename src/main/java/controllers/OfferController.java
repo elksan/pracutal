@@ -42,4 +42,14 @@ public class OfferController {
 		Offer selectedOffer = offerService.findOfferById(offerId);
 		return Results.html().render(selectedOffer);
 	}
+	
+	public Result newOffer(Session session){
+		
+		return Results.html();
+	}
+
+	public Result saveOffer(Session session, Offer offer){
+		
+		return Results.html();
+	}
 }
