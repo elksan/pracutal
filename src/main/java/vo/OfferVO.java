@@ -1,15 +1,8 @@
-package models;
+package vo;
 
 import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-
-import vo.OfferVO;
-
-@Entity
-public class Offer {
+public class OfferVO {
 
 	private Integer organizationId;
 	private Date createdAt;
@@ -17,7 +10,7 @@ public class Offer {
 	private boolean disabled;
 	private String duration;
 	private String email;
-	private Date endDate;
+	private String endDate;
 	private boolean hasIncome;
 	private boolean hasLocomotion;
 	private boolean hasLunch;
@@ -28,52 +21,22 @@ public class Offer {
 	private String post;
 	private Integer quota;
 	private String requirements;
-	private Date startDateAvailable;
-	private Date startDateInternship;
+	private String startDateAvailable;
+	private String startDateInternship;
 	private String area;
 	private boolean available;
-	
-	public Offer() {
-		
-	}
-	
-	public Offer(OfferVO offerVO) {
-		super();
-		this.organizationId = offerVO.getOrganizationId();
-		this.createdAt = offerVO.getCreatedAt();
-		this.description = offerVO.getDescription();
-		this.disabled = offerVO.isDisabled();
-		this.duration = offerVO.getDuration();
-		this.email = offerVO.getEmail();
-		this.hasIncome = offerVO.isHasIncome();
-		this.hasLocomotion = offerVO.isHasLocomotion();
-		this.hasLunch = offerVO.isHasLunch();
-		this.id = offerVO.getId();
-		this.income = offerVO.getIncome();
-		this.locomotion = offerVO.getLocomotion();
-		this.lunch = offerVO.getLunch();
-		this.post = offerVO.getPost();
-		this.quota = offerVO.getQuota();
-		this.requirements = offerVO.getRequirements();
-		this.area = offerVO.getArea();
-		this.available = offerVO.isAvailable();
-	}
-	@Column(name="organization_id")
 	public Integer getOrganizationId() {
 		return organizationId;
 	}
 	public void setOrganizationId(Integer organizationId) {
 		this.organizationId = organizationId;
 	}
-	
-	@Column(name="created_at")
 	public Date getCreatedAt() {
 		return createdAt;
 	}
 	public void setCreatedAt(Date createdAt) {
 		this.createdAt = createdAt;
 	}
-	
 	public String getDescription() {
 		return description;
 	}
@@ -98,40 +61,30 @@ public class Offer {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
-	@Column(name="end_date")
-	public Date getEndDate() {
+	public String getEndDate() {
 		return endDate;
 	}
-	public void setEndDate(Date endDate) {
+	public void setEndDate(String endDate) {
 		this.endDate = endDate;
 	}
-	
-	@Column(name="has_income")
 	public boolean isHasIncome() {
 		return hasIncome;
 	}
 	public void setHasIncome(boolean hasIncome) {
 		this.hasIncome = hasIncome;
 	}
-	
-	@Column(name="has_locomotion")
 	public boolean isHasLocomotion() {
 		return hasLocomotion;
 	}
 	public void setHasLocomotion(boolean hasLocomotion) {
 		this.hasLocomotion = hasLocomotion;
 	}
-	
-	@Column(name="has_lunch")
 	public boolean isHasLunch() {
 		return hasLunch;
 	}
 	public void setHasLunch(boolean hasLunch) {
 		this.hasLunch = hasLunch;
 	}
-	
-	@Id
 	public Integer getId() {
 		return id;
 	}
@@ -174,20 +127,16 @@ public class Offer {
 	public void setRequirements(String requirements) {
 		this.requirements = requirements;
 	}
-	
-	@Column(name="start_date_available")
-	public Date getStartDateAvailable() {
+	public String getStartDateAvailable() {
 		return startDateAvailable;
 	}
-	public void setStartDateAvailable(Date startDateAvailable) {
+	public void setStartDateAvailable(String startDateAvailable) {
 		this.startDateAvailable = startDateAvailable;
 	}
-	
-	@Column(name="start_date_internship")
-	public Date getStartDateInternship() {
+	public String getStartDateInternship() {
 		return startDateInternship;
 	}
-	public void setStartDateInternship(Date startDateInternship) {
+	public void setStartDateInternship(String startDateInternship) {
 		this.startDateInternship = startDateInternship;
 	}
 	public String getArea() {
@@ -202,5 +151,6 @@ public class Offer {
 	public void setAvailable(boolean available) {
 		this.available = available;
 	}
+	
 	
 }

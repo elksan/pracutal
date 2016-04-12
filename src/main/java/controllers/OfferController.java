@@ -14,6 +14,7 @@ import ninja.Results;
 import ninja.params.PathParam;
 import ninja.session.Session;
 import services.OfferService;
+import vo.OfferVO;
 
 public class OfferController {
 
@@ -48,7 +49,9 @@ public class OfferController {
 		return Results.html();
 	}
 
-	public Result saveOffer(Session session, Offer offer){
+	public Result saveOffer(Session session, OfferVO offer){
+		
+		offerService.saveOffer(offer);
 		
 		return Results.html();
 	}

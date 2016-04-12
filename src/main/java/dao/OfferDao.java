@@ -9,4 +9,5 @@ public interface OfferDao {
 	
 	public List<Offer> getAllOffers();
 	public Offer findOfferById(int offerId);
+	public void saveOffer(Offer offer);
 }
