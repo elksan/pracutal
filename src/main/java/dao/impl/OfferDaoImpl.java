@@ -12,12 +12,12 @@ import org.slf4j.LoggerFactory;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.persist.Transactional;
 
 import dao.OfferDao;
 import models.Offer;
 import ninja.jpa.UnitOfWork;
 
-@UnitOfWork
 public class OfferDaoImpl implements OfferDao{
 
 	Logger logger = LoggerFactory.getLogger(UserDaoImpl.class);
@@ -25,6 +25,7 @@ public class OfferDaoImpl implements OfferDao{
     @Inject
     Provider<EntityManager> entityManagerProvider;
     
+    @UnitOfWork
 	public List<Offer> getAllOffers() {
 		
 		
@@ -46,12 +47,14 @@ public class OfferDaoImpl implements OfferDao{
 		return offers;
 	}
 	
+    @UnitOfWork
 	public Offer findOfferById(int offerId){
 		
 		EntityManager entityManager = entityManagerProvider.get();
 		return entityManager.find(Offer.class, offerId);
 	}
 
+	@Transactional
 	public void saveOffer(Offer offer) {
 		try {
 			EntityManager entityManager = entityManagerProvider.get();
