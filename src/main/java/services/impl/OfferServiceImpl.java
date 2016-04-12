@@ -1,24 +1,19 @@
 package services.impl;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.google.common.base.Optional;
 import com.google.inject.Inject;
-
 import dao.OfferDao;
 import dao.impl.UserDaoImpl;
 import models.Offer;
 import ninja.i18n.Lang;
-import ninja.i18n.LangImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import services.OfferService;
 import vo.OfferVO;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.List;
+import java.util.Locale;
 
 public class OfferServiceImpl implements OfferService {
 
@@ -46,8 +41,8 @@ Logger logger = LoggerFactory.getLogger(UserDaoImpl.class);
 	public void saveOffer(OfferVO offerVo) {
 		
 		Offer offer = new Offer(offerVo);
-		
-		SimpleDateFormat formatter = new SimpleDateFormat("d MMMM, yyyy", Locale.getDefault());
+
+		SimpleDateFormat formatter = new SimpleDateFormat("d MMMM, yyyy", Locale.forLanguageTag("es-CL"));
 		try {
 			offer.setStartDateInternship(formatter.parse(offerVo.getStartDateInternship()));
 			offer.setEndDate(formatter.parse(offerVo.getEndDate()));

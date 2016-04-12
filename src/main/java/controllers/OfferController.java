@@ -52,7 +52,11 @@ public class OfferController {
 	public Result saveOffer(Session session, OfferVO offer){
 		
 		offerService.saveOffer(offer);
+		OffersDto offersDto = new OffersDto();
+		offersDto.offers = offerService.getAllOffers();
+
+		List<Offer> offers = offersDto.offers;
 		
-		return Results.html();
+		return Results.html().render("offers", offers).template("/views/OfferController/offers.ftl.html");
 	}
 }

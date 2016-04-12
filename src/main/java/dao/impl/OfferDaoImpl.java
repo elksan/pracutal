@@ -53,9 +53,15 @@ public class OfferDaoImpl implements OfferDao{
 	}
 
 	public void saveOffer(Offer offer) {
-		EntityManager entityManager = entityManagerProvider.get();
-		
-		entityManager.persist(offer);
+		try {
+			EntityManager entityManager = entityManagerProvider.get();
+
+			entityManager.persist(offer);
+            entityManager.flush();
+		}catch (Exception e){
+			e.printStackTrace();
+			logger.error(e.getMessage());
+		}
 		
 	}
 

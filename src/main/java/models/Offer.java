@@ -1,15 +1,15 @@
 package models;
 
+import java.io.Serializable;
 import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 import vo.OfferVO;
 
 @Entity
-public class Offer {
+@Table(name = "offer")
+public class Offer implements Serializable {
 
 	private Integer organizationId;
 	private Date createdAt;
@@ -132,6 +132,8 @@ public class Offer {
 	}
 	
 	@Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(columnDefinition = "serial")
 	public Integer getId() {
 		return id;
 	}
