@@ -46,19 +46,18 @@ Logger logger = LoggerFactory.getLogger(UserDaoImpl.class);
 		try {
 			offer.setStartDateInternship(formatter.parse(offerVo.getStartDateInternship()));
 			offer.setEndDate(formatter.parse(offerVo.getEndDate()));
-			
+
+			logger.debug("startDate: " + offer.getStartDateInternship() );
+			logger.debug("startDate: " + formatter.format(offer.getStartDateInternship()));
+
+			logger.debug("endDate: " + offer.getEndDate() );
+			logger.debug("endDate: " + formatter.format(offer.getEndDate()));
+			offerDao.saveOffer(offer);
+
 		} catch (ParseException e) {
 			e.printStackTrace();
 			logger.error("Date could not be processed: " + offerVo.getStartDateInternship() + "or " + offerVo.getEndDate());
 		}
-		logger.debug("startDate: " + offer.getStartDateInternship() );
-		logger.debug("startDate: " + formatter.format(offer.getStartDateInternship()));
-		
-		logger.debug("endDate: " + offer.getEndDate() );
-		logger.debug("endDate: " + formatter.format(offer.getEndDate()));
-		
-		offerDao.saveOffer(offer);
-		
 	}
 
 }

@@ -17,13 +17,15 @@
 					</div>
 					<div class="row">
 						<div class="input-field col s12">
-							<input placeholder="${i18n("offer.title.placeholder")}" id="title" name="title"  type="text" class="validate"> 
+							<input placeholder="${i18n('offer.title.placeholder')}" id="title" name="title"  type="text"
+								   class="validate" required="" aria-required="true">
 							<label for="title">${i18n("offer.title")}</label>
 						</div>
 					</div>
 					<div class="row">	
 						<div class="input-field col s12">
-							<textarea id="description" name="description" placeholder="${i18n("offer.description.placeholder")}" class="materialize-textarea validate"></textarea> 
+							<textarea id="description" name="description" placeholder="${i18n('offer.description.placeholder')}"
+									  class="materialize-textarea validate" required="" aria-required="true"></textarea>
 							<label for="description">${i18n("offer.description")}</label>
 						</div>
 					</div>
@@ -35,12 +37,15 @@
 					</div> -->
 					<div class="row">
 						<div class="input-field col s6">
-							<input id="startDate" name="startDateInternship" type="date" class="datepicker">
-							<label for="startDate">${i18n("offer.startDate")}</label>
+							<input id="startDate" name="startDateInternship" type="date" class="datepicker validate" required="true"
+								   aria-required="true">
+							<br/>
+							<label for="startDate">${i18n('offer.startDate')}</label>
 						</div>
 						<div class="input-field col s6">
-							<input id="endDate" name="endDate" type="date" class="datepicker">
-							<label for="endDate">${i18n("offer.endDate")}</label>
+							<input id="endDate" name="endDate" type="date" class="datepicker validate" required="true"
+								   aria-required="true">
+							<label for="endDate">${i18n('offer.endDate')}</label>
 						</div>
 					</div>
 					<div class="row">
@@ -59,25 +64,29 @@
 					</div>					
 					<div class="row">
 						<div class="input-field col s12">
-							<input type="text" id="offerType" name="type"/>
+							<input type="text" id="offerType" name="type" required=""
+                                   class="validate" aria-required="true"/>
 							<label for="offerType">${i18n("offer.type")}</label>
 						</div>
 					</div>
 					<div class="row">
 						<div class="input-field col s12">
-							<input type="text" id="offerLocation" name="location"/>
+							<input type="text" id="offerLocation" name="location" required=""
+                                   class="validate" aria-required="true"/>
 							<label for="offerLocation">${i18n("offer.location")}</label>
 						</div>
 					</div>
 					<div class="row">
 						<div class="input-field col s12">
-							<input type="text" id="offerArea" name="area"/>
+							<input type="text" id="offerArea" name="area" required=""
+                                   class="validate" aria-required="true"/>
 							<label for="offerArea">${i18n("offer.area")}</label>
 						</div>
 					</div>
 					<div class="row">
 						<div class="input-field col s12">
-							<input type="text" id="offerPosition" name="position"/>
+							<input type="text" id="offerPosition" name="position" required=""
+                                   class="validate" aria-required="true"/>
 							<label for="offerPosition">${i18n("offer.position")}</label>
 						</div>
 					</div>
@@ -90,32 +99,30 @@
 
 					<div class="row">
 						<div class="input-field col s12">
-							<input type="text" id="offerCareer" name="career"/>
+							<input type="text" id="offerCareer" name="career" required=""
+                                   class="validate" aria-required="true"/>
 							<label for="offerCareer">${i18n("offer.career")}</label>
 						</div>
 					</div>
 					<div class="row">
 						<div class="input-field col s12">
-							<input type="text" id="offerLevelRequired" name="levelRequired"/>
+							<input type="text" id="offerLevelRequired" name="levelRequired" required=""
+                                   class="validate" aria-required="true"/>
 							<label for="offerLevelRequired">${i18n("offer.levelRequired")}</label>
 						</div>
 					</div>
 					<div class="row">
 						<div class="input-field col s12">
-							<input type="text" id="language" name="language"/>
+							<input type="text" id="language" name="language" required=""
+                                   class="validate" aria-required="true"/>
 							<label for="language">${i18n("offer.language")}</label>
 						</div>
 					</div>
 					<button type="submit" class="btn waves-effect waves-light">${i18n("offer.submit")}<i class="material-icons right">send</i></button>
 				</form>
-
 			</div>
-
 		</div>
-
-
 	</div>
-
 </div>
 
 

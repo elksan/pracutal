@@ -7,6 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
+import com.google.inject.persist.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,14 +18,14 @@ import dao.OfferDao;
 import models.Offer;
 import ninja.jpa.UnitOfWork;
 
-@UnitOfWork
 public class OfferDaoImpl implements OfferDao{
 
 	Logger logger = LoggerFactory.getLogger(UserDaoImpl.class);
     
     @Inject
     Provider<EntityManager> entityManagerProvider;
-    
+
+    @UnitOfWork
 	public List<Offer> getAllOffers() {
 		
 		
@@ -45,20 +46,21 @@ public class OfferDaoImpl implements OfferDao{
         }
 		return offers;
 	}
-	
+
+    @UnitOfWork
 	public Offer findOfferById(int offerId){
 		
 		EntityManager entityManager = entityManagerProvider.get();
 		return entityManager.find(Offer.class, offerId);
 	}
 
+    @Transactional
 	public void saveOffer(Offer offer) {
 		try {
 			EntityManager entityManager = entityManagerProvider.get();
-
 			entityManager.persist(offer);
-            entityManager.flush();
-		}catch (Exception e){
+		}
+        catch (Exception e){
 			e.printStackTrace();
 			logger.error(e.getMessage());
 		}
