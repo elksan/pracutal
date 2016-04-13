@@ -7,6 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
+import models.Career;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,8 +35,7 @@ public class OfferDaoImpl implements OfferDao{
 		EntityManager entityManager = entityManagerProvider.get();
         
         Query q = entityManager.createQuery("SELECT x FROM Offer x where disabled = false");
-        
-        Offer offer= null;
+
         try{
         	
         	offers = q.getResultList();  
@@ -68,5 +68,25 @@ public class OfferDaoImpl implements OfferDao{
 		
 	}
 
-	
+	@UnitOfWork
+	public List<Career> getCareers() {
+		EntityManager entityManager = entityManagerProvider.get();
+
+		List<Career> careers = new ArrayList<Career>();
+
+		Query q = entityManager.createQuery("SELECT x FROM Career x");
+
+		try{
+
+			careers = q.getResultList();
+		}
+		catch(NoResultException nrex){
+
+			logger.warn("No careers were found");
+		}
+		return careers;
+
+	}
+
+
 }
