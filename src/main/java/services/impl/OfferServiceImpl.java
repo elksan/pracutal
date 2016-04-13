@@ -5,6 +5,7 @@ import dao.OfferDao;
 import dao.impl.UserDaoImpl;
 import models.Career;
 import models.Offer;
+import models.OfferType;
 import ninja.i18n.Lang;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,7 +26,6 @@ Logger logger = LoggerFactory.getLogger(UserDaoImpl.class);
     
     @Inject
     Lang lang;
-    
     
 	public List<Offer> getAllOffers() {
 
@@ -64,5 +64,9 @@ Logger logger = LoggerFactory.getLogger(UserDaoImpl.class);
 
 	public List<Career> getCareers() {
 		return offerDao.getCareers();
+	}
+
+	public List<OfferType> getOfferTypes() {
+		return offerDao.getOfferTypes();
 	}
 }

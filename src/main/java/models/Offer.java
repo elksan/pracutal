@@ -34,6 +34,9 @@ public class Offer implements Serializable {
 	private boolean available;
 	private String type;
 	private String location;
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="id", unique=true, nullable=false)
+	private OfferType offerType;
 	
 	public Offer() {
 		

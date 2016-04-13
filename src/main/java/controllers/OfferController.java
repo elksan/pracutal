@@ -3,6 +3,7 @@ package controllers;
 import java.util.List;
 
 import models.Career;
+import models.OfferType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -52,8 +53,15 @@ public class OfferController {
 	public Result newOffer(Session session){
 
 		List<Career> careers = offerService.getCareers();
+		List<OfferType> offerTypes = offerService.getOfferTypes();
 
-		return Results.html().render("careers", careers);
+		Result result = Results.html();
+		result.render("careers", careers);
+		result.render("offerTypes", offerTypes);
+
+		logger.debug("--------------------------------> " + offerTypes.size());
+
+		return  result;
 	}
 
 	public Result saveOffer(Session session, OfferVO offer){

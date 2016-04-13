@@ -8,6 +8,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 import models.Career;
+import models.OfferType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -87,5 +88,25 @@ public class OfferDaoImpl implements OfferDao{
 
 	}
 
+	@UnitOfWork
+	public List<OfferType> getOfferTypes() {
+
+		EntityManager entityManager = entityManagerProvider.get();
+
+		List<OfferType> offerTypes = new ArrayList<OfferType>();
+
+		Query q = entityManager.createQuery("SELECT x FROM OfferType x");
+
+		try{
+
+			offerTypes = q.getResultList();
+		}
+		catch(NoResultException nrex){
+
+			logger.warn("No offer types were found");
+		}
+		return offerTypes;
+
+	}
 
 }

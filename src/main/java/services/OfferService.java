@@ -4,6 +4,7 @@ import java.util.List;
 
 import models.Career;
 import models.Offer;
+import models.OfferType;
 import vo.OfferVO;
 
 public interface OfferService {
@@ -12,4 +13,5 @@ public interface OfferService {
 	public Offer findOfferById(int offerId);
 	public void saveOffer(OfferVO offerVo);
 	public List<Career> getCareers();
+	public List<OfferType> getOfferTypes();
 }
