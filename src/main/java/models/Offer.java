@@ -32,6 +32,8 @@ public class Offer implements Serializable {
 	private Date startDateInternship;
 	private String area;
 	private boolean available;
+	private String type;
+	private String location;
 	
 	public Offer() {
 		
@@ -57,6 +59,8 @@ public class Offer implements Serializable {
 		this.requirements = offerVO.getRequirements();
 		this.area = offerVO.getArea();
 		this.available = offerVO.isAvailable();
+		this.type = offerVO.getType();
+		this.location = offerVO.getLocation();
 	}
 	@Column(name="organization_id")
 	public Integer getOrganizationId() {
@@ -204,5 +208,20 @@ public class Offer implements Serializable {
 	public void setAvailable(boolean available) {
 		this.available = available;
 	}
-	
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public String getLocation() {
+		return location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
+	}
 }

@@ -3,6 +3,7 @@ package services.impl;
 import com.google.inject.Inject;
 import dao.OfferDao;
 import dao.impl.UserDaoImpl;
+import models.Career;
 import models.Offer;
 import ninja.i18n.Lang;
 import org.slf4j.Logger;
@@ -58,6 +59,10 @@ Logger logger = LoggerFactory.getLogger(UserDaoImpl.class);
 			e.printStackTrace();
 			logger.error("Date could not be processed: " + offerVo.getStartDateInternship() + "or " + offerVo.getEndDate());
 		}
+		
 	}
 
+	public List<Career> getCareers() {
+		return offerDao.getCareers();
+	}
 }

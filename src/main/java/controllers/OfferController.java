@@ -2,6 +2,7 @@ package controllers;
 
 import java.util.List;
 
+import models.Career;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,32 +32,36 @@ public class OfferController {
 		offersDto.offers = offerService.getAllOffers();
 	
 		List<Offer> offers = offersDto.offers;
-		
+
 		logger.debug(String.valueOf(offersDto.offers.size()));
-		logger.debug(String.valueOf(offersDto.offers.get(0).getDescription()));
-		
+
+
+		if(!offersDto.offers.isEmpty())
+			logger.debug(String.valueOf(offersDto.offers.get(0).getDescription()));
+
+
 		return Results.html().render("offers",offers);
 	}
-	
+
 	public Result offerDetails(Session session, @PathParam("offerId") int offerId){
-		
+
 		Offer selectedOffer = offerService.findOfferById(offerId);
 		return Results.html().render(selectedOffer);
 	}
-	
+
 	public Result newOffer(Session session){
-		
-		return Results.html();
+
+		List<Career> careers = offerService.getCareers();
+
+		return Results.html().render("careers", careers);
 	}
 
 	public Result saveOffer(Session session, OfferVO offer){
-		
-		offerService.saveOffer(offer);
-		OffersDto offersDto = new OffersDto();
-		offersDto.offers = offerService.getAllOffers();
 
-		List<Offer> offers = offersDto.offers;
-		
+		offerService.saveOffer(offer);
+
+		List<Offer> offers = offerService.getAllOffers();
+
 		return Results.html().render("offers", offers).template("/views/OfferController/offers.ftl.html");
 	}
 }

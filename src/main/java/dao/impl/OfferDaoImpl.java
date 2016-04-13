@@ -7,12 +7,13 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
-import com.google.inject.persist.Transactional;
+import models.Career;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.persist.Transactional;
 
 import dao.OfferDao;
 import models.Offer;
@@ -24,7 +25,7 @@ public class OfferDaoImpl implements OfferDao{
     
     @Inject
     Provider<EntityManager> entityManagerProvider;
-
+    
     @UnitOfWork
 	public List<Offer> getAllOffers() {
 		
@@ -34,8 +35,7 @@ public class OfferDaoImpl implements OfferDao{
 		EntityManager entityManager = entityManagerProvider.get();
         
         Query q = entityManager.createQuery("SELECT x FROM Offer x where disabled = false");
-        
-        Offer offer= null;
+
         try{
         	
         	offers = q.getResultList();  
@@ -46,7 +46,7 @@ public class OfferDaoImpl implements OfferDao{
         }
 		return offers;
 	}
-
+	
     @UnitOfWork
 	public Offer findOfferById(int offerId){
 		
@@ -60,12 +60,32 @@ public class OfferDaoImpl implements OfferDao{
 			EntityManager entityManager = entityManagerProvider.get();
 			entityManager.persist(offer);
 		}
-        catch (Exception e){
+        catch (Exception e) {
 			e.printStackTrace();
 			logger.error(e.getMessage());
 		}
 		
 	}
 
-	
+	@UnitOfWork
+	public List<Career> getCareers() {
+		EntityManager entityManager = entityManagerProvider.get();
+
+		List<Career> careers = new ArrayList<Career>();
+
+		Query q = entityManager.createQuery("SELECT x FROM Career x");
+
+		try{
+
+			careers = q.getResultList();
+		}
+		catch(NoResultException nrex){
+
+			logger.warn("No careers were found");
+		}
+		return careers;
+
+	}
+
+
 }

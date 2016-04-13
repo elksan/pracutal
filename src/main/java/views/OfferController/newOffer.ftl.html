@@ -37,10 +37,8 @@
 					</div> -->
 					<div class="row">
 						<div class="input-field col s6">
-							<input id="startDate" name="startDateInternship" type="date" class="datepicker validate" required="true"
-								   aria-required="true">
-							<br/>
-							<label for="startDate">${i18n('offer.startDate')}</label>
+							<input id="startDate" name="startDateInternship" type="date" class="datepicker" readonly="false" required="required">
+							<label for="startDate">${i18n("offer.startDate")}</label>
 						</div>
 						<div class="input-field col s6">
 							<input id="endDate" name="endDate" type="date" class="datepicker validate" required="true"
@@ -99,6 +97,16 @@
 
 					<div class="row">
 						<div class="input-field col s12">
+							<!--<input type="text" id="offerCareer" name="career"/>-->
+							<select name="careers" multiple>
+
+								<option value="" disabled selected>Seleccione</option>
+								<#list careers as career>
+									<option value="${career.careerId}">${career.careerName}</option>
+								</#list>
+
+							</select>
+							<label>${i18n("offer.career")}</label>
 							<input type="text" id="offerCareer" name="career" required=""
                                    class="validate" aria-required="true"/>
 							<label for="offerCareer">${i18n("offer.career")}</label>
@@ -167,8 +175,13 @@
 			var $input = $('#endDate').pickadate();
 			var picker = $input.pickadate('picker');
 
-			picker.set('max', '12');
+			picker.set('max', '-1');
 		}
+	});
+
+
+	$(document).ready(function() {
+		$('select').material_select();
 	});
 </script>
 
