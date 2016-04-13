@@ -1,5 +1,4 @@
-<#import "../layout/defaultLayout.ftl.html" as layout> <@layout.myLayout
-"Ofertas">
+<#import "../layout/defaultLayout.ftl.html" as layout> <@layout.myLayout "Ofertas">
 
 <div class="container">
 
@@ -41,9 +40,8 @@
 							<label for="startDate">${i18n("offer.startDate")}</label>
 						</div>
 						<div class="input-field col s6">
-							<input id="endDate" name="endDate" type="date" class="datepicker validate" required="true"
-								   aria-required="true">
-							<label for="endDate">${i18n('offer.endDate')}</label>
+							<input id="endDate" name="endDate" type="date" class="datepicker">
+							<label for="endDate">${i18n("offer.endDate")}</label>
 						</div>
 					</div>
 					<div class="row">
@@ -107,22 +105,17 @@
 
 							</select>
 							<label>${i18n("offer.career")}</label>
-							<input type="text" id="offerCareer" name="career" required=""
-                                   class="validate" aria-required="true"/>
-							<label for="offerCareer">${i18n("offer.career")}</label>
 						</div>
 					</div>
 					<div class="row">
 						<div class="input-field col s12">
-							<input type="text" id="offerLevelRequired" name="levelRequired" required=""
-                                   class="validate" aria-required="true"/>
+							<input type="text" id="offerLevelRequired" name="levelRequired"/>
 							<label for="offerLevelRequired">${i18n("offer.levelRequired")}</label>
 						</div>
 					</div>
 					<div class="row">
 						<div class="input-field col s12">
-							<input type="text" id="language" name="language" required=""
-                                   class="validate" aria-required="true"/>
+							<input type="text" id="language" name="language"/>
 							<label for="language">${i18n("offer.language")}</label>
 						</div>
 					</div>
@@ -170,8 +163,8 @@
 	$('#startDate').pickadate({
 		onSet: function(context) {
 		    console.log('Just set stuff:', context)
-		   
- 
+
+
 			var $input = $('#endDate').pickadate();
 			var picker = $input.pickadate('picker');
 
@@ -182,6 +175,7 @@
 
 	$(document).ready(function() {
 		$('select').material_select();
+		$('label').addClass('active');
 	});
 </script>
 
