@@ -7,24 +7,20 @@ import java.util.List;
  * Created by maguirre on 4/13/16.
  */
 @Entity
+@Table(name = "offer_type")
 public class OfferType {
 
-    @Id
-    @Column(name="id_offer_type", columnDefinition = "serial")
+
     private Integer id;
-
-    @Column(name="description")
     private String description;
-
-    @Column(name="name_type")
     private String name;
-
-    @OneToMany(fetch= FetchType.LAZY, mappedBy="id")
     private List<Offer> offers;
 
     public OfferType() {
     }
 
+    @Id
+    @Column(name="id_offer_type", columnDefinition = "serial")
     public Integer getId() {
         return id;
     }
@@ -33,6 +29,7 @@ public class OfferType {
         this.id = id;
     }
 
+    @Column(name="description")
     public String getDescription() {
         return description;
     }
@@ -41,6 +38,7 @@ public class OfferType {
         this.description = description;
     }
 
+    @Column(name="name_type")
     public String getName() {
         return name;
     }
@@ -49,6 +47,7 @@ public class OfferType {
         this.name = name;
     }
 
+    @OneToMany(fetch= FetchType.LAZY, mappedBy="offerType")
     public List<Offer> getOffers() {
         return offers;
     }
@@ -63,7 +62,6 @@ public class OfferType {
                 "id=" + id +
                 ", description='" + description + '\'' +
                 ", name='" + name + '\'' +
-                ", offers=" + (offers != null ? offers.size() : "0") + '\'' +
                 '}';
     }
 }

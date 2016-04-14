@@ -25,9 +25,10 @@ public class OfferVO {
 	private String startDateInternship;
 	private String area;
 	private boolean available;
-	private String type;
+	private Integer offerType;
 	private String location;
 	private String[] careers;
+	private String title;
 
 	public Integer getOrganizationId() {
 		return organizationId;
@@ -162,13 +163,6 @@ public class OfferVO {
 		this.careers = careers;
 	}
 
-	public String getType() {
-		return type;
-	}
-
-	public void setType(String type) {
-		this.type = type;
-	}
 
 	public String getLocation() {
 		return location;
@@ -176,5 +170,21 @@ public class OfferVO {
 
 	public void setLocation(String location) {
 		this.location = location;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public Integer getOfferType() {
+		return offerType;
+	}
+
+	public void setOfferType(Integer offerType) {
+		this.offerType = offerType;
 	}
 }

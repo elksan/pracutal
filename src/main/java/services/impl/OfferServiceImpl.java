@@ -40,8 +40,12 @@ Logger logger = LoggerFactory.getLogger(UserDaoImpl.class);
 	}
 
 	public void saveOffer(OfferVO offerVo) {
-		
+
+
 		Offer offer = new Offer(offerVo);
+
+		OfferType offerType = offerDao.getOfferType(offerVo.getOfferType());
+		offer.setOfferType(offerType);
 
 		SimpleDateFormat formatter = new SimpleDateFormat("d MMMM, yyyy", Locale.forLanguageTag("es-CL"));
 		try {

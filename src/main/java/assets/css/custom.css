@@ -163,6 +163,9 @@ body{
 	/* #eae8e7;*/ 
 }
 
+.chip.indigo{
+	color: #ffffff;
+}
 
 @media only screen and (max-width: 992px){
 	.info {

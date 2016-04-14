@@ -10,7 +10,7 @@ CREATE TABLE pracutal.offer_type
    id_offer_type serial NOT NULL,
    name_type character(50) NOT NULL,
    description character(100),
-   CONSTRAINT offer_type_pk PRIMARY KEY (id)
+   CONSTRAINT offer_type_pk PRIMARY KEY (id_offer_type)
 );
 
 ALTER TABLE pracutal.offer ADD COLUMN offer_type_id integer;

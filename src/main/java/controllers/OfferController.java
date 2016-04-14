@@ -31,17 +31,20 @@ public class OfferController {
 		OffersDto offersDto = new OffersDto();
 		
 		offersDto.offers = offerService.getAllOffers();
-	
 		List<Offer> offers = offersDto.offers;
 
 		logger.debug(String.valueOf(offersDto.offers.size()));
 
-
 		if(!offersDto.offers.isEmpty())
 			logger.debug(String.valueOf(offersDto.offers.get(0).getDescription()));
 
+		List<OfferType> offerTypes = offerService.getOfferTypes();
 
-		return Results.html().render("offers",offers);
+		Result result = Results.html();
+		result.render("offers",offers);
+		result.render("offerTypes", offerTypes);
+
+		return result;
 	}
 
 	public Result offerDetails(Session session, @PathParam("offerId") int offerId){

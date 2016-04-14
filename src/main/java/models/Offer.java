@@ -32,10 +32,8 @@ public class Offer implements Serializable {
 	private Date startDateInternship;
 	private String area;
 	private boolean available;
-	private String type;
 	private String location;
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="id", unique=true, nullable=false)
+	private String title;
 	private OfferType offerType;
 	
 	public Offer() {
@@ -62,7 +60,6 @@ public class Offer implements Serializable {
 		this.requirements = offerVO.getRequirements();
 		this.area = offerVO.getArea();
 		this.available = offerVO.isAvailable();
-		this.type = offerVO.getType();
 		this.location = offerVO.getLocation();
 	}
 	@Column(name="organization_id")
@@ -212,19 +209,30 @@ public class Offer implements Serializable {
 		this.available = available;
 	}
 
-	public String getType() {
-		return type;
-	}
-
-	public void setType(String type) {
-		this.type = type;
-	}
-
 	public String getLocation() {
 		return location;
 	}
 
 	public void setLocation(String location) {
 		this.location = location;
+	}
+
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="offer_type_id", unique=true, nullable=false)
+	public OfferType getOfferType() {
+		return offerType;
+	}
+
+	public void setOfferType(OfferType offerType) {
+		this.offerType = offerType;
 	}
 }

@@ -28,12 +28,6 @@
 							<label for="description">${i18n("offer.description")}</label>
 						</div>
 					</div>
-					<!-- <div class="row">
-						<div class="input-field col s12">
-							<textarea id="requirements" name="requirements" placeholder="${i18n("offer.requirements.placeholder")}" class="materialize-textarea validate"></textarea> 
-							<label for="requirements">${i18n("offer.requirements")}</label>
-						</div>
-					</div> -->
 					<div class="row">
 						<div class="input-field col s6">
 							<input id="startDate" name="startDateInternship" type="date" class="datepicker" readonly="false" required="required">
@@ -60,8 +54,13 @@
 					</div>					
 					<div class="row">
 						<div class="input-field col s12">
-							<input type="text" id="offerType" name="type" required=""
-                                   class="validate" aria-required="true"/>
+
+							<select name="offerType" required="" class="validate" aria-required="true">
+								<option value="" disabled selected>Seleccione</option>
+								<#list offerTypes as type>
+									<option value="${type.id}">${type.name}</option>
+								</#list>
+							</select>
 							<label for="offerType">${i18n("offer.type")}</label>
 						</div>
 					</div>
@@ -95,14 +94,11 @@
 
 					<div class="row">
 						<div class="input-field col s12">
-							<!--<input type="text" id="offerCareer" name="career"/>-->
 							<select name="careers" multiple>
-
 								<option value="" disabled selected>Seleccione</option>
 								<#list careers as career>
 									<option value="${career.careerId}">${career.careerName}</option>
 								</#list>
-
 							</select>
 							<label>${i18n("offer.career")}</label>
 						</div>
@@ -175,7 +171,7 @@
 
 	$(document).ready(function() {
 		$('select').material_select();
-		$('label').addClass('active');
+//		$('label').addClass('active');
 	});
 </script>
 

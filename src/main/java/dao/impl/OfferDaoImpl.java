@@ -9,6 +9,7 @@ import javax.persistence.Query;
 
 import models.Career;
 import models.OfferType;
+import org.hibernate.Hibernate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -45,6 +46,8 @@ public class OfferDaoImpl implements OfferDao{
         	
         	
         }
+
+		Hibernate.initialize(offers.get(0).getOfferType().getOffers());
 		return offers;
 	}
 	
@@ -107,6 +110,14 @@ public class OfferDaoImpl implements OfferDao{
 		}
 		return offerTypes;
 
+	}
+
+	@UnitOfWork
+	public OfferType getOfferType(int offerId) {
+		EntityManager entityManager = entityManagerProvider.get();
+		OfferType offerType = entityManager.find(OfferType.class, offerId);
+
+		return offerType;
 	}
 
 }

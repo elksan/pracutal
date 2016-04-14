@@ -9,9 +9,10 @@ import models.OfferType;
 public interface OfferDao {
 
 	
-	public List<Offer> getAllOffers();
-	public Offer findOfferById(int offerId);
-	public void saveOffer(Offer offer);
-	public List<Career> getCareers();
-	public List<OfferType> getOfferTypes();
+	List<Offer> getAllOffers();
+	Offer findOfferById(int offerId);
+	void saveOffer(Offer offer);
+	List<Career> getCareers();
+	List<OfferType> getOfferTypes();
+	OfferType getOfferType(int offerId);
 }
