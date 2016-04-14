@@ -68,6 +68,7 @@ public class OfferController {
 
 	public Result saveOffer(Session session, OfferVO offer){
 
+        logger.debug("OFERTYPE>>>>>> " + offer.getOfferType().getId());
 		offerService.saveOffer(offer);
 
 		List<Offer> offers = offerService.getAllOffers();

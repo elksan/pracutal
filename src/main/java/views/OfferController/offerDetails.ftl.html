@@ -3,7 +3,7 @@
 <div class="container">
 
 	<div class="row">
-        <aside class="col l4 s12 m12 profile-sidebar z-depth-1">
+        <div class="col-xs-14 col-sm-12 col-md-12 col-lg-12">
             <div class="row">
                 <h3>${selectedOffer.title}</h3>
                 <h5>${selectedOffer.offerType.name} en ${selectedOffer.location}</h5>
@@ -13,18 +13,18 @@
                     </div>
                     <div class="col-md-6">
                         <#if selectedOffer.hasIncome>
-                            <i class="small material-icons">done</i> ${selectedOffer.hasIncome?c}
+                            Cuenta con <i class="small material-icons">done</i> remuneración
                         </#if>
                         <#if selectedOffer.hasLocomotion>
-                            <i class="small material-icons">done</i> ${selectedOffer.hasLocomotion?c}
+                            Cuenta con <i class="small material-icons">done</i> Locomoción
                         </#if>
                         <#if selectedOffer.hasLunch>
-                            <i class="small material-icons">done</i> ${selectedOffer.hasLunch?c}
+                            Cuenta con <i class="small material-icons">done</i> Casino
                         </#if>
                     </div>
                 </div>
             </div>
-        </aside>
+        </div>
         <div class="col-xs-14 col-sm-12 col-md-12 col-lg-12">
             <ul class="collection">
                 <li class="collection-item dismissable">

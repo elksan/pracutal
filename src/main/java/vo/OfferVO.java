@@ -1,20 +1,24 @@
 package vo;
 
+import models.Career;
 import models.Offer;
 import models.OfferType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 public class OfferVO {
 
+    Logger logger = LoggerFactory.getLogger(OfferVO.class);
+
 	public OfferVO() {
 	}
 
     public OfferVO(Offer offer) {
-
-        SimpleDateFormat sdf = new SimpleDateFormat("d MM, yyyy");
 
         this.organizationId = offer.getOrganizationId();
         this.createdAt = offer.getCreatedAt();
@@ -22,7 +26,7 @@ public class OfferVO {
         this.disabled = offer.isDisabled();
         this.duration = offer.getDuration();
         this.email = offer.getEmail();
-        this.endDate = sdf.format(offer.getEndDate()) != null ? sdf.format(offer.getEndDate()) : "";
+        this.endDate = isValid(offer.getEndDate()) ? parseDate(offer.getEndDate()) : "";
         this.hasIncome = offer.isHasIncome();
         this.hasLocomotion = offer.isHasLocomotion();
         this.hasLunch = offer.isHasLunch();
@@ -33,14 +37,40 @@ public class OfferVO {
         this.post = offer.getPost();
         this.quota = offer.getQuota();
         this.requirements = offer.getRequirements();
-        this.startDateAvailable = offer.getStartDateAvailable() != null ? sdf.format(offer.getStartDateAvailable()) : "";
-        this.startDateInternship = sdf.format(offer.getStartDateInternship()) != null ? sdf.format(offer.getStartDateInternship()) : "";
+        this.startDateAvailable = isValid(offer.getStartDateAvailable()) ? parseDate(offer.getStartDateAvailable()) : "";
+        this.startDateInternship = isValid(offer.getStartDateInternship()) ? parseDate(offer.getStartDateInternship()) : "";
         this.area = offer.getArea();
         this.available = offer.isAvailable();
         this.offerType = offer.getOfferType();
         this.location = offer.getLocation();
-        //this.careers = offer.getCarrers();
+        this.careers = getCarrersIds(offer.getCareers());
         this.title = offer.getTitle();
+    }
+
+    public String parseDate(Date fecha) {
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("d MMM, yyyy");
+            return sdf.format(fecha);
+        }
+        catch (Exception e){
+            logger.debug("ERROR AL PARSEAR LA FECHA!");
+            return "";
+        }
+    }
+
+    public boolean isValid(Date fecha){
+
+        if(fecha != null && !"".equals(fecha)) return true;
+        return true;
+    }
+
+    private List<Integer> getCarrersIds(List<Career> careers){
+        List<Integer> careersIds = new ArrayList<>();
+
+        for(Career career : careers){
+            careersIds.add(career.getCareerId());
+        }
+        return careersIds;
     }
 
     private Integer organizationId;
