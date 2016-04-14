@@ -55,7 +55,12 @@ public class OfferDaoImpl implements OfferDao{
 	public Offer findOfferById(int offerId){
 		
 		EntityManager entityManager = entityManagerProvider.get();
-		return entityManager.find(Offer.class, offerId);
+
+		Offer offer = entityManager.find(Offer.class, offerId);
+        logger.debug("OFFER: " + offer.toString());
+		Hibernate.initialize(offer.getOfferType());
+
+		return offer;
 	}
 
     @Transactional

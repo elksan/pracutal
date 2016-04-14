@@ -1,10 +1,48 @@
 package vo;
 
+import models.Offer;
+import models.OfferType;
+
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class OfferVO {
 
-	private Integer organizationId;
+	public OfferVO() {
+	}
+
+    public OfferVO(Offer offer) {
+
+        SimpleDateFormat sdf = new SimpleDateFormat("d MM, yyyy");
+
+        this.organizationId = offer.getOrganizationId();
+        this.createdAt = offer.getCreatedAt();
+        this.description = offer.getDescription();
+        this.disabled = offer.isDisabled();
+        this.duration = offer.getDuration();
+        this.email = offer.getEmail();
+        this.endDate = sdf.format(offer.getEndDate()) != null ? sdf.format(offer.getEndDate()) : "";
+        this.hasIncome = offer.isHasIncome();
+        this.hasLocomotion = offer.isHasLocomotion();
+        this.hasLunch = offer.isHasLunch();
+        this.id = offer.getId();
+        this.income = offer.getIncome();
+        this.locomotion = offer.getLocomotion();
+        this.lunch = offer.getLunch();
+        this.post = offer.getPost();
+        this.quota = offer.getQuota();
+        this.requirements = offer.getRequirements();
+        this.startDateAvailable = offer.getStartDateAvailable() != null ? sdf.format(offer.getStartDateAvailable()) : "";
+        this.startDateInternship = sdf.format(offer.getStartDateInternship()) != null ? sdf.format(offer.getStartDateInternship()) : "";
+        this.area = offer.getArea();
+        this.available = offer.isAvailable();
+        this.offerType = offer.getOfferType();
+        this.location = offer.getLocation();
+        //this.careers = offer.getCarrers();
+        this.title = offer.getTitle();
+    }
+
+    private Integer organizationId;
 	private Date createdAt;
 	private String description;
 	private boolean disabled;
@@ -25,7 +63,7 @@ public class OfferVO {
 	private String startDateInternship;
 	private String area;
 	private boolean available;
-	private Integer offerType;
+	private OfferType offerType;
 	private String location;
 	private String[] careers;
 	private String title;
@@ -162,29 +200,22 @@ public class OfferVO {
 	public void setCareers(String[] careers) {
 		this.careers = careers;
 	}
-
-
 	public String getLocation() {
 		return location;
 	}
-
 	public void setLocation(String location) {
 		this.location = location;
 	}
-
 	public String getTitle() {
 		return title;
 	}
-
 	public void setTitle(String title) {
 		this.title = title;
 	}
-
-	public Integer getOfferType() {
-		return offerType;
-	}
-
-	public void setOfferType(Integer offerType) {
-		this.offerType = offerType;
-	}
+    public OfferType getOfferType() {
+        return offerType;
+    }
+    public void setOfferType(OfferType offerType) {
+        this.offerType = offerType;
+    }
 }

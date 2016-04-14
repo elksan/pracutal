@@ -50,7 +50,8 @@ public class OfferController {
 	public Result offerDetails(Session session, @PathParam("offerId") int offerId){
 
 		Offer selectedOffer = offerService.findOfferById(offerId);
-		return Results.html().render(selectedOffer);
+        OfferVO offerVO = new OfferVO(selectedOffer);
+		return Results.html().render("selectedOffer", offerVO);
 	}
 
 	public Result newOffer(Session session){

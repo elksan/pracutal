@@ -48,24 +48,24 @@
 		</div>
 	</div>	
 </div>
- 	<script type="text/javascript">
-		$(document).ready(function(){
-			
-			$('.navbar li.active').removeClass('active');
-			$('#menus #offers-btn').addClass('active');
-			
-			var $grid = $('.grid').isotope({
-    			itemSelector: '.grid-item',
-    			masonry: {
-    				columnWidth: 50
-    			}
-    		});
-			
-    		$grid.imagesLoaded().progress( function() {
-    			  $grid.isotope('layout');
-    			});
-		});	
-	</script>
+<script type="text/javascript">
+    $(document).ready(function(){
+
+        $('.navbar li.active').removeClass('active');
+        $('#menus #offers-btn').addClass('active');
+
+        var $grid = $('.grid').isotope({
+            itemSelector: '.grid-item',
+            masonry: {
+                columnWidth: 50
+            }
+        });
+
+        $grid.imagesLoaded().progress( function() {
+            $grid.isotope('layout');
+        });
+    });
+</script>
 	
 	
 </@layout.myLayout>
