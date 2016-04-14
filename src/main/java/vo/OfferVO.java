@@ -212,11 +212,11 @@ public class OfferVO {
 		this.title = title;
 	}
 
-	public Integer getOfferType() {
+	public OfferType getOfferType() {
 		return offerType;
 	}
 
-	public void setOfferType(Integer offerType) {
+	public void setOfferType(OfferType offerType) {
 		this.offerType = offerType;
 	}
 
