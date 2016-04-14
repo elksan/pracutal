@@ -5,6 +5,7 @@ import models.OfferType;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 public class OfferVO {
 
@@ -65,7 +66,7 @@ public class OfferVO {
 	private boolean available;
 	private OfferType offerType;
 	private String location;
-	private String[] careers;
+	private List<Integer> careers;
 	private String title;
 
 	public Integer getOrganizationId() {
@@ -194,28 +195,36 @@ public class OfferVO {
 	public void setAvailable(boolean available) {
 		this.available = available;
 	}
-	public String[] getCareers() {
-		return careers;
-	}
-	public void setCareers(String[] careers) {
-		this.careers = careers;
-	}
+
 	public String getLocation() {
 		return location;
 	}
+
 	public void setLocation(String location) {
 		this.location = location;
 	}
+
 	public String getTitle() {
 		return title;
 	}
+
 	public void setTitle(String title) {
 		this.title = title;
 	}
-    public OfferType getOfferType() {
-        return offerType;
-    }
-    public void setOfferType(OfferType offerType) {
-        this.offerType = offerType;
-    }
+
+	public Integer getOfferType() {
+		return offerType;
+	}
+
+	public void setOfferType(Integer offerType) {
+		this.offerType = offerType;
+	}
+
+	public List<Integer> getCareers() {
+		return careers;
+	}
+
+	public void setCareers(List<Integer> careers) {
+		this.careers = careers;
+	}
 }

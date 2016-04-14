@@ -2,6 +2,7 @@ package models;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.*;
 
@@ -35,6 +36,7 @@ public class Offer implements Serializable {
 	private String location;
 	private String title;
 	private OfferType offerType;
+	private List<Career> careers;
 	
 	public Offer() {
 		
@@ -235,5 +237,15 @@ public class Offer implements Serializable {
 
 	public void setOfferType(OfferType offerType) {
 		this.offerType = offerType;
+	}
+
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name="offer_career", joinColumns = @JoinColumn(name = "offer_id"), inverseJoinColumns = @JoinColumn(name = "career_id"))
+	public List<Career> getCareers() {
+		return careers;
+	}
+
+	public void setCareers(List<Career> careers) {
+		this.careers = careers;
 	}
 }

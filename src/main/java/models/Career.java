@@ -2,13 +2,7 @@ package models;
 
 import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.*;
 
 @Entity
 public class Career {
@@ -16,6 +10,7 @@ public class Career {
 	private Integer careerId;
 	private String careerName;
 	private List<Student> students;
+	private List<Offer> offers;
 	
 	@Id
 	@Column(name="career_id")
@@ -41,5 +36,14 @@ public class Career {
 	}
 	public void setStudents(List<Student> students) {
 		this.students = students;
+	}
+
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "careers")
+	public List<Offer> getOffers() {
+		return offers;
+	}
+
+	public void setOffers(List<Offer> offers) {
+		this.offers = offers;
 	}
 }
