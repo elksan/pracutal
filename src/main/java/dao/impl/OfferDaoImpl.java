@@ -39,15 +39,15 @@ public class OfferDaoImpl implements OfferDao{
         Query q = entityManager.createQuery("SELECT x FROM Offer x where disabled = false");
 
         try{
-        	
-        	offers = q.getResultList();  
+        	offers = q.getResultList();
         }
         catch(NoResultException nrex){
-        	
-        	
-        }
 
-		Hibernate.initialize(offers.get(0).getOfferType().getOffers());
+        }
+		for(Offer offer : offers) {
+			Hibernate.initialize(offer.getOfferType());
+		}
+
 		return offers;
 	}
 	

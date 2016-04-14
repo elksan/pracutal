@@ -41,7 +41,7 @@ public class OfferController {
 		List<OfferType> offerTypes = offerService.getOfferTypes();
 
 		Result result = Results.html();
-		result.render("offers",offers);
+		result.render("offers", offers);
 		result.render("offerTypes", offerTypes);
 
 		return result;
@@ -62,8 +62,6 @@ public class OfferController {
 		result.render("careers", careers);
 		result.render("offerTypes", offerTypes);
 
-		logger.debug("--------------------------------> " + offerTypes.size());
-
 		return  result;
 	}
 
@@ -72,7 +70,12 @@ public class OfferController {
 		offerService.saveOffer(offer);
 
 		List<Offer> offers = offerService.getAllOffers();
+        List<OfferType> offerTypes = offerService.getOfferTypes();
 
-		return Results.html().render("offers", offers).template("/views/OfferController/offers.ftl.html");
+        Result result = Results.html();
+        result.render("offers", offers);
+        result.render("offerTypes", offerTypes);
+
+		return result.template("/views/OfferController/offers.ftl.html");
 	}
 }

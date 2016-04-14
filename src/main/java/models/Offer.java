@@ -61,6 +61,7 @@ public class Offer implements Serializable {
 		this.area = offerVO.getArea();
 		this.available = offerVO.isAvailable();
 		this.location = offerVO.getLocation();
+		this.title = offerVO.getTitle();
 	}
 	@Column(name="organization_id")
 	public Integer getOrganizationId() {
@@ -217,7 +218,7 @@ public class Offer implements Serializable {
 		this.location = location;
 	}
 
-
+	@Column(name = "title")
 	public String getTitle() {
 		return title;
 	}
