@@ -12,14 +12,14 @@
                         <i class="small material-icons">query_builder</i> ${selectedOffer.startDateInternship}
                     </div>
                     <div class="col-md-6">
-                        <#if selectedOffer.hasIncome?c==true>
-                            <i class="small material-icons">done</i> ${selectedOffer.hasIncome}
+                        <#if selectedOffer.hasIncome>
+                            <i class="small material-icons">done</i> ${selectedOffer.hasIncome?c}
                         </#if>
-                        <#if selectedOffer.hasLocomotion?c==true>
-                            <i class="small material-icons">done</i> ${selectedOffer.hasLocomotion}
+                        <#if selectedOffer.hasLocomotion>
+                            <i class="small material-icons">done</i> ${selectedOffer.hasLocomotion?c}
                         </#if>
-                        <#if selectedOffer.hasLunch?c==true>
-                            <i class="small material-icons">done</i> ${selectedOffer.hasLunch}
+                        <#if selectedOffer.hasLunch>
+                            <i class="small material-icons">done</i> ${selectedOffer.hasLunch?c}
                         </#if>
                     </div>
                 </div>
