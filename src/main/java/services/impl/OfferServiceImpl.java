@@ -47,6 +47,10 @@ Logger logger = LoggerFactory.getLogger(UserDaoImpl.class);
 		OfferType offerType = offerDao.getOfferType(offerVo.getOfferType());
 		offer.setOfferType(offerType);
 
+		List<Career> careers = offerDao.getCareers(offerVo.getCareers());
+		offer.setCareers(careers);
+
+
 		SimpleDateFormat formatter = new SimpleDateFormat("d MMMM, yyyy", Locale.forLanguageTag("es-CL"));
 		try {
 			offer.setStartDateInternship(formatter.parse(offerVo.getStartDateInternship()));

@@ -1,6 +1,7 @@
 package vo;
 
 import java.util.Date;
+import java.util.List;
 
 public class OfferVO {
 
@@ -27,7 +28,7 @@ public class OfferVO {
 	private boolean available;
 	private Integer offerType;
 	private String location;
-	private String[] careers;
+	private List<Integer> careers;
 	private String title;
 
 	public Integer getOrganizationId() {
@@ -156,12 +157,7 @@ public class OfferVO {
 	public void setAvailable(boolean available) {
 		this.available = available;
 	}
-	public String[] getCareers() {
-		return careers;
-	}
-	public void setCareers(String[] careers) {
-		this.careers = careers;
-	}
+
 
 
 	public String getLocation() {
@@ -186,5 +182,13 @@ public class OfferVO {
 
 	public void setOfferType(Integer offerType) {
 		this.offerType = offerType;
+	}
+
+	public List<Integer> getCareers() {
+		return careers;
+	}
+
+	public void setCareers(List<Integer> careers) {
+		this.careers = careers;
 	}
 }

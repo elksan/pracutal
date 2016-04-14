@@ -120,4 +120,25 @@ public class OfferDaoImpl implements OfferDao{
 		return offerType;
 	}
 
+	@UnitOfWork
+	public List<Career> getCareers(List<Integer> careerIds) {
+		EntityManager entityManager = entityManagerProvider.get();
+
+		List<Career> careers = new ArrayList<Career>();
+
+		Query q = entityManager.createQuery("SELECT x FROM Career x WHERE careerId in (:careerIds)");
+		q.setParameter("careerIds", careerIds);
+
+		try{
+
+			careers = q.getResultList();
+		}
+		catch(NoResultException nrex){
+
+			logger.warn("No careers were found");
+		}
+		return careers;
+
+	}
+
 }
