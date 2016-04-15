@@ -114,6 +114,10 @@ public class OfferDaoImpl implements OfferDao{
 
 			logger.warn("No offer types were found");
 		}
+		for(OfferType offerType : offerTypes){
+
+			Hibernate.initialize(offerType.getOffers());
+		}
 		return offerTypes;
 
 	}

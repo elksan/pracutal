@@ -44,7 +44,7 @@ Logger logger = LoggerFactory.getLogger(UserDaoImpl.class);
 
 		Offer offer = new Offer(offerVo);
 
-		OfferType offerType = offerDao.getOfferType(offerVo.getOfferType().getId());
+		OfferType offerType = offerDao.getOfferType(offerVo.getOfferTypeId());
 		offer.setOfferType(offerType);
 
 		List<Career> careers = offerDao.getCareers(offerVo.getCareers());

@@ -55,13 +55,13 @@
 					<div class="row">
 						<div class="input-field col s12">
 
-							<select name="offerType" required="" class="validate" aria-required="true">
+							<select name="offerTypeId" required="" class="validate" aria-required="true">
 								<option value="" disabled selected>Seleccione</option>
 								<#list offerTypes as type>
 									<option value="${type.id}">${type.name}</option>
 								</#list>
 							</select>
-							<label for="offerType">${i18n("offer.type")}</label>
+							<label>${i18n("offer.type")}</label>
 						</div>
 					</div>
 					<div class="row">

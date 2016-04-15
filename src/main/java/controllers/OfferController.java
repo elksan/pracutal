@@ -4,6 +4,7 @@ import java.util.List;
 
 import models.Career;
 import models.OfferType;
+import org.hibernate.Hibernate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -68,7 +69,8 @@ public class OfferController {
 
 	public Result saveOffer(Session session, OfferVO offer){
 
-        logger.debug("OFERTYPE>>>>>> " + offer.getOfferType().getId());
+        logger.debug("OFERTYPE>>>>>> " + offer.getOfferType());
+
 		offerService.saveOffer(offer);
 
 		List<Offer> offers = offerService.getAllOffers();

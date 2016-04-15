@@ -15,64 +15,6 @@ public class OfferVO {
 
     Logger logger = LoggerFactory.getLogger(OfferVO.class);
 
-	public OfferVO() {
-	}
-
-    public OfferVO(Offer offer) {
-
-        this.organizationId = offer.getOrganizationId();
-        this.createdAt = offer.getCreatedAt();
-        this.description = offer.getDescription();
-        this.disabled = offer.isDisabled();
-        this.duration = offer.getDuration();
-        this.email = offer.getEmail();
-        this.endDate = isValid(offer.getEndDate()) ? parseDate(offer.getEndDate()) : "";
-        this.hasIncome = offer.isHasIncome();
-        this.hasLocomotion = offer.isHasLocomotion();
-        this.hasLunch = offer.isHasLunch();
-        this.id = offer.getId();
-        this.income = offer.getIncome();
-        this.locomotion = offer.getLocomotion();
-        this.lunch = offer.getLunch();
-        this.post = offer.getPost();
-        this.quota = offer.getQuota();
-        this.requirements = offer.getRequirements();
-        this.startDateAvailable = isValid(offer.getStartDateAvailable()) ? parseDate(offer.getStartDateAvailable()) : "";
-        this.startDateInternship = isValid(offer.getStartDateInternship()) ? parseDate(offer.getStartDateInternship()) : "";
-        this.area = offer.getArea();
-        this.available = offer.isAvailable();
-        this.offerType = offer.getOfferType();
-        this.location = offer.getLocation();
-        this.careers = getCarrersIds(offer.getCareers());
-        this.title = offer.getTitle();
-    }
-
-    public String parseDate(Date fecha) {
-        try {
-            SimpleDateFormat sdf = new SimpleDateFormat("d MMM, yyyy");
-            return sdf.format(fecha);
-        }
-        catch (Exception e){
-            logger.debug("ERROR AL PARSEAR LA FECHA!");
-            return "";
-        }
-    }
-
-    public boolean isValid(Date fecha){
-
-        if(fecha != null && !"".equals(fecha)) return true;
-        return true;
-    }
-
-    private List<Integer> getCarrersIds(List<Career> careers){
-        List<Integer> careersIds = new ArrayList<>();
-
-        for(Career career : careers){
-            careersIds.add(career.getCareerId());
-        }
-        return careersIds;
-    }
-
     private Integer organizationId;
 	private Date createdAt;
 	private String description;
@@ -94,10 +36,72 @@ public class OfferVO {
 	private String startDateInternship;
 	private String area;
 	private boolean available;
+	private Integer offerTypeId;
 	private OfferType offerType;
 	private String location;
 	private List<Integer> careers;
 	private String title;
+
+
+	public OfferVO() {
+	}
+
+	public OfferVO(Offer offer) {
+
+		this.organizationId = offer.getOrganizationId();
+		this.createdAt = offer.getCreatedAt();
+		this.description = offer.getDescription();
+		this.disabled = offer.isDisabled();
+		this.duration = offer.getDuration();
+		this.email = offer.getEmail();
+		this.endDate = isValid(offer.getEndDate()) ? parseDate(offer.getEndDate()) : "";
+		this.hasIncome = offer.isHasIncome();
+		this.hasLocomotion = offer.isHasLocomotion();
+		this.hasLunch = offer.isHasLunch();
+		this.id = offer.getId();
+		this.income = offer.getIncome();
+		this.locomotion = offer.getLocomotion();
+		this.lunch = offer.getLunch();
+		this.post = offer.getPost();
+		this.quota = offer.getQuota();
+		this.requirements = offer.getRequirements();
+		this.startDateAvailable = isValid(offer.getStartDateAvailable()) ? parseDate(offer.getStartDateAvailable()) : "";
+		this.startDateInternship = isValid(offer.getStartDateInternship()) ? parseDate(offer.getStartDateInternship()) : "";
+		this.area = offer.getArea();
+		this.available = offer.isAvailable();
+		this.offerType = offer.getOfferType();
+		this.offerTypeId = offer.getOfferType().getId();
+		this.location = offer.getLocation();
+		this.careers = getCarrersIds(offer.getCareers());
+		this.title = offer.getTitle();
+	}
+
+	public String parseDate(Date fecha) {
+		try {
+			SimpleDateFormat sdf = new SimpleDateFormat("d MMM, yyyy");
+			return sdf.format(fecha);
+		}
+		catch (Exception e){
+			logger.debug("ERROR AL PARSEAR LA FECHA!");
+			return "";
+		}
+	}
+
+	public boolean isValid(Date fecha){
+
+		if(fecha != null && !"".equals(fecha)) return true;
+		return true;
+	}
+
+	private List<Integer> getCarrersIds(List<Career> careers){
+		List<Integer> careersIds = new ArrayList<>();
+
+		for(Career career : careers){
+			careersIds.add(career.getCareerId());
+		}
+		return careersIds;
+	}
+
 
 	public Integer getOrganizationId() {
 		return organizationId;
@@ -242,19 +246,27 @@ public class OfferVO {
 		this.title = title;
 	}
 
-	public OfferType getOfferType() {
-		return offerType;
-	}
-
-	public void setOfferType(OfferType offerType) {
-		this.offerType = offerType;
-	}
-
 	public List<Integer> getCareers() {
 		return careers;
 	}
 
 	public void setCareers(List<Integer> careers) {
 		this.careers = careers;
+	}
+
+	public Integer getOfferTypeId() {
+		return offerTypeId;
+	}
+
+	public void setOfferTypeId(Integer offerTypeId) {
+		this.offerTypeId = offerTypeId;
+	}
+
+	public OfferType getOfferType() {
+		return offerType;
+	}
+
+	public void setOfferType(OfferType offerType) {
+		this.offerType = offerType;
 	}
 }

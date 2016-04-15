@@ -3,29 +3,37 @@
 <div class="container">
 
 	<div class="row">
-        <div class="col-xs-14 col-sm-12 col-md-12 col-lg-12">
+        <div class="col s12">
             <div class="row">
                 <h3>${selectedOffer.title}</h3>
                 <h5>${selectedOffer.offerType.name} en ${selectedOffer.location}</h5>
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col s6">
                         <i class="small material-icons">query_builder</i> ${selectedOffer.startDateInternship}
                     </div>
-                    <div class="col-md-6">
+                    <div class="col s6">
+
                         <#if selectedOffer.hasIncome>
-                            Cuenta con <i class="small material-icons">done</i> remuneración
+                            <div class="row">
+                                Cuenta con  remuneración <i class="small material-icons">done</i>
+                            </div>
                         </#if>
                         <#if selectedOffer.hasLocomotion>
-                            Cuenta con <i class="small material-icons">done</i> Locomoción
+                            <div class="row">
+                            Cuenta con  Locomoción <i class="small material-icons">done</i>
+                            </div>
                         </#if>
                         <#if selectedOffer.hasLunch>
-                            Cuenta con <i class="small material-icons">done</i> Casino
+                            <div class="row">
+                            Cuenta con Casino <i class="small material-icons">done</i>
+                            </div>
                         </#if>
+
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-xs-14 col-sm-12 col-md-12 col-lg-12">
+        <div class="col s12">
             <ul class="collection">
                 <li class="collection-item dismissable">
                     <div>
