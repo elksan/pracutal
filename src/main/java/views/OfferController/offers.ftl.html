@@ -23,24 +23,27 @@
                     <#list offers as offer>
                         <li class="collection-item avatar">
                             <div class="row">
-                                <div class="col s12">
+                                <div class="col s1">
                                     <img src="https://www.google.com.pg/images/branding/googleg/1x/googleg_standard_color_128dp.png" alt="" class="circle">
+
+                                </div>
+                                <div class="col s7">
                                     <h5>${offer.title}</h5>
                                     <p>
-                                        ${offer.description}<br>
+                                        <strong>Nombre Empresa</strong> en ${offer.location}
                                     </p>
+
+                                </div>
+                                <div class="col s4" style="height: 100%">
+
+                                        <div class="chip indigo">
+                                            ${offer.offerType.name}
+                                        </div>
                                     <a href="/offerDetails/${offer.id}" class="secondary-content">
                                         <i class="material-icons">details</i>
                                     </a>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col s12">
-                                    <div class="chip indigo">
-                                        ${offer.offerType.name}
-                                    </div>
-                                </div>
-                             </div>
                         </li>
                     <#else>
                         <p>No hay ofertas disponibles</p>
