@@ -4,3 +4,7 @@ target/
 .project
 dependency-reduced-pom.xml
 *.log
+*.log.gz
+*idea
+*.tmp
+*.iml

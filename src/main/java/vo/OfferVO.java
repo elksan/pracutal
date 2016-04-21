@@ -1,24 +1,27 @@
-package models;
+package vo;
 
-import java.io.Serializable;
+import models.Career;
+import models.Offer;
+import models.OfferType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.*;
+public class OfferVO {
 
-import vo.OfferVO;
+    Logger logger = LoggerFactory.getLogger(OfferVO.class);
 
-@Entity
-@Table(name = "offer")
-public class Offer implements Serializable {
-
-	private Integer organizationId;
+    private Integer organizationId;
 	private Date createdAt;
 	private String description;
 	private boolean disabled;
 	private String duration;
 	private String email;
-	private Date endDate;
+	private String endDate;
 	private boolean hasIncome;
 	private boolean hasLocomotion;
 	private boolean hasLunch;
@@ -29,58 +32,89 @@ public class Offer implements Serializable {
 	private String post;
 	private Integer quota;
 	private String requirements;
-	private Date startDateAvailable;
-	private Date startDateInternship;
+	private String startDateAvailable;
+	private String startDateInternship;
 	private String area;
 	private boolean available;
-	private String location;
-	private String title;
+	private Integer offerTypeId;
 	private OfferType offerType;
-	private List<Career> careers;
-	
-	public Offer() {
-		
+	private String location;
+	private List<Integer> careers;
+	private String title;
+
+
+	public OfferVO() {
 	}
-	
-	public Offer(OfferVO offerVO) {
-		super();
-		this.organizationId = offerVO.getOrganizationId();
-		this.createdAt = offerVO.getCreatedAt();
-		this.description = offerVO.getDescription();
-		this.disabled = offerVO.isDisabled();
-		this.duration = offerVO.getDuration();
-		this.email = offerVO.getEmail();
-		this.hasIncome = offerVO.isHasIncome();
-		this.hasLocomotion = offerVO.isHasLocomotion();
-		this.hasLunch = offerVO.isHasLunch();
-		this.id = offerVO.getId();
-		this.income = offerVO.getIncome();
-		this.locomotion = offerVO.getLocomotion();
-		this.lunch = offerVO.getLunch();
-		this.post = offerVO.getPost();
-		this.quota = offerVO.getQuota();
-		this.requirements = offerVO.getRequirements();
-		this.area = offerVO.getArea();
-		this.available = offerVO.isAvailable();
-		this.location = offerVO.getLocation();
-		this.title = offerVO.getTitle();
+
+	public OfferVO(Offer offer) {
+
+		this.organizationId = offer.getOrganizationId();
+		this.createdAt = offer.getCreatedAt();
+		this.description = offer.getDescription();
+		this.disabled = offer.isDisabled();
+		this.duration = offer.getDuration();
+		this.email = offer.getEmail();
+		this.endDate = isValid(offer.getEndDate()) ? parseDate(offer.getEndDate()) : "";
+		this.hasIncome = offer.isHasIncome();
+		this.hasLocomotion = offer.isHasLocomotion();
+		this.hasLunch = offer.isHasLunch();
+		this.id = offer.getId();
+		this.income = offer.getIncome();
+		this.locomotion = offer.getLocomotion();
+		this.lunch = offer.getLunch();
+		this.post = offer.getPost();
+		this.quota = offer.getQuota();
+		this.requirements = offer.getRequirements();
+		this.startDateAvailable = isValid(offer.getStartDateAvailable()) ? parseDate(offer.getStartDateAvailable()) : "";
+		this.startDateInternship = isValid(offer.getStartDateInternship()) ? parseDate(offer.getStartDateInternship()) : "";
+		this.area = offer.getArea();
+		this.available = offer.isAvailable();
+		this.offerType = offer.getOfferType();
+		this.offerTypeId = offer.getOfferType().getId();
+		this.location = offer.getLocation();
+		this.careers = getCarrersIds(offer.getCareers());
+		this.title = offer.getTitle();
 	}
-	@Column(name="organization_id")
+
+	public String parseDate(Date fecha) {
+		try {
+			SimpleDateFormat sdf = new SimpleDateFormat("d MMM, yyyy");
+			return sdf.format(fecha);
+		}
+		catch (Exception e){
+			logger.debug("ERROR AL PARSEAR LA FECHA!");
+			return "";
+		}
+	}
+
+	public boolean isValid(Date fecha){
+
+		if(fecha != null && !"".equals(fecha)) return true;
+		return true;
+	}
+
+	private List<Integer> getCarrersIds(List<Career> careers){
+		List<Integer> careersIds = new ArrayList<>();
+
+		for(Career career : careers){
+			careersIds.add(career.getCareerId());
+		}
+		return careersIds;
+	}
+
+
 	public Integer getOrganizationId() {
 		return organizationId;
 	}
 	public void setOrganizationId(Integer organizationId) {
 		this.organizationId = organizationId;
 	}
-	
-	@Column(name="created_at")
 	public Date getCreatedAt() {
 		return createdAt;
 	}
 	public void setCreatedAt(Date createdAt) {
 		this.createdAt = createdAt;
 	}
-	
 	public String getDescription() {
 		return description;
 	}
@@ -105,42 +139,30 @@ public class Offer implements Serializable {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
-	@Column(name="end_date")
-	public Date getEndDate() {
+	public String getEndDate() {
 		return endDate;
 	}
-	public void setEndDate(Date endDate) {
+	public void setEndDate(String endDate) {
 		this.endDate = endDate;
 	}
-	
-	@Column(name="has_income")
 	public boolean isHasIncome() {
 		return hasIncome;
 	}
 	public void setHasIncome(boolean hasIncome) {
 		this.hasIncome = hasIncome;
 	}
-	
-	@Column(name="has_locomotion")
 	public boolean isHasLocomotion() {
 		return hasLocomotion;
 	}
 	public void setHasLocomotion(boolean hasLocomotion) {
 		this.hasLocomotion = hasLocomotion;
 	}
-	
-	@Column(name="has_lunch")
 	public boolean isHasLunch() {
 		return hasLunch;
 	}
 	public void setHasLunch(boolean hasLunch) {
 		this.hasLunch = hasLunch;
 	}
-	
-	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(columnDefinition = "serial")
 	public Integer getId() {
 		return id;
 	}
@@ -183,20 +205,16 @@ public class Offer implements Serializable {
 	public void setRequirements(String requirements) {
 		this.requirements = requirements;
 	}
-	
-	@Column(name="start_date_available")
-	public Date getStartDateAvailable() {
+	public String getStartDateAvailable() {
 		return startDateAvailable;
 	}
-	public void setStartDateAvailable(Date startDateAvailable) {
+	public void setStartDateAvailable(String startDateAvailable) {
 		this.startDateAvailable = startDateAvailable;
 	}
-	
-	@Column(name="start_date_internship")
-	public Date getStartDateInternship() {
+	public String getStartDateInternship() {
 		return startDateInternship;
 	}
-	public void setStartDateInternship(Date startDateInternship) {
+	public void setStartDateInternship(String startDateInternship) {
 		this.startDateInternship = startDateInternship;
 	}
 	public String getArea() {
@@ -220,7 +238,6 @@ public class Offer implements Serializable {
 		this.location = location;
 	}
 
-	@Column(name = "title")
 	public String getTitle() {
 		return title;
 	}
@@ -229,23 +246,27 @@ public class Offer implements Serializable {
 		this.title = title;
 	}
 
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="offer_type_id", unique=true, nullable=false)
+	public List<Integer> getCareers() {
+		return careers;
+	}
+
+	public void setCareers(List<Integer> careers) {
+		this.careers = careers;
+	}
+
+	public Integer getOfferTypeId() {
+		return offerTypeId;
+	}
+
+	public void setOfferTypeId(Integer offerTypeId) {
+		this.offerTypeId = offerTypeId;
+	}
+
 	public OfferType getOfferType() {
 		return offerType;
 	}
 
 	public void setOfferType(OfferType offerType) {
 		this.offerType = offerType;
-	}
-
-	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name="offer_career", joinColumns = @JoinColumn(name = "offer_id"), inverseJoinColumns = @JoinColumn(name = "career_id"))
-	public List<Career> getCareers() {
-		return careers;
-	}
-
-	public void setCareers(List<Career> careers) {
-		this.careers = careers;
 	}
 }

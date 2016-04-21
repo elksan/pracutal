@@ -1,18 +1,16 @@
 package models;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
+import java.util.List;
+
+import javax.persistence.*;
 
 @Entity
 public class Career {
 
 	private Integer careerId;
 	private String careerName;
-	private Student student;
+	private List<Student> students;
+	private List<Offer> offers;
 	
 	@Id
 	@Column(name="career_id")
@@ -31,12 +29,21 @@ public class Career {
 		this.careerName = careerName;
 	}
 	
-	@OneToOne(fetch=FetchType.LAZY, mappedBy="career")
+	@OneToMany(fetch=FetchType.LAZY, mappedBy="career")
 	@PrimaryKeyJoinColumn
-	public Student getStudent() {
-		return student;
+	public List<Student> getStudents() {
+		return students;
 	}
-	public void setStudent(Student student) {
-		this.student = student;
+	public void setStudents(List<Student> students) {
+		this.students = students;
+	}
+
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "careers")
+	public List<Offer> getOffers() {
+		return offers;
+	}
+
+	public void setOffers(List<Offer> offers) {
+		this.offers = offers;
 	}
 }

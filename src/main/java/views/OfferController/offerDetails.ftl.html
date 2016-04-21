@@ -1,50 +1,55 @@
-<#import "../layout/defaultLayout.ftl.html" as layout> 
-<@layout.myLayout "Ofertas">  
+<#import "../layout/defaultLayout.ftl.html" as layout> <@layout.myLayout "Ofertas">
 
-<div class="container">
-	
-	
-	<div class="row">
-		<aside>
-			
-			<div class="col-xs-14 col-sm-12 col-md-12 col-lg-12">
-				<div class="row">
-					<div class="panel panel-default">
-						<div class="panel-heading">
-							<h3 class="panel-title">Panel title</h3>
-						</div>
-						<div class="panel-body">
-							Panel content
-						</div>
-					</div>
-				</div>
-			</div>
-		</aside>
+    <div class="container">
 
-		<section class="col-xs-18 col-sm-12 col-md-12 col-lg-12"> 
-			<div class="row">
-				<table class="table table-hover">
-					<thead>
-						<tr>
-							<th></th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td></td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
+        <div class="row">
+            <div class="col s12">
+                <div class="row">
+                    <h3>${selectedOffer.title}</h3>
+                    <h5>${selectedOffer.offerType.name} en ${selectedOffer.location}</h5>
+                    <div class="row">
+                        <div class="col s6">
+                            <i class="small material-icons">query_builder</i> ${selectedOffer.startDateInternship}
+                        </div>
+                        <div class="col s6">
 
-		</section>
-	</div>
-	
-	 
-		
-		
-	</div>
-</div>
-	
-	
+                            <#if selectedOffer.hasIncome>
+                                <div class="row">
+                                    Cuenta con  remuneración <i class="small material-icons">done</i>
+                                </div>
+                            </#if>
+                            <#if selectedOffer.hasLocomotion>
+                                <div class="row">
+                                Cuenta con  Locomoción <i class="small material-icons">done</i>
+                                </div>
+                            </#if>
+                            <#if selectedOffer.hasLunch>
+                                <div class="row">
+                                Cuenta con Casino <i class="small material-icons">done</i>
+                                </div>
+                            </#if>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col s12">
+                <ul class="collection">
+                    <li class="collection-item dismissable">
+                        <div id="summernote">
+
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            var texto = <#noescape>'${selectedOffer.description}';</#noescape>
+            console.log(texto);
+            $('#summernote').append(texto);
+        });
+    </script>
 </@layout.myLayout>

@@ -48,7 +48,7 @@
 		rgba(0,0,0,0.5),
 		rgba(0,0,0,0.5)
 	), url(/assets/images/barra.jpg) no-repeat top center;
-	height: 700px;
+	height: 100vh;
 	background-size: cover;
 	position:relative;
 }
@@ -62,11 +62,11 @@
 	color: white;	
 	
 }
-.title h1{
+/*.title h1{
 		
 	font-weight: 700;
 	font-size: 3em;
-}
+}*/
 
 @media only screen and (max-width: 320px) {
 
@@ -82,7 +82,130 @@
 	height : 600px;
 }
 
-body{
+/*body{
 	
 	font-family: 'Lato'
+}
+*/
+
+/*css modifications for materialize.css*/
+
+/*nav ul a, nav i,
+nav .brand-logo {
+  color: #444;
+}*/
+
+.page-footer {
+	margin-top: 0 !important ;
+}
+
+
+.info {
+    padding-left: 32px !important;
+    text-align: left;
+}
+
+
+
+
+
+
+
+.info .section-wrapper {
+    background-color: #ffffff;
+    overflow: hidden;
+    margin-bottom: 24px;
+    padding-bottom: 24px !important;
+}
+
+.info .section-wrapper .section-icon {
+    margin-top: 40px;
+}
+
+
+
+.profile-sidebar {
+    text-align: left;
+    color: #ffffff;
+    background-color: #5da4d9;
+    overflow: hidden;
+    display: block;
+}
+
+.profile-sidebar .icon {
+    margin-top: 40px;
+}
+
+.heading{
+	position: relative;
+}
+.profile-sidebar .heading .name {
+    position: absolute;
+    right: 11px;
+    bottom: 46px;
+}
+
+.container-general {
+    margin-top: 24px; 
+}
+
+.section span{
+	opacity: 0.7;
+}
+
+.margined-top{
+	
+	margin-top: 40px;
+}
+
+body{
+	background-color: #f2f2f2;
+	/* #eae8e7;*/ 
+}
+
+.chip.indigo{
+	color: #ffffff;
+}
+
+.collection .collection-item.active{
+
+	background-color: #ffffff;
+	color: rgba(0,0,0,0.87);
+}
+
+/*!** FIXES for error messages https://github.com/Dogfalo/materialize/issues/1562*!
+label {
+
+}*/
+.input-field label {
+	/*width: 100%;*/
+/*	font-size: 0.8rem;
+	-webkit-transform: translateY(-140%);
+	-moz-transform: translateY(-140%);
+	-ms-transform: translateY(-140%);
+	-o-transform: translateY(-140%);
+	transform: translateY(-140%);*/
+}
+
+label:after {
+	transition-property: all !important;
+	font-size: 0.8rem;
+	transform: none;
+}
+label:not(.active):after {
+	transform: translateY(-140%);
+}
+
+@media only screen and (max-width: 992px){
+	.info {
+	    text-align: center;
+	    margin-top: 30px;
+	    padding-left: 0.75rem !important;
+	
+	}
+
+	.profile-sidebar{
+
+		text-align: center;
+	}
 }
