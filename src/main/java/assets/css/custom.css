@@ -167,6 +167,35 @@ body{
 	color: #ffffff;
 }
 
+.collection .collection-item.active{
+
+	background-color: #ffffff;
+	color: rgba(0,0,0,0.87);
+}
+
+/*!** FIXES for error messages https://github.com/Dogfalo/materialize/issues/1562*!
+label {
+
+}*/
+.input-field label {
+	/*width: 100%;*/
+/*	font-size: 0.8rem;
+	-webkit-transform: translateY(-140%);
+	-moz-transform: translateY(-140%);
+	-ms-transform: translateY(-140%);
+	-o-transform: translateY(-140%);
+	transform: translateY(-140%);*/
+}
+
+label:after {
+	transition-property: all !important;
+	font-size: 0.8rem;
+	transform: none;
+}
+label:not(.active):after {
+	transform: translateY(-140%);
+}
+
 @media only screen and (max-width: 992px){
 	.info {
 	    text-align: center;

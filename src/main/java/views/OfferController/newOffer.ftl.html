@@ -1,5 +1,4 @@
 <#import "../layout/defaultLayout.ftl.html" as layout> <@layout.myLayout "Ofertas">
-
 <div class="container">
 
 
@@ -7,7 +6,7 @@
 
 		<div class="col s12">
 			<div class="card-panel  white margined-top">
-				<form action="/saveOffer" method="post" class="form-horizontal">
+				<form id="newOfferForm" action="/saveOffer" method="post" class="form-horizontal" novalidate>
 
 					<div class="row">
 						<div class="input-field col s12">
@@ -17,24 +16,24 @@
 					<div class="row">
 						<div class="input-field col s12">
 							<input placeholder="${i18n('offer.title.placeholder')}" id="title" name="title"  type="text"
-								   class="validate" required="" aria-required="true">
+								   class="validate" required aria-required="true">
 							<label for="title">${i18n("offer.title")}</label>
 						</div>
 					</div>
 					<div class="row">	
 						<div class="input-field col s12">
 							<textarea id="description" name="description" placeholder="${i18n('offer.description.placeholder')}"
-									  class="materialize-textarea validate" required="" aria-required="true"></textarea>
+									  class="validate" required="" aria-required="true"></textarea>
 							<label for="description">${i18n("offer.description")}</label>
 						</div>
 					</div>
 					<div class="row">
 						<div class="input-field col s6">
-							<input id="startDate" name="startDateInternship" type="date" class="datepicker" readonly="false" required="required">
+							<input id="startDate" name="startDateInternship" type="date" class="datepicker" readonly="false" required>
 							<label for="startDate">${i18n("offer.startDate")}</label>
 						</div>
 						<div class="input-field col s6">
-							<input id="endDate" name="endDate" type="date" class="datepicker">
+							<input id="endDate" name="endDate" type="date" class="datepicker" required>
 							<label for="endDate">${i18n("offer.endDate")}</label>
 						</div>
 					</div>
@@ -55,7 +54,7 @@
 					<div class="row">
 						<div class="input-field col s12">
 
-							<select name="offerTypeId" required="" class="validate" aria-required="true">
+							<select name="offerTypeId" class="validate" required>
 								<option value="" disabled selected>Seleccione</option>
 								<#list offerTypes as type>
 									<option value="${type.id}">${type.name}</option>
@@ -66,22 +65,20 @@
 					</div>
 					<div class="row">
 						<div class="input-field col s12">
-							<input type="text" id="offerLocation" name="location" required=""
+							<input type="text" id="offerLocation" name="location" required
                                    class="validate" aria-required="true"/>
 							<label for="offerLocation">${i18n("offer.location")}</label>
 						</div>
 					</div>
 					<div class="row">
 						<div class="input-field col s12">
-							<input type="text" id="offerArea" name="area" required=""
-                                   class="validate" aria-required="true"/>
+							<input type="text" id="offerArea" name="area"/>
 							<label for="offerArea">${i18n("offer.area")}</label>
 						</div>
 					</div>
 					<div class="row">
 						<div class="input-field col s12">
-							<input type="text" id="offerPosition" name="position" required=""
-                                   class="validate" aria-required="true"/>
+							<input type="text" id="offerPosition" name="position"/>
 							<label for="offerPosition">${i18n("offer.position")}</label>
 						</div>
 					</div>
@@ -94,7 +91,7 @@
 
 					<div class="row">
 						<div class="input-field col s12">
-							<select name="careers" multiple>
+							<select name="careers" multiple required>
 								<option value="" disabled selected>Seleccione</option>
 								<#list careers as career>
 									<option value="${career.careerId}">${career.careerName}</option>
@@ -103,10 +100,13 @@
 							<label>${i18n("offer.career")}</label>
 						</div>
 					</div>
-					<div class="row">
-						<div class="input-field col s12">
-							<input type="text" id="offerLevelRequired" name="levelRequired"/>
+					<div class="row valign-wrapper">
+						<div class="input-field col s6">
+							<input type="number" id="offerLevelRequired" name="levelRequired" min="1" max="12"/>
 							<label for="offerLevelRequired">${i18n("offer.levelRequired")}</label>
+						</div>
+						<div class="col s6">
+							<span class="valign">Semestre</span>
 						</div>
 					</div>
 					<div class="row">
@@ -172,7 +172,59 @@
 	$(document).ready(function() {
 		$('select').material_select();
 //		$('label').addClass('active');
+		$('#description').materialnote();
 	});
+
+	// Extension pour comptabilité avec materialize.css
+	$.validator.setDefaults({
+		errorClass: 'invalid',
+		validClass: "valid",
+		errorPlacement: function (error, element) {
+			$(element)
+					.closest("form")
+					.find("label[for='" + element.attr("id") + "']")
+					.attr('data-error', error.text());
+
+		},
+		submitHandler: function (form) {
+			console.log('form ok');
+		}
+	});
+
+	$('form').on('submit',function(e){
+		$(".error_note").remove();
+		var select = $(this).find('select,textarea').filter("[required]");
+		$.each(select , function(index, elm){
+			val = $(this).val();
+			target = $(this).closest('.input-field');
+			if (typeof target !== "undefined") {
+				input_target = target.find('input.select-dropdown');
+				if(input_target.length == 0){
+					input_target = target.find('.note-editor');
+				}
+				if (typeof input_target !== "undefined") {
+					if(val == '' || val == false || val == 0 || val == null){
+
+						input_target.css({'border-color':'rgb(234, 69, 75)','box-shadow':'0 1px 0 0 #EA454B'});
+						input_target.after('<span class="error_note" style="color: #EA454B;font-size: 12px;">${i18n("newOffer.fillThisField")}</span>');
+
+						$('html,body').animate({ scrollTop: $("body").offset().top},'slow' );
+						e.preventDefault();
+
+					}else{
+						input_target.css({'border-color':'#9e9e9e', 'box-shadow':''});
+					}
+
+				}
+			}
+		});
+	});
+
+
+	$('#newOfferForm').validate();
+
+
+
 </script>
 
 </@layout.myLayout>
