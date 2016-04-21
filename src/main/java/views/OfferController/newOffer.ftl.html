@@ -23,7 +23,7 @@
 					<div class="row">	
 						<div class="input-field col s12">
 							<textarea id="description" name="description" placeholder="${i18n('offer.description.placeholder')}"
-									  class="validate" ></textarea>
+									  class="validate" required="" aria-required="true"></textarea>
 							<label for="description">${i18n("offer.description")}</label>
 						</div>
 					</div>
@@ -185,9 +185,6 @@
 					.find("label[for='" + element.attr("id") + "']")
 					.attr('data-error', error.text());
 
-		},
-		submitHandler: function (form) {
-			console.log('form ok');
 		}
 	});
 
