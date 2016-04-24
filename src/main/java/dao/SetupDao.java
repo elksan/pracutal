@@ -7,13 +7,10 @@ import com.google.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
-import models.Article;
 import models.User;
 
 import com.google.inject.Provider;
 import com.google.inject.persist.Transactional;
-import javax.persistence.FlushModeType;
-
 public class SetupDao {
     
     @Inject

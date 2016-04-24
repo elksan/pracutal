@@ -46,6 +46,8 @@ public class OfferDaoImpl implements OfferDao{
         }
 		for(Offer offer : offers) {
 			Hibernate.initialize(offer.getOfferType());
+			if(offer.getOrganization() != null)
+				Hibernate.initialize(offer.getOrganization().getUser());
 		}
 
 		return offers;
@@ -128,6 +130,14 @@ public class OfferDaoImpl implements OfferDao{
 		OfferType offerType = entityManager.find(OfferType.class, offerId);
 
 		return offerType;
+	}
+
+	@Transactional
+	public void deleteOffer(int offerId) {
+
+		EntityManager entityManager = entityManagerProvider.get();
+		Offer offer = entityManager.find(Offer.class, offerId);
+		entityManager.remove(offer);
 	}
 
 	@UnitOfWork

@@ -2,10 +2,12 @@ package services.impl;
 
 import com.google.inject.Inject;
 import dao.OfferDao;
+import dao.UserDao;
 import dao.impl.UserDaoImpl;
 import models.Career;
 import models.Offer;
 import models.OfferType;
+import models.Organization;
 import ninja.i18n.Lang;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,6 +25,9 @@ Logger logger = LoggerFactory.getLogger(UserDaoImpl.class);
     
     @Inject
     OfferDao offerDao;
+
+	@Inject
+	UserDao userDao;
     
     @Inject
     Lang lang;
@@ -50,6 +55,8 @@ Logger logger = LoggerFactory.getLogger(UserDaoImpl.class);
 		List<Career> careers = offerDao.getCareers(offerVo.getCareers());
 		offer.setCareers(careers);
 
+		Organization organization = userDao.getOrganizationById(offerVo.getOrganizationId());
+		offer.setOrganization(organization);
 
 		SimpleDateFormat formatter = new SimpleDateFormat("d MMMM, yyyy", Locale.forLanguageTag("es-CL"));
 		try {
@@ -76,5 +83,10 @@ Logger logger = LoggerFactory.getLogger(UserDaoImpl.class);
 
 	public List<OfferType> getOfferTypes() {
 		return offerDao.getOfferTypes();
+	}
+
+	public void deleteOffer(int offerId) {
+
+		offerDao.deleteOffer(offerId);
 	}
 }

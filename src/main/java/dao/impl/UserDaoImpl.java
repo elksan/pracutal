@@ -20,6 +20,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
+import models.Organization;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -98,6 +99,8 @@ public class UserDaoImpl implements UserDao {
     		logger.debug("user logged = " + user.getEmail());
     		if(user.getStudent() != null && user.getStudent().getCareer() != null)
     			logger.debug("careerName = " + user.getStudent().getCareer().getCareerName());
+
+			logger.debug("user role = " + user.getRoles().get(0));
     		
     	}catch(NoResultException nre){
     		
@@ -109,5 +112,26 @@ public class UserDaoImpl implements UserDao {
     	return user;
     	
     }
+
+	@UnitOfWork
+	public Organization getOrganizationById(int organizationId) {
+
+		EntityManager entityManager = entityManagerProvider.get();
+		Organization organization = null;
+		try{
+			organization = entityManager.find(Organization.class, organizationId);
+
+
+		}catch(NoResultException nre){
+
+
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+
+		return organization;
+
+	}
+
 
 }

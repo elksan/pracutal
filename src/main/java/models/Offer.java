@@ -12,8 +12,9 @@ import vo.OfferVO;
 @Table(name = "offer")
 public class Offer implements Serializable {
 
-	private Integer organizationId;
+	//private Integer organizationId;
 	private Date createdAt;
+	private Date updatedAt;
 	private String description;
 	private boolean disabled;
 	private String duration;
@@ -37,6 +38,7 @@ public class Offer implements Serializable {
 	private String title;
 	private OfferType offerType;
 	private List<Career> careers;
+	private Organization organization;
 	
 	public Offer() {
 		
@@ -44,7 +46,7 @@ public class Offer implements Serializable {
 	
 	public Offer(OfferVO offerVO) {
 		super();
-		this.organizationId = offerVO.getOrganizationId();
+		//this.organizationId = offerVO.getOrganizationId();
 		this.createdAt = offerVO.getCreatedAt();
 		this.description = offerVO.getDescription();
 		this.disabled = offerVO.isDisabled();
@@ -65,13 +67,13 @@ public class Offer implements Serializable {
 		this.location = offerVO.getLocation();
 		this.title = offerVO.getTitle();
 	}
-	@Column(name="organization_id")
+	/*@Column(name="organization_id")
 	public Integer getOrganizationId() {
 		return organizationId;
 	}
 	public void setOrganizationId(Integer organizationId) {
 		this.organizationId = organizationId;
-	}
+	}*/
 	
 	@Column(name="created_at")
 	public Date getCreatedAt() {
@@ -229,6 +231,15 @@ public class Offer implements Serializable {
 		this.title = title;
 	}
 
+	@Column(name = "updated_at")
+	public Date getUpdatedAt() {
+		return updatedAt;
+	}
+
+	public void setUpdatedAt(Date updatedAt) {
+		this.updatedAt = updatedAt;
+	}
+
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="offer_type_id", unique=true, nullable=false)
 	public OfferType getOfferType() {
@@ -248,4 +259,27 @@ public class Offer implements Serializable {
 	public void setCareers(List<Career> careers) {
 		this.careers = careers;
 	}
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "organization_id")
+	public Organization getOrganization() {
+		return organization;
+	}
+
+	public void setOrganization(Organization organization) {
+		this.organization = organization;
+	}
+
+
+	@PrePersist
+	protected void onCreate() {
+		createdAt = new Date();
+	}
+
+	@PreUpdate
+	protected void onUpdate() {
+		 updatedAt = new Date();
+	}
+
+
 }

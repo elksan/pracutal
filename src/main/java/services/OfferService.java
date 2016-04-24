@@ -9,9 +9,10 @@ import vo.OfferVO;
 
 public interface OfferService {
 
-	public List<Offer> getAllOffers();
-	public Offer findOfferById(int offerId);
-	public void saveOffer(OfferVO offerVo);
-	public List<Career> getCareers();
-	public List<OfferType> getOfferTypes();
+	List<Offer> getAllOffers();
+	Offer findOfferById(int offerId);
+	void saveOffer(OfferVO offerVo);
+	List<Career> getCareers();
+	List<OfferType> getOfferTypes();
+	void deleteOffer(int offerId);
 }

@@ -16,4 +16,5 @@ public interface OfferDao {
 	List<Career> getCareers(List<Integer> careerIds);
 	List<OfferType> getOfferTypes();
 	OfferType getOfferType(int offerId);
+	void deleteOffer(int offerId);
 }

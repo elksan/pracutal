@@ -48,7 +48,7 @@ public class OfferVO {
 
 	public OfferVO(Offer offer) {
 
-		this.organizationId = offer.getOrganizationId();
+		this.organizationId = offer.getOrganization().getId();
 		this.createdAt = offer.getCreatedAt();
 		this.description = offer.getDescription();
 		this.disabled = offer.isDisabled();

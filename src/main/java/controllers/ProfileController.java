@@ -22,6 +22,9 @@ public class ProfileController {
 			
 			result = Results.html();
 			result.render(user);
+
+			session.put("role", user.getRoles().get(0).getId().toString());
+			session.put("userId", user.getId().toString());
 		
 		
 		

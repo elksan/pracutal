@@ -60,7 +60,8 @@ public class LoginLogoutController {
             
             return Results.redirect("/profile");
             
-        } else {
+        }
+        else {
             
             // something is wrong with the input or password not found.
         	flashScope.error("login.errorLogin");
@@ -83,8 +84,7 @@ public class LoginLogoutController {
         session.clear();
         flashScope.success("login.logoutSuccessful");
 
-//        return Results.redirect("/");
-        return Results.html();
+        return Results.redirect("/");
 
     }
 

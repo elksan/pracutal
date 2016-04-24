@@ -4,6 +4,7 @@ import java.util.List;
 
 import models.Career;
 import models.OfferType;
+import ninja.Router;
 import org.hibernate.Hibernate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,22 +24,23 @@ public class OfferController {
 
 	@Inject
 	OfferService offerService;
+
+	@Inject
+	Router router;
 	
 	Logger logger = LoggerFactory.getLogger(OfferController.class);
 		
 	
 	public Result offers(Session session){
-		
-		OffersDto offersDto = new OffersDto();
-		
-		offersDto.offers = offerService.getAllOffers();
-		List<Offer> offers = offersDto.offers;
 
-		logger.debug(String.valueOf(offersDto.offers.size()));
+		List<Offer> offers = offerService.getAllOffers();
 
-		if(!offersDto.offers.isEmpty())
-			logger.debug(String.valueOf(offersDto.offers.get(0).getDescription()));
+		logger.debug(String.valueOf(offers.size()));
 
+		if(!offers.isEmpty()) {
+			logger.debug(String.valueOf(offers.get(0).getDescription()));
+
+		}
 		List<OfferType> offerTypes = offerService.getOfferTypes();
 
 		Result result = Results.html();
@@ -71,15 +73,21 @@ public class OfferController {
 
         logger.debug("OFERTYPE>>>>>> " + offer.getOfferType());
 
+		offer.setOrganizationId(Integer.parseInt(session.get("userId")));
+
 		offerService.saveOffer(offer);
 
-		List<Offer> offers = offerService.getAllOffers();
-        List<OfferType> offerTypes = offerService.getOfferTypes();
-
-        Result result = Results.html();
-        result.render("offers", offers);
-        result.render("offerTypes", offerTypes);
-
-		return result.template("/views/OfferController/offers.ftl.html");
+		return Results.redirect("/offers");
 	}
+
+	public Result deleteOffer(Session session, @PathParam("offerId") int offerId){
+
+		logger.info("deleting offer, id: " + offerId);
+
+		offerService.deleteOffer(offerId);
+
+		return Results.redirect("/offers");
+	}
+
+
 }
