@@ -61,13 +61,13 @@ Logger logger = LoggerFactory.getLogger(UserDaoImpl.class);
 		SimpleDateFormat formatter = new SimpleDateFormat("d MMMM, yyyy", Locale.forLanguageTag("es-CL"));
 		try {
 			offer.setStartDateInternship(formatter.parse(offerVo.getStartDateInternship()));
-			offer.setEndDate(formatter.parse(offerVo.getEndDate()));
+			offer.setEndDateInternship(formatter.parse(offerVo.getEndDate()));
 
 			logger.debug("startDate: " + offer.getStartDateInternship() );
 			logger.debug("startDate: " + formatter.format(offer.getStartDateInternship()));
 
-			logger.debug("endDate: " + offer.getEndDate() );
-			logger.debug("endDate: " + formatter.format(offer.getEndDate()));
+			logger.debug("endDate: " + offer.getEndDateInternship() );
+			logger.debug("endDate: " + formatter.format(offer.getEndDateInternship()));
 			offerDao.saveOffer(offer);
 
 		} catch (ParseException e) {
@@ -88,5 +88,37 @@ Logger logger = LoggerFactory.getLogger(UserDaoImpl.class);
 	public void deleteOffer(int offerId) {
 
 		offerDao.deleteOffer(offerId);
+	}
+
+	public void updateOffer(OfferVO offerVo) {
+
+		Offer offer = new Offer(offerVo);
+
+		OfferType offerType = offerDao.getOfferType(offerVo.getOfferTypeId());
+		offer.setOfferType(offerType);
+
+		List<Career> careers = offerDao.getCareers(offerVo.getCareers());
+		offer.setCareers(careers);
+
+		Organization organization = userDao.getOrganizationById(offerVo.getOrganizationId());
+		offer.setOrganization(organization);
+
+		SimpleDateFormat formatter = new SimpleDateFormat("d MMMM, yyyy", Locale.forLanguageTag("es-CL"));
+		try {
+			offer.setStartDateInternship(formatter.parse(offerVo.getStartDateInternship()));
+			offer.setEndDateInternship(formatter.parse(offerVo.getEndDate()));
+
+			logger.debug("startDate: " + offer.getStartDateInternship() );
+			logger.debug("startDate: " + formatter.format(offer.getStartDateInternship()));
+
+			logger.debug("endDate: " + offer.getEndDateInternship() );
+			logger.debug("endDate: " + formatter.format(offer.getEndDateInternship()));
+			offerDao.updateOffer(offer);
+
+		} catch (ParseException e) {
+			e.printStackTrace();
+			logger.error("Date could not be processed: " + offerVo.getStartDateInternship() + "or " + offerVo.getEndDate());
+		}
+
 	}
 }

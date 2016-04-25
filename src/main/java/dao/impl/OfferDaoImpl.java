@@ -20,6 +20,7 @@ import com.google.inject.persist.Transactional;
 import dao.OfferDao;
 import models.Offer;
 import ninja.jpa.UnitOfWork;
+import vo.OfferVO;
 
 public class OfferDaoImpl implements OfferDao{
 
@@ -138,6 +139,18 @@ public class OfferDaoImpl implements OfferDao{
 		EntityManager entityManager = entityManagerProvider.get();
 		Offer offer = entityManager.find(Offer.class, offerId);
 		entityManager.remove(offer);
+	}
+
+	@Transactional
+	public void updateOffer(Offer offer) {
+		try {
+			EntityManager entityManager = entityManagerProvider.get();
+			entityManager.merge(offer);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			logger.error(e.getMessage());
+		}
 	}
 
 	@UnitOfWork

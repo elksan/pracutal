@@ -67,6 +67,8 @@ public class Routes implements ApplicationRoutes {
         router.GET().route("/newoffer").with(OfferController.class, "newOffer");
         router.POST().route("/saveOffer").with(OfferController.class, "saveOffer");
         router.GET().route("/deleteOffer/{offerId}").with(OfferController.class, "deleteOffer");
+        router.GET().route("/editOffer/{offerId}").with(OfferController.class, "editOffer");
+        router.POST().route("/updateOffer").with(OfferController.class, "updateOffer");
         router.GET().route("/admin").with(AdminController.class, "menu");
  
         ///////////////////////////////////////////////////////////////////////

@@ -15,4 +15,5 @@ public interface OfferService {
 	List<Career> getCareers();
 	List<OfferType> getOfferTypes();
 	void deleteOffer(int offerId);
+	void updateOffer(OfferVO offer);
 }

@@ -34,23 +34,28 @@
                                     </p>
 
                                 </div>
-                                <div class="col s2">
+                                <div class="col s3">
 
                                         <div class="chip indigo">
                                             ${offer.offerType.name}
                                         </div>
 
                                 </div>
-                                <div class="col s2">
+                                <div class="col s1">
 
                                     <div class="row" >
                                         <a href="/offerDetails/${offer.id}">
                                             <i class="material-icons right">details</i>
                                         </a>
                                     </div>
-                                    <div class="row" style="margin-bottom: 0px">
+                                    <div class="row">
                                         <a href="/deleteOffer/${offer.id}" class="">
                                             <i class="material-icons right">delete</i>
+                                        </a>
+                                    </div>
+                                    <div class="row" style="margin-bottom: 0px">
+                                        <a href="/editOffer/${offer.id}" class="">
+                                            <i class="material-icons right">edit</i>
                                         </a>
                                     </div>
                                 </div>
