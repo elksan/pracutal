@@ -21,7 +21,7 @@
             <div>
                 <ul class="collection z-depth-1">
                     <#list offers as offer>
-                        <li class="collection-item avatar">
+                        <li id="offerBlock" class="collection-item avatar">
                             <div class="row">
                                 <div class="col s1">
                                     <img src="https://www.google.com.pg/images/branding/googleg/1x/googleg_standard_color_128dp.png" alt="" class="circle">
@@ -34,42 +34,25 @@
                                     </p>
 
                                 </div>
-                                <div class="col s3">
+                                <div class="col s4">
 
                                         <div class="chip indigo">
                                             ${offer.offerType.name}
                                         </div>
 
                                 </div>
-                                <div class="col s1">
 
-                                    <div class="row" >
-                                        <a href="/offerDetails/${offer.id}">
-                                            <i class="material-icons right">details</i>
+                                    <div class="fixed-action-btn horizontal " >
+                                        <a class="btn-floating btn-large red">
+                                            <i class="material-icons">menu</i>
                                         </a>
+                                        <ul>
+                                            <li><a href="/offerDetails/${offer.id}" class="btn-floating green"><i class="material-icons right">details</i></a></li>
+                                            <li> <a href="/deleteOffer/${offer.id}" class="btn-floating yellow"><i class="material-icons right">delete</i></a></li>
+                                            <li><a href="/editOffer/${offer.id}" class="btn-floating blue"><i class="material-icons right">edit</i></a></li>
+
+                                        </ul>
                                     </div>
-                                    <div class="row">
-                                        <a href="/deleteOffer/${offer.id}" class="">
-                                            <i class="material-icons right">delete</i>
-                                        </a>
-                                    </div>
-                                    <div class="row" style="margin-bottom: 0px">
-                                        <a href="/editOffer/${offer.id}" class="">
-                                            <i class="material-icons right">edit</i>
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="fixed-action-btn horizontal click-to-toggle" style="bottom: 45px; right: 24px;">
-                                    <a class="btn-floating btn-large red">
-                                        <i class="material-icons">menu</i>
-                                    </a>
-                                    <ul>
-                                        <li><a class="btn-floating red"><i class="material-icons">insert_chart</i></a></li>
-                                        <li><a class="btn-floating yellow darken-1"><i class="material-icons">format_quote</i></a></li>
-                                        <li><a class="btn-floating green"><i class="material-icons">publish</i></a></li>
-                                        <li><a class="btn-floating blue"><i class="material-icons">attach_file</i></a></li>
-                                    </ul>
-                                </div>
                             </div>
                         </li>
                     <#else>

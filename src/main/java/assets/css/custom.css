@@ -173,7 +173,7 @@ body{
 	color: rgba(0,0,0,0.87);
 }
 
-.fixed-action-btn{
+#offerBlock .fixed-action-btn{
 	position: static !important;
 }
 
