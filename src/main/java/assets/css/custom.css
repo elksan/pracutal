@@ -173,6 +173,10 @@ body{
 	color: rgba(0,0,0,0.87);
 }
 
+.fixed-action-btn{
+	position: static !important;
+}
+
 /*!** FIXES for error messages https://github.com/Dogfalo/materialize/issues/1562*!
 label {
 
