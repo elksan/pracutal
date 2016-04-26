@@ -1,6 +1,7 @@
 package services.impl;
 
 import com.google.inject.Inject;
+import com.google.inject.persist.Transactional;
 import dao.OfferDao;
 import dao.UserDao;
 import dao.impl.UserDaoImpl;
@@ -9,6 +10,7 @@ import models.Offer;
 import models.OfferType;
 import models.Organization;
 import ninja.i18n.Lang;
+import ninja.jpa.UnitOfWork;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import services.OfferService;
@@ -31,19 +33,21 @@ Logger logger = LoggerFactory.getLogger(UserDaoImpl.class);
     
     @Inject
     Lang lang;
-    
+
+	@UnitOfWork
 	public List<Offer> getAllOffers() {
 
 		return offerDao.getAllOffers();
 		
 	}
-	
+	@UnitOfWork
 	public Offer findOfferById(int offerId) {
 
 		return offerDao.findOfferById(offerId);
 		
 	}
 
+	@Transactional
 	public void saveOffer(OfferVO offerVo) {
 
 
@@ -77,19 +81,23 @@ Logger logger = LoggerFactory.getLogger(UserDaoImpl.class);
 		
 	}
 
+	@UnitOfWork
 	public List<Career> getCareers() {
 		return offerDao.getCareers();
 	}
 
+	@UnitOfWork
 	public List<OfferType> getOfferTypes() {
 		return offerDao.getOfferTypes();
 	}
 
+	@Transactional
 	public void deleteOffer(int offerId) {
 
 		offerDao.deleteOffer(offerId);
 	}
 
+	@Transactional
 	public void updateOffer(OfferVO offerVo) {
 
 		Offer offer = new Offer(offerVo);
@@ -120,5 +128,14 @@ Logger logger = LoggerFactory.getLogger(UserDaoImpl.class);
 			logger.error("Date could not be processed: " + offerVo.getStartDateInternship() + "or " + offerVo.getEndDate());
 		}
 
+	}
+
+	@Transactional
+	public void approveOffer(int offerId){
+
+		Offer offer = offerDao.findOfferById(offerId);
+		offer.setApproved(true);
+
+		offerDao.updateOffer(offer);
 	}
 }

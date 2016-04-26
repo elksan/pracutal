@@ -39,7 +39,7 @@ public class UserDaoImpl implements UserDao {
     @Inject
     Provider<EntityManager> entityManagerProvider;
     
-    @UnitOfWork
+
     public boolean isUserAndPasswordValid(String username, String password) {
         
         if (username != null && password != null) {
@@ -79,7 +79,7 @@ public class UserDaoImpl implements UserDao {
  
     }
     
-    @UnitOfWork
+
     public User getUserById(String userId){
 		
     	if (userId == null){
@@ -113,7 +113,7 @@ public class UserDaoImpl implements UserDao {
     	
     }
 
-	@UnitOfWork
+
 	public Organization getOrganizationById(int organizationId) {
 
 		EntityManager entityManager = entityManagerProvider.get();

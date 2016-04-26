@@ -55,7 +55,6 @@ public class LoginLogoutController {
         if (isUserNameAndPasswordValid) {
         	
             session.put("username", username);
-            session.put("isAdmin", "true");
             flashScope.success("login.loginSuccessful");
             
             return Results.redirect("/profile");
@@ -82,7 +81,6 @@ public class LoginLogoutController {
         
         // remove any user dependent information    	
         session.clear();
-        flashScope.success("login.logoutSuccessful");
 
         return Results.redirect("/");
 

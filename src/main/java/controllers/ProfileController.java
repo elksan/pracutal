@@ -2,12 +2,17 @@ package controllers;
 
 import com.google.inject.Inject;
 
+import com.google.inject.Singleton;
 import models.User;
+import ninja.FilterWith;
 import ninja.Result;
 import ninja.Results;
+import ninja.SecureFilter;
 import ninja.session.Session;
 import services.UserService;
 
+@Singleton
+@FilterWith(SecureFilter.class)
 public class ProfileController {
 
 	@Inject

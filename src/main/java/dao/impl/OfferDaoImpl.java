@@ -29,7 +29,7 @@ public class OfferDaoImpl implements OfferDao{
     @Inject
     Provider<EntityManager> entityManagerProvider;
     
-    @UnitOfWork
+
 	public List<Offer> getAllOffers() {
 		
 		
@@ -54,7 +54,7 @@ public class OfferDaoImpl implements OfferDao{
 		return offers;
 	}
 	
-    @UnitOfWork
+
 	public Offer findOfferById(int offerId){
 		
 		EntityManager entityManager = entityManagerProvider.get();
@@ -67,7 +67,7 @@ public class OfferDaoImpl implements OfferDao{
 		return offer;
 	}
 
-    @Transactional
+
 	public void saveOffer(Offer offer) {
 		try {
 			EntityManager entityManager = entityManagerProvider.get();
@@ -80,7 +80,7 @@ public class OfferDaoImpl implements OfferDao{
 		
 	}
 
-	@UnitOfWork
+
 	public List<Career> getCareers() {
 		EntityManager entityManager = entityManagerProvider.get();
 
@@ -100,7 +100,7 @@ public class OfferDaoImpl implements OfferDao{
 
 	}
 
-	@UnitOfWork
+
 	public List<OfferType> getOfferTypes() {
 
 		EntityManager entityManager = entityManagerProvider.get();
@@ -125,7 +125,7 @@ public class OfferDaoImpl implements OfferDao{
 
 	}
 
-	@UnitOfWork
+
 	public OfferType getOfferType(int offerId) {
 		EntityManager entityManager = entityManagerProvider.get();
 		OfferType offerType = entityManager.find(OfferType.class, offerId);
@@ -133,7 +133,7 @@ public class OfferDaoImpl implements OfferDao{
 		return offerType;
 	}
 
-	@Transactional
+
 	public void deleteOffer(int offerId) {
 
 		EntityManager entityManager = entityManagerProvider.get();
@@ -141,7 +141,7 @@ public class OfferDaoImpl implements OfferDao{
 		entityManager.remove(offer);
 	}
 
-	@Transactional
+
 	public void updateOffer(Offer offer) {
 		try {
 			EntityManager entityManager = entityManagerProvider.get();
@@ -153,7 +153,7 @@ public class OfferDaoImpl implements OfferDao{
 		}
 	}
 
-	@UnitOfWork
+
 	public List<Career> getCareers(List<Integer> careerIds) {
 		EntityManager entityManager = entityManagerProvider.get();
 

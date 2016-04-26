@@ -49,6 +49,7 @@ public class OfferController {
 
 	public Result offerDetails(Session session, @PathParam("offerId") int offerId){
 
+		this.offerId = offerId;
 		Offer selectedOffer = offerService.findOfferById(offerId);
         OfferVO offerVO = new OfferVO(selectedOffer);
 		return Results.html().render("selectedOffer", offerVO);
@@ -113,6 +114,15 @@ public class OfferController {
 		logger.info("deleting offer, id: " + offerId);
 
 		offerService.deleteOffer(offerId);
+
+		return Results.redirect("/offers");
+	}
+
+	public Result approveOffer(Session session){
+
+		logger.info("approving offer, id: " + offerId);
+
+		offerService.approveOffer(offerId);
 
 		return Results.redirect("/offers");
 	}

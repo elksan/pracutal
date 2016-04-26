@@ -12,19 +12,21 @@ public class UserServiceImpl implements UserService {
 
 	@Inject
 	UserDao userDao;
-	
+
+	@UnitOfWork
 	public boolean isUserAndPasswordValid(String username, String password) {
 
 		return userDao.isUserAndPasswordValid(username, password);
 		
 	}
 
-
+	@UnitOfWork
 	public User getUserById(String username) {
 		
 		return userDao.getUserById(username);
 	}
 
+	@UnitOfWork
 	public Organization getOrganizationById(int organizationId) {
 		return userDao.getOrganizationById(organizationId);
 	}

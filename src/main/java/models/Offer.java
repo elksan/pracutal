@@ -41,6 +41,7 @@ public class Offer implements Serializable {
 	private List<Career> careers;
 	private Organization organization;
 	private String language;
+	private boolean approved;
 	
 	public Offer() {
 		
@@ -69,6 +70,7 @@ public class Offer implements Serializable {
 		this.position = offerVO.getPosition();
 		this.minimalLevelRequired = offerVO.getMinimalLevelRequired();
 		this.language = offerVO.getLanguage();
+		this.approved = offerVO.isApproved();
 	}
 
 	@Column(name="created_at", updatable = false)
@@ -301,4 +303,11 @@ public class Offer implements Serializable {
 	}
 
 
+	public boolean isApproved() {
+		return approved;
+	}
+
+	public void setApproved(boolean approved) {
+		this.approved = approved;
+	}
 }

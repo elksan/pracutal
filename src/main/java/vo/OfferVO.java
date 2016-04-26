@@ -43,6 +43,7 @@ public class OfferVO {
 	private String position;
 	private Integer minimalLevelRequired;
 	private String language;
+	private boolean approved;
 
 	public OfferVO() {
 	}
@@ -78,6 +79,7 @@ public class OfferVO {
 		this.position = offer.getPosition();
 		this.minimalLevelRequired = offer.getMinimalLevelRequired();
 		this.language = offer.getLanguage();
+		this.approved = offer.isApproved();
 	}
 
 	public String parseDate(Date fecha) {
@@ -303,5 +305,13 @@ public class OfferVO {
 
 	public void setLanguage(String language) {
 		this.language = language;
+	}
+
+	public boolean isApproved() {
+		return approved;
+	}
+
+	public void setApproved(boolean approved) {
+		this.approved = approved;
 	}
 }
