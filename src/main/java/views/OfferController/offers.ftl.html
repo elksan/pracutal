@@ -6,8 +6,12 @@
 	<div class="row">
         <div class="col s12 m4 l3">
             <div id="aside">
-                <br/>
-                <a href="/newoffer" class="waves-effect waves-light btn-large">Nueva Oferta</a>
+                <#if session.role == "2"|| session.role == "1">
+                    <br/>
+                    <a href="/newoffer" class="waves-effect waves-light btn-large">Nueva Oferta</a>
+
+                </#if>
+
 
                 <div class="collection z-depth-1">
                     <#list offerTypes as offerType>
@@ -48,8 +52,10 @@
                                         </a>
                                         <ul>
                                             <li><a href="/offerDetails/${offer.id}" class="btn-floating green"><i class="material-icons right">details</i></a></li>
-                                            <li> <a href="/deleteOffer/${offer.id}" class="btn-floating yellow"><i class="material-icons right">delete</i></a></li>
-                                            <li><a href="/editOffer/${offer.id}" class="btn-floating blue"><i class="material-icons right">edit</i></a></li>
+                                            <#if session.role == "1" || session.role == "2">
+                                                <li> <a href="/deleteOffer/${offer.id}" class="btn-floating yellow"><i class="material-icons right">delete</i></a></li>
+                                                <li><a href="/editOffer/${offer.id}" class="btn-floating blue"><i class="material-icons right">edit</i></a></li>
+                                            </#if>
 
                                         </ul>
                                     </div>
