@@ -16,6 +16,7 @@
 
 package controllers;
 
+import models.User;
 import ninja.Context;
 import ninja.Result;
 import ninja.Results;
@@ -55,12 +56,21 @@ public class LoginLogoutController {
         if (isUserNameAndPasswordValid) {
         	
             session.put("username", username);
-            session.put("isAdmin", "true");
             flashScope.success("login.loginSuccessful");
+
+            User user = userService.getUserById(username);
+
+            session.put("role", user.getRoles().get(0).getId().toString());
+            session.put("userId", user.getId().toString());
+
+
+            if(username.equalsIgnoreCase("admin"))
+                return Results.redirect("/admin");
+            else
+                return Results.redirect("/profile");
             
-            return Results.redirect("/profile");
-            
-        } else {
+        }
+        else {
             
             // something is wrong with the input or password not found.
         	flashScope.error("login.errorLogin");
@@ -81,10 +91,8 @@ public class LoginLogoutController {
         
         // remove any user dependent information    	
         session.clear();
-        flashScope.success("login.logoutSuccessful");
 
-//        return Results.redirect("/");
-        return Results.html();
+        return Results.redirect("/");
 
     }
 

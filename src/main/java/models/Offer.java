@@ -12,13 +12,13 @@ import vo.OfferVO;
 @Table(name = "offer")
 public class Offer implements Serializable {
 
-	private Integer organizationId;
+	//private Integer organizationId;
 	private Date createdAt;
+	private Date updatedAt;
 	private String description;
 	private boolean disabled;
 	private String duration;
 	private String email;
-	private Date endDate;
 	private boolean hasIncome;
 	private boolean hasLocomotion;
 	private boolean hasLunch;
@@ -26,17 +26,22 @@ public class Offer implements Serializable {
 	private Integer income;
 	private Integer locomotion;
 	private Integer lunch;
-	private String post;
-	private Integer quota;
 	private String requirements;
 	private Date startDateAvailable;
+	private Date endDateAvailable;
 	private Date startDateInternship;
+	private Date endDateInternship;
 	private String area;
 	private boolean available;
 	private String location;
 	private String title;
+	private String position;
+	private Integer minimalLevelRequired;
 	private OfferType offerType;
 	private List<Career> careers;
+	private Organization organization;
+	private String language;
+	private boolean approved;
 	
 	public Offer() {
 		
@@ -44,7 +49,7 @@ public class Offer implements Serializable {
 	
 	public Offer(OfferVO offerVO) {
 		super();
-		this.organizationId = offerVO.getOrganizationId();
+
 		this.createdAt = offerVO.getCreatedAt();
 		this.description = offerVO.getDescription();
 		this.disabled = offerVO.isDisabled();
@@ -57,23 +62,18 @@ public class Offer implements Serializable {
 		this.income = offerVO.getIncome();
 		this.locomotion = offerVO.getLocomotion();
 		this.lunch = offerVO.getLunch();
-		this.post = offerVO.getPost();
-		this.quota = offerVO.getQuota();
 		this.requirements = offerVO.getRequirements();
 		this.area = offerVO.getArea();
 		this.available = offerVO.isAvailable();
 		this.location = offerVO.getLocation();
 		this.title = offerVO.getTitle();
+		this.position = offerVO.getPosition();
+		this.minimalLevelRequired = offerVO.getMinimalLevelRequired();
+		this.language = offerVO.getLanguage();
+		this.approved = offerVO.isApproved();
 	}
-	@Column(name="organization_id")
-	public Integer getOrganizationId() {
-		return organizationId;
-	}
-	public void setOrganizationId(Integer organizationId) {
-		this.organizationId = organizationId;
-	}
-	
-	@Column(name="created_at")
+
+	@Column(name="created_at", updatable = false)
 	public Date getCreatedAt() {
 		return createdAt;
 	}
@@ -105,15 +105,7 @@ public class Offer implements Serializable {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
-	@Column(name="end_date")
-	public Date getEndDate() {
-		return endDate;
-	}
-	public void setEndDate(Date endDate) {
-		this.endDate = endDate;
-	}
-	
+
 	@Column(name="has_income")
 	public boolean isHasIncome() {
 		return hasIncome;
@@ -165,18 +157,6 @@ public class Offer implements Serializable {
 	public void setLunch(Integer lunch) {
 		this.lunch = lunch;
 	}
-	public String getPost() {
-		return post;
-	}
-	public void setPost(String post) {
-		this.post = post;
-	}
-	public Integer getQuota() {
-		return quota;
-	}
-	public void setQuota(Integer quota) {
-		this.quota = quota;
-	}
 	public String getRequirements() {
 		return requirements;
 	}
@@ -191,6 +171,14 @@ public class Offer implements Serializable {
 	public void setStartDateAvailable(Date startDateAvailable) {
 		this.startDateAvailable = startDateAvailable;
 	}
+
+	@Column(name = "end_date_available")
+	public Date getEndDateAvailable() {
+		return endDateAvailable;
+	}
+	public void setEndDateAvailable(Date endDateAvailable) {
+		this.endDateAvailable = endDateAvailable;
+	}
 	
 	@Column(name="start_date_internship")
 	public Date getStartDateInternship() {
@@ -199,6 +187,15 @@ public class Offer implements Serializable {
 	public void setStartDateInternship(Date startDateInternship) {
 		this.startDateInternship = startDateInternship;
 	}
+
+	@Column(name="end_date_internship")
+	public Date getEndDateInternship() {
+		return endDateInternship;
+	}
+	public void setEndDateInternship(Date endDate) {
+		this.endDateInternship = endDate;
+	}
+
 	public String getArea() {
 		return area;
 	}
@@ -229,6 +226,15 @@ public class Offer implements Serializable {
 		this.title = title;
 	}
 
+	@Column(name = "updated_at")
+	public Date getUpdatedAt() {
+		return updatedAt;
+	}
+
+	public void setUpdatedAt(Date updatedAt) {
+		this.updatedAt = updatedAt;
+	}
+
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="offer_type_id", unique=true, nullable=false)
 	public OfferType getOfferType() {
@@ -247,5 +253,61 @@ public class Offer implements Serializable {
 
 	public void setCareers(List<Career> careers) {
 		this.careers = careers;
+	}
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "organization_id")
+	public Organization getOrganization() {
+		return organization;
+	}
+
+	public void setOrganization(Organization organization) {
+		this.organization = organization;
+	}
+
+
+	@PrePersist
+	protected void onCreate() {
+		createdAt = new Date();
+	}
+
+	@PreUpdate
+	protected void onUpdate() {
+		 updatedAt = new Date();
+	}
+
+
+	public String getPosition() {
+		return position;
+	}
+
+	public void setPosition(String position) {
+		this.position = position;
+	}
+
+	@Column(name = "minimal_level_required")
+	public Integer getMinimalLevelRequired() {
+		return minimalLevelRequired;
+	}
+
+	public void setMinimalLevelRequired(Integer minimalLevelRequired) {
+		this.minimalLevelRequired = minimalLevelRequired;
+	}
+
+	public String getLanguage() {
+		return language;
+	}
+
+	public void setLanguage(String language) {
+		this.language = language;
+	}
+
+
+	public boolean isApproved() {
+		return approved;
+	}
+
+	public void setApproved(boolean approved) {
+		this.approved = approved;
 	}
 }

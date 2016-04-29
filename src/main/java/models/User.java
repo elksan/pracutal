@@ -1,6 +1,7 @@
 package models;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -16,7 +17,7 @@ import javax.persistence.OneToOne;
 @Entity
 public class User {
       
-    private Integer rut;
+    private Integer id;
     
     private String password;
     
@@ -49,8 +50,11 @@ public class User {
     private Date updatedAt;
     
     private Student student;
+
+	private Organization organization;
     
-    private Set<Role> roles;
+    private List<Role> roles;
+
     
     
     //private boolean isAdmin;
@@ -63,11 +67,11 @@ public class User {
                                                                                                 
     
 
-    public User(int rut, String password, String firstName, String lastName, Date createdAt, Date currentSignInAt,
+    public User(int id, String password, String firstName, String lastName, Date createdAt, Date currentSignInAt,
 			String currentSignInIp, String email, Date lastSignInAt, String lastSignInIp, Date rememberCreatedAt,
 			Date resetPasswordSentAt, String resetPasswordToken, int signInCount, Date updatedAt) {
 		super();
-		this.rut = rut;
+		this.id = id;
 		this.password = password;
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -84,13 +88,13 @@ public class User {
 		this.updatedAt = updatedAt;
 	}
 
-	@Id    
-	public Integer getRut() {
-		return rut;
+	@Id
+	public Integer getId() {
+		return id;
 	}
 
-	public void setRut(Integer rut) {
-		this.rut = rut;
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 	public String getPassword() {
@@ -217,6 +221,14 @@ public class User {
 		this.updatedAt = updatedAt;
 	}
 
+	@Column(name="mother_last_name")
+	public String getMotherLastName() {
+		return motherLastName;
+	}
+
+	public void setMotherLastName(String motherLastName) {
+		this.motherLastName = motherLastName;
+	}
 
 	@OneToOne(fetch=FetchType.LAZY, mappedBy="user")
 	public Student getStudent() {
@@ -226,25 +238,26 @@ public class User {
 		this.student = student;
 	}
 
+	@OneToOne(fetch=FetchType.LAZY, mappedBy="user")
+	public Organization getOrganization() {
+		return organization;
+	}
+
+	public void setOrganization(Organization organization) {
+		this.organization = organization;
+	}
+
 	@ManyToMany(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
 	@JoinTable(name = "role_user", joinColumns = {
-			@JoinColumn(name = "rut", nullable = false, updatable = false) }, 
+			@JoinColumn(name = "user_id", nullable = false, updatable = false) },
 			inverseJoinColumns = { @JoinColumn(name = "role_id", nullable = false, updatable = false) })
-	public Set<Role> getRoles() {
+	public List<Role> getRoles() {
 		return roles;
 	}
-	public void setRoles(Set<Role> roles) {
+	public void setRoles(List<Role> roles) {
 		this.roles = roles;
 	}
 
-	@Column(name="mother_last_name")
-	public String getMotherLastName() {
-		return motherLastName;
-	}
-
-	public void setMotherLastName(String motherLastName) {
-		this.motherLastName = motherLastName;
-	}
 
 
 }

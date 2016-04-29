@@ -5,6 +5,7 @@ import java.util.List;
 import models.Career;
 import models.Offer;
 import models.OfferType;
+import vo.OfferVO;
 
 public interface OfferDao {
 
@@ -16,4 +17,7 @@ public interface OfferDao {
 	List<Career> getCareers(List<Integer> careerIds);
 	List<OfferType> getOfferTypes();
 	OfferType getOfferType(int offerId);
+	void deleteOffer(int offerId);
+	void updateOffer(Offer offer);
+	List<Offer> getApprovedOffers(int userId);
 }

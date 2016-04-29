@@ -29,11 +29,10 @@ public class OfferVO {
 	private Integer income;
 	private Integer locomotion;
 	private Integer lunch;
-	private String post;
-	private Integer quota;
 	private String requirements;
 	private String startDateAvailable;
 	private String startDateInternship;
+	private String startDateInternshipEdit;
 	private String area;
 	private boolean available;
 	private Integer offerTypeId;
@@ -41,20 +40,24 @@ public class OfferVO {
 	private String location;
 	private List<Integer> careers;
 	private String title;
-
+	private String position;
+	private Integer minimalLevelRequired;
+	private String language;
+	private boolean approved;
 
 	public OfferVO() {
 	}
 
 	public OfferVO(Offer offer) {
 
-		this.organizationId = offer.getOrganizationId();
+		this.organizationId = offer.getOrganization().getId();
 		this.createdAt = offer.getCreatedAt();
 		this.description = offer.getDescription();
 		this.disabled = offer.isDisabled();
 		this.duration = offer.getDuration();
 		this.email = offer.getEmail();
-		this.endDate = isValid(offer.getEndDate()) ? parseDate(offer.getEndDate()) : "";
+		this.endDate = isValid(offer.getEndDateInternship()) ? parseDate(offer.getEndDateInternship()) : "";
+		this.endDate = isValid(offer.getEndDateInternship()) ? parseDateForEdit(offer.getEndDateInternship()) : "";
 		this.hasIncome = offer.isHasIncome();
 		this.hasLocomotion = offer.isHasLocomotion();
 		this.hasLunch = offer.isHasLunch();
@@ -62,11 +65,10 @@ public class OfferVO {
 		this.income = offer.getIncome();
 		this.locomotion = offer.getLocomotion();
 		this.lunch = offer.getLunch();
-		this.post = offer.getPost();
-		this.quota = offer.getQuota();
 		this.requirements = offer.getRequirements();
 		this.startDateAvailable = isValid(offer.getStartDateAvailable()) ? parseDate(offer.getStartDateAvailable()) : "";
 		this.startDateInternship = isValid(offer.getStartDateInternship()) ? parseDate(offer.getStartDateInternship()) : "";
+		this.startDateInternshipEdit = isValid(offer.getStartDateInternship()) ? parseDateForEdit(offer.getStartDateInternship()) : "";
 		this.area = offer.getArea();
 		this.available = offer.isAvailable();
 		this.offerType = offer.getOfferType();
@@ -74,11 +76,26 @@ public class OfferVO {
 		this.location = offer.getLocation();
 		this.careers = getCarrersIds(offer.getCareers());
 		this.title = offer.getTitle();
+		this.position = offer.getPosition();
+		this.minimalLevelRequired = offer.getMinimalLevelRequired();
+		this.language = offer.getLanguage();
+		this.approved = offer.isApproved();
 	}
 
 	public String parseDate(Date fecha) {
 		try {
-			SimpleDateFormat sdf = new SimpleDateFormat("d MMM, yyyy");
+			SimpleDateFormat sdf = new SimpleDateFormat("d MMMM, yyyy");
+			return sdf.format(fecha);
+		}
+		catch (Exception e){
+			logger.debug("ERROR AL PARSEAR LA FECHA!");
+			return "";
+		}
+	}
+
+	public String parseDateForEdit(Date fecha) {
+		try {
+			SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
 			return sdf.format(fecha);
 		}
 		catch (Exception e){
@@ -187,18 +204,6 @@ public class OfferVO {
 	public void setLunch(Integer lunch) {
 		this.lunch = lunch;
 	}
-	public String getPost() {
-		return post;
-	}
-	public void setPost(String post) {
-		this.post = post;
-	}
-	public Integer getQuota() {
-		return quota;
-	}
-	public void setQuota(Integer quota) {
-		this.quota = quota;
-	}
 	public String getRequirements() {
 		return requirements;
 	}
@@ -268,5 +273,45 @@ public class OfferVO {
 
 	public void setOfferType(OfferType offerType) {
 		this.offerType = offerType;
+	}
+
+	public String getStartDateInternshipEdit() {
+		return startDateInternshipEdit;
+	}
+
+	public void setStartDateInternshipEdit(String startDateInternshipEdit) {
+		this.startDateInternshipEdit = startDateInternshipEdit;
+	}
+
+	public String getPosition() {
+		return position;
+	}
+
+	public void setPosition(String position) {
+		this.position = position;
+	}
+
+	public Integer getMinimalLevelRequired() {
+		return minimalLevelRequired;
+	}
+
+	public void setMinimalLevelRequired(Integer minimalLevelRequired) {
+		this.minimalLevelRequired = minimalLevelRequired;
+	}
+
+	public String getLanguage() {
+		return language;
+	}
+
+	public void setLanguage(String language) {
+		this.language = language;
+	}
+
+	public boolean isApproved() {
+		return approved;
+	}
+
+	public void setApproved(boolean approved) {
+		this.approved = approved;
 	}
 }

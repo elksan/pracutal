@@ -20,6 +20,7 @@ import com.google.inject.persist.Transactional;
 import dao.OfferDao;
 import models.Offer;
 import ninja.jpa.UnitOfWork;
+import vo.OfferVO;
 
 public class OfferDaoImpl implements OfferDao{
 
@@ -28,7 +29,7 @@ public class OfferDaoImpl implements OfferDao{
     @Inject
     Provider<EntityManager> entityManagerProvider;
     
-    @UnitOfWork
+
 	public List<Offer> getAllOffers() {
 		
 		
@@ -36,7 +37,7 @@ public class OfferDaoImpl implements OfferDao{
 		
 		EntityManager entityManager = entityManagerProvider.get();
         
-        Query q = entityManager.createQuery("SELECT x FROM Offer x where disabled = false");
+        Query q = entityManager.createQuery("SELECT x FROM Offer x ");
 
         try{
         	offers = q.getResultList();
@@ -46,12 +47,13 @@ public class OfferDaoImpl implements OfferDao{
         }
 		for(Offer offer : offers) {
 			Hibernate.initialize(offer.getOfferType());
+			if(offer.getOrganization() != null)
+				Hibernate.initialize(offer.getOrganization().getUser());
 		}
 
 		return offers;
 	}
-	
-    @UnitOfWork
+
 	public Offer findOfferById(int offerId){
 		
 		EntityManager entityManager = entityManagerProvider.get();
@@ -64,7 +66,7 @@ public class OfferDaoImpl implements OfferDao{
 		return offer;
 	}
 
-    @Transactional
+
 	public void saveOffer(Offer offer) {
 		try {
 			EntityManager entityManager = entityManagerProvider.get();
@@ -77,7 +79,7 @@ public class OfferDaoImpl implements OfferDao{
 		
 	}
 
-	@UnitOfWork
+
 	public List<Career> getCareers() {
 		EntityManager entityManager = entityManagerProvider.get();
 
@@ -97,7 +99,7 @@ public class OfferDaoImpl implements OfferDao{
 
 	}
 
-	@UnitOfWork
+
 	public List<OfferType> getOfferTypes() {
 
 		EntityManager entityManager = entityManagerProvider.get();
@@ -122,7 +124,7 @@ public class OfferDaoImpl implements OfferDao{
 
 	}
 
-	@UnitOfWork
+
 	public OfferType getOfferType(int offerId) {
 		EntityManager entityManager = entityManagerProvider.get();
 		OfferType offerType = entityManager.find(OfferType.class, offerId);
@@ -130,7 +132,65 @@ public class OfferDaoImpl implements OfferDao{
 		return offerType;
 	}
 
-	@UnitOfWork
+
+	public void deleteOffer(int offerId) {
+
+		EntityManager entityManager = entityManagerProvider.get();
+		Offer offer = entityManager.find(Offer.class, offerId);
+		entityManager.remove(offer);
+	}
+
+
+	public void updateOffer(Offer offer) {
+		try {
+			EntityManager entityManager = entityManagerProvider.get();
+			entityManager.merge(offer);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			logger.error(e.getMessage());
+		}
+	}
+
+	@Override
+	public List<Offer> getApprovedOffers(int userId) {
+
+		List<Offer> approvedOffers = new ArrayList<Offer>();
+
+		EntityManager entityManager = entityManagerProvider.get();
+
+		Query q = entityManager.createQuery("SELECT X FROM Offer X where disabled = false and approved = true");
+
+
+		Query q2 = entityManager.createQuery("FROM Offer X where organization.id = :userId");
+		q2.setParameter("userId", userId);
+
+		try{
+			approvedOffers = q.getResultList();
+
+			List<Offer> userOffers = q2.getResultList();
+
+			for(Offer userOffer : userOffers){
+
+				if(!approvedOffers.contains(userOffer)){
+					approvedOffers.add(userOffer);
+				}
+			}
+		}
+		catch(NoResultException nrex){
+			logger.warn("No result in getApprovedOffers");
+			logger.warn(nrex.getMessage());
+		}
+		for(Offer offer : approvedOffers) {
+			Hibernate.initialize(offer.getOfferType());
+			if(offer.getOrganization() != null)
+				Hibernate.initialize(offer.getOrganization().getUser());
+		}
+
+		return approvedOffers;
+	}
+
+
 	public List<Career> getCareers(List<Integer> careerIds) {
 		EntityManager entityManager = entityManagerProvider.get();
 

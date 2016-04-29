@@ -23,13 +23,9 @@ import ninja.Results;
 
 import com.google.inject.Inject;
 
-import dao.ArticleDao;
 import dao.SetupDao;
 
 public class ApplicationController {
-
-    @Inject
-    ArticleDao articleDao;
 
     @Inject
     SetupDao setupDao;

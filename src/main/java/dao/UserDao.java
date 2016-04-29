@@ -1,9 +1,12 @@
 package dao;
 
+import models.Organization;
 import models.User;
 
 public interface UserDao {
 
-	public boolean isUserAndPasswordValid(String username, String password);
-	public User getUserById(String userId);
+	boolean isUserAndPasswordValid(String username, String password);
+	User getUserById(String userId);
+
+	Organization getOrganizationById(int organizationId);
 }
