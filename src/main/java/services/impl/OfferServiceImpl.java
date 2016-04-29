@@ -35,11 +35,22 @@ Logger logger = LoggerFactory.getLogger(UserDaoImpl.class);
     Lang lang;
 
 	@UnitOfWork
-	public List<Offer> getAllOffers() {
+	public List<Offer> getAllOffers(int userRoleId, int userId) {
 
-		return offerDao.getAllOffers();
+		if(userRoleId != 1)
+			return offerDao.getApprovedOffers(userId);
+		else
+			return offerDao.getAllOffers();
 		
 	}
+
+	@UnitOfWork
+	public List<Offer> getOrganizationOffers(int userId) {
+
+		return offerDao.getAllOffers();
+
+	}
+
 	@UnitOfWork
 	public Offer findOfferById(int offerId) {
 

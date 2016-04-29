@@ -16,6 +16,7 @@
 
 package controllers;
 
+import models.User;
 import ninja.Context;
 import ninja.Result;
 import ninja.Results;
@@ -56,8 +57,17 @@ public class LoginLogoutController {
         	
             session.put("username", username);
             flashScope.success("login.loginSuccessful");
-            
-            return Results.redirect("/profile");
+
+            User user = userService.getUserById(username);
+
+            session.put("role", user.getRoles().get(0).getId().toString());
+            session.put("userId", user.getId().toString());
+
+
+            if(username.equalsIgnoreCase("admin"))
+                return Results.redirect("/admin");
+            else
+                return Results.redirect("/profile");
             
         }
         else {

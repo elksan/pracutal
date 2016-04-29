@@ -1,8 +1,11 @@
 package controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.inject.Singleton;
+import etc.LoggedInRole;
+import etc.LoggedInUserId;
 import models.Career;
 import models.OfferType;
 import ninja.*;
@@ -28,9 +31,9 @@ public class OfferController {
 	int offerId;
 		
 	
-	public Result offers(Session session){
+	public Result offers(@LoggedInUserId int userId, @LoggedInRole int userRoleId){
 
-		List<Offer> offers = offerService.getAllOffers();
+		List<Offer> offers = offerService.getAllOffers(userRoleId, userId);
 
 		logger.debug(String.valueOf(offers.size()));
 
@@ -39,10 +42,18 @@ public class OfferController {
 
 		}
 		List<OfferType> offerTypes = offerService.getOfferTypes();
+		List<Integer> userLoggedOffers = new ArrayList<>();
+
+		for (Offer offer : offers){
+			if(offer.getOrganization().getId() == userId)
+				userLoggedOffers.add(offer.getId());
+		}
+
 
 		Result result = Results.html();
 		result.render("offers", offers);
 		result.render("offerTypes", offerTypes);
+		result.render("userLoggedOffers", userLoggedOffers);
 
 		return result;
 	}

@@ -19,4 +19,5 @@ public interface OfferDao {
 	OfferType getOfferType(int offerId);
 	void deleteOffer(int offerId);
 	void updateOffer(Offer offer);
+	List<Offer> getApprovedOffers(int userId);
 }

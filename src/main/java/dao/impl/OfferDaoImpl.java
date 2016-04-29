@@ -37,7 +37,7 @@ public class OfferDaoImpl implements OfferDao{
 		
 		EntityManager entityManager = entityManagerProvider.get();
         
-        Query q = entityManager.createQuery("SELECT x FROM Offer x where disabled = false");
+        Query q = entityManager.createQuery("SELECT x FROM Offer x ");
 
         try{
         	offers = q.getResultList();
@@ -53,7 +53,6 @@ public class OfferDaoImpl implements OfferDao{
 
 		return offers;
 	}
-	
 
 	public Offer findOfferById(int offerId){
 		
@@ -151,6 +150,44 @@ public class OfferDaoImpl implements OfferDao{
 			e.printStackTrace();
 			logger.error(e.getMessage());
 		}
+	}
+
+	@Override
+	public List<Offer> getApprovedOffers(int userId) {
+
+		List<Offer> approvedOffers = new ArrayList<Offer>();
+
+		EntityManager entityManager = entityManagerProvider.get();
+
+		Query q = entityManager.createQuery("SELECT X FROM Offer X where disabled = false and approved = true");
+
+
+		Query q2 = entityManager.createQuery("FROM Offer X where organization.id = :userId");
+		q2.setParameter("userId", userId);
+
+		try{
+			approvedOffers = q.getResultList();
+
+			List<Offer> userOffers = q2.getResultList();
+
+			for(Offer userOffer : userOffers){
+
+				if(!approvedOffers.contains(userOffer)){
+					approvedOffers.add(userOffer);
+				}
+			}
+		}
+		catch(NoResultException nrex){
+			logger.warn("No result in getApprovedOffers");
+			logger.warn(nrex.getMessage());
+		}
+		for(Offer offer : approvedOffers) {
+			Hibernate.initialize(offer.getOfferType());
+			if(offer.getOrganization() != null)
+				Hibernate.initialize(offer.getOrganization().getUser());
+		}
+
+		return approvedOffers;
 	}
 
 

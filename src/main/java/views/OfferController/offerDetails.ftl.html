@@ -50,7 +50,7 @@
                 <div class="col s12">
                     <ul>
                         <li><a id="validateOfferBtn" class="waves-effect waves-light btn btn-large green <#if selectedOffer.approved> disabled </#if>"
-                               href="/approveOffer"> <i class="material-icons left">done</i>
+                               href="/approveOffer"> <i class="material-icons left">check_circle</i>
                                 <#if selectedOffer.approved> Oferta ya aprobada <#else>${i18n("offerDetail.approveOffer")}</#if></a></li>
                     </ul>
                 </div>
@@ -60,7 +60,7 @@
                 <div class="col s12">
                     <ul>
                         <li><a id="applicateForOfferBtn" class="waves-effect waves-light btn btn-large green"
-                               href="/applicateForOffer"> <i class="material-icons left">done</i>${i18n("offerDetail.applicate")} </a></li>
+                               href="/applicateForOffer"> <i class="material-icons left">assignment</i>${i18n("offerDetail.applicate")} </a></li>
                     </ul>
                 </div>
             </div>

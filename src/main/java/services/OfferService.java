@@ -9,7 +9,7 @@ import vo.OfferVO;
 
 public interface OfferService {
 
-	List<Offer> getAllOffers();
+	List<Offer> getAllOffers(int userRoleId, int userId);
 	Offer findOfferById(int offerId);
 	void saveOffer(OfferVO offerVo);
 	List<Career> getCareers();
