@@ -6,6 +6,7 @@ import models.OfferType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.validation.constraints.Size;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -17,6 +18,7 @@ public class OfferVO {
 
     private Integer organizationId;
 	private Date createdAt;
+    @Size(min = 10)
 	private String description;
 	private boolean disabled;
 	private String duration;
@@ -44,6 +46,7 @@ public class OfferVO {
 	private Integer minimalLevelRequired;
 	private String language;
 	private boolean approved;
+	private String endDateAvailable;
 
 	public OfferVO() {
 	}
@@ -80,6 +83,7 @@ public class OfferVO {
 		this.minimalLevelRequired = offer.getMinimalLevelRequired();
 		this.language = offer.getLanguage();
 		this.approved = offer.isApproved();
+		this.endDateAvailable = isValid(offer.getEndDateAvailable()) ? parseDate(offer.getEndDateAvailable()) : "";
 	}
 
 	public String parseDate(Date fecha) {
@@ -314,4 +318,12 @@ public class OfferVO {
 	public void setApproved(boolean approved) {
 		this.approved = approved;
 	}
+
+    public String getEndDateAvailable() {
+        return endDateAvailable;
+    }
+
+    public void setEndDateAvailable(String endDateAvailable) {
+        this.endDateAvailable = endDateAvailable;
+    }
 }

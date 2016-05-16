@@ -9,6 +9,9 @@ import etc.LoggedInUserId;
 import models.Career;
 import models.OfferType;
 import ninja.*;
+import ninja.validation.FieldViolation;
+import ninja.validation.JSR303Validation;
+import ninja.validation.Validation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -78,15 +81,30 @@ public class OfferController {
 		return  result;
 	}
 
-	public Result saveOffer(Session session, OfferVO offer){
+	public Result saveOffer(@LoggedInUserId String userId, Context context, Session session,
+                            @JSR303Validation OfferVO offer, Validation validation){
 
-        logger.debug("OFERTYPE>>>>>> " + offer.getOfferType());
+        try {
+            if (validation.hasViolations()) {
+                List<FieldViolation> violations = validation.getFieldViolations();
+                Result result = Results.html();
+                result.render("violations", violations);
+                result.render("offer", offer);
+                return Results.redirect("/newOffer");
+            }
+            logger.debug("SIN ERROR DE VALIDACIONES");
+            logger.debug("OFERTYPE>>>>>> " + offer.getOfferType());
+            //userId
+            //offer.setOrganizationId(userId);
+            offer.setOrganizationId(Integer.parseInt(userId));
+            offerService.saveOffer(offer);
 
-		offer.setOrganizationId(Integer.parseInt(session.get("userId")));
-
-		offerService.saveOffer(offer);
-
-		return Results.redirect("/offers");
+            return Results.redirect("/offers");
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error(e.getMessage());
+            return Results.redirect("/404notFound");
+        }
 	}
 
 	public Result editOffer(Session session, @PathParam("offerId") int offerId){

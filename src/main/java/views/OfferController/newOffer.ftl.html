@@ -23,7 +23,7 @@
 					<div class="row">	
 						<div class="input-field col s12">
 							<textarea id="description" name="description" placeholder="${i18n('offer.description.placeholder')}"
-									  class="validate" required="" aria-required="true"></textarea>
+									  class="validate" required="" aria-required="true"></textarea><br/>
 							<label for="description">${i18n("offer.description")}</label>
 						</div>
 					</div>
@@ -50,17 +50,17 @@
 							<input type="checkbox" id="lunch" name="hasLunch" value="true"/>
 							<label for="lunch">${i18n("offer.hasLunch")}</label>
 						</div>
-					</div>					
+					</div>
+					<br/>
 					<div class="row">
 						<div class="input-field col s12">
-
-							<select name="offerTypeId" class="validate" required>
+							<select id="offerId" name="offerTypeId" class="validate" required>
 								<option value="" disabled selected>Seleccione</option>
 								<#list offerTypes as type>
 									<option value="${type.id}">${type.name}</option>
 								</#list>
 							</select>
-							<label>${i18n("offer.type")}</label>
+							<label for="offerId">${i18n("offer.type")}</label>
 						</div>
 					</div>
 					<div class="row">
@@ -80,6 +80,17 @@
 						<div class="input-field col s12">
 							<input type="text" id="offerPosition" name="position"/>
 							<label for="offerPosition">${i18n("offer.position")}</label>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="input-field col s6">
+							<input id="startDateAvailable" name="startDateAvailable" type="date" class="datepicker" readonly="false" required>
+							<label for="startDateAvailable">${i18n("offer.startDateAvailable")}</label>
+						</div>
+						<div class="input-field col s6">
+							<input id="endDateAvailable" name="endDateAvailable" type="date" class="datepicker" required>
+							<label for="endDateAvailable">${i18n("offer.endDateAvailable")}</label>
 						</div>
 					</div>
 
@@ -188,7 +199,7 @@
 		}
 	});
 
-	$('form').on('submit',function(e){
+	/*$('form').on('submit',function(e){
 		$(".error_note").remove();
 		var select = $(this).find('select,textarea').filter("[required]");
 		$.each(select , function(index, elm){
@@ -215,10 +226,10 @@
 				}
 			}
 		});
-	});
+	});*/
 
 
-	$('#newOfferForm').validate();
+	//$('#newOfferForm').validate();
 
 
 
