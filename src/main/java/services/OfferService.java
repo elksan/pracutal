@@ -2,9 +2,7 @@ package services;
 
 import java.util.List;
 
-import models.Career;
-import models.Offer;
-import models.OfferType;
+import models.*;
 import vo.OfferVO;
 
 public interface OfferService {
@@ -18,4 +16,9 @@ public interface OfferService {
 	void updateOffer(OfferVO offer);
 
 	void approveOffer(int offerId);
+	void publishOffer(int offerId);
+
+	void applyForOffer(int offerId, int userId);
+
+	List<Application> getApplicationsByOfferId(int offerId);
 }

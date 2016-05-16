@@ -6,15 +6,13 @@ import java.util.List;
 import com.google.inject.Singleton;
 import etc.LoggedInRole;
 import etc.LoggedInUserId;
-import models.Career;
-import models.OfferType;
+import models.*;
 import ninja.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.inject.Inject;
 
-import models.Offer;
 import ninja.params.PathParam;
 import ninja.session.Session;
 import services.OfferService;
@@ -29,7 +27,7 @@ public class OfferController {
 
 	Logger logger = LoggerFactory.getLogger(OfferController.class);
 	int offerId;
-		
+	List<Application> applicationList;
 	
 	public Result offers(@LoggedInUserId int userId, @LoggedInRole int userRoleId){
 
@@ -138,5 +136,45 @@ public class OfferController {
 		return Results.redirect("/offers");
 	}
 
+	public Result publishOffer(Session session){
+
+		logger.info("publishing offer, id: " + offerId);
+
+		offerService.publishOffer(offerId);
+
+		return Results.redirect("/offers");
+	}
+
+	public Result applyForOffer(@LoggedInUserId int userId){
+
+		logger.info("applying for offer, userId: " + userId + " offerId: " + offerId);
+
+		offerService.applyForOffer(offerId, userId);
+
+		return Results.redirect("/offers");
+	}
+
+	public Result viewApplicants(){
+
+		applicationList = offerService.getApplicationsByOfferId(offerId);
+
+		Result result = Results.html();
+		result.render("applicationList", applicationList);
+		result.render("offerId", offerId);
+
+		return result;
+	}
+
+	public Result selectCandidate(Application selectedApplication){
+
+		for(Application application : applicationList){
+
+			if(application.getId() == selectedApplication.getId()){
+
+				application.setCandidate(selectedApplication.isCandidate());
+			}
+		}
+		return Results.ok();
+	}
 
 }

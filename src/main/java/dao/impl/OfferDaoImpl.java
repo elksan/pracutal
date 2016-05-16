@@ -7,20 +7,15 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
-import models.Career;
-import models.OfferType;
+import models.*;
 import org.hibernate.Hibernate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.google.inject.persist.Transactional;
 
 import dao.OfferDao;
-import models.Offer;
-import ninja.jpa.UnitOfWork;
-import vo.OfferVO;
 
 public class OfferDaoImpl implements OfferDao{
 
@@ -42,13 +37,30 @@ public class OfferDaoImpl implements OfferDao{
         try{
         	offers = q.getResultList();
         }
-        catch(NoResultException nrex){
+        catch(NoResultException nrex) {
+			logger.warn("No result in getAllOffers() ");
+			logger.warn(nrex.getMessage());
+		}
 
-        }
-		for(Offer offer : offers) {
-			Hibernate.initialize(offer.getOfferType());
-			if(offer.getOrganization() != null)
-				Hibernate.initialize(offer.getOrganization().getUser());
+		return offers;
+	}
+
+	public List<Offer> getOffers(int organizationId) {
+
+		List<Offer> offers = new ArrayList<>();
+
+		EntityManager entityManager = entityManagerProvider.get();
+
+		Query q = entityManager.createQuery("SELECT X FROM Offer X where X.organization.id = :organizationId");
+		q.setParameter("organizationId", organizationId);
+
+		try{
+			offers = q.getResultList();
+
+		}
+		catch(NoResultException nrex){
+			logger.warn("No result in getOffers(int organizationId) ");
+			logger.warn(nrex.getMessage());
 		}
 
 		return offers;
@@ -152,8 +164,7 @@ public class OfferDaoImpl implements OfferDao{
 		}
 	}
 
-	@Override
-	public List<Offer> getApprovedOffers(int userId) {
+	public List<Offer> getApprovedOffers() {
 
 		List<Offer> approvedOffers = new ArrayList<Offer>();
 
@@ -161,35 +172,56 @@ public class OfferDaoImpl implements OfferDao{
 
 		Query q = entityManager.createQuery("SELECT X FROM Offer X where disabled = false and approved = true");
 
-
-		Query q2 = entityManager.createQuery("FROM Offer X where organization.id = :userId");
-		q2.setParameter("userId", userId);
-
 		try{
 			approvedOffers = q.getResultList();
 
-			List<Offer> userOffers = q2.getResultList();
-
-			for(Offer userOffer : userOffers){
-
-				if(!approvedOffers.contains(userOffer)){
-					approvedOffers.add(userOffer);
-				}
-			}
 		}
 		catch(NoResultException nrex){
 			logger.warn("No result in getApprovedOffers");
 			logger.warn(nrex.getMessage());
 		}
-		for(Offer offer : approvedOffers) {
-			Hibernate.initialize(offer.getOfferType());
-			if(offer.getOrganization() != null)
-				Hibernate.initialize(offer.getOrganization().getUser());
-		}
 
 		return approvedOffers;
 	}
 
+	public List<Offer> getAvailableOffers() {
+
+		List<Offer> offers = new ArrayList<Offer>();
+
+		EntityManager entityManager = entityManagerProvider.get();
+
+		Query q = entityManager.createQuery("SELECT X FROM Offer X where disabled = false and approved = true and available = true");
+
+		try{
+			offers = q.getResultList();
+
+		}
+		catch(NoResultException nrex){
+			logger.warn("No result in getApprovedOffers");
+			logger.warn(nrex.getMessage());
+		}
+
+		return offers;
+	}
+
+	@Override
+	public void saveApplication(Application application) {
+
+		EntityManager entityManager = entityManagerProvider.get();
+		entityManager.persist(application);
+	}
+
+	public List<Application> getApplicationsByOfferId(int offerId) {
+		List<Application> applicationList = new ArrayList<>();
+
+		EntityManager entityManager = entityManagerProvider.get();
+		Query q = entityManager.createQuery("SELECT x FROM Application x WHERE offer.id = :offerId");
+		q.setParameter("offerId", offerId);
+
+		applicationList = q.getResultList();
+
+		return applicationList;
+	}
 
 	public List<Career> getCareers(List<Integer> careerIds) {
 		EntityManager entityManager = entityManagerProvider.get();

@@ -2,9 +2,7 @@ package dao;
 
 import java.util.List;
 
-import models.Career;
-import models.Offer;
-import models.OfferType;
+import models.*;
 import vo.OfferVO;
 
 public interface OfferDao {
@@ -19,5 +17,11 @@ public interface OfferDao {
 	OfferType getOfferType(int offerId);
 	void deleteOffer(int offerId);
 	void updateOffer(Offer offer);
-	List<Offer> getApprovedOffers(int userId);
+	List<Offer> getApprovedOffers();
+	List<Offer> getOffers(int organizationId);
+	List<Offer> getAvailableOffers();
+
+	void saveApplication(Application application);
+
+	List<Application> getApplicationsByOfferId(int offerId);
 }

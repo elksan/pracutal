@@ -16,6 +16,7 @@
 
 package conf;
 
+import models.Offer;
 import ninja.AssetsController;
 import ninja.Router;
 import ninja.application.ApplicationRoutes;
@@ -58,9 +59,9 @@ public class Routes implements ApplicationRoutes {
         router.POST().route("/login").with(LoginLogoutController.class, "loginPost");
         router.GET().route("/logout").with(LoginLogoutController.class, "logout");
 
-        ////////////////////
+        ///////////////////////////////////////////////////////////////////////
         //PRACUTAL
-        /////////////77
+        ///////////////////////////////////////////////////////////////////////
         router.GET().route("/profile").with(ProfileController.class, "profile");
         router.GET().route("/offers").with(OfferController.class, "offers");
         router.GET().route("/offerDetails/{offerId}").with(OfferController.class, "offerDetails");
@@ -70,6 +71,11 @@ public class Routes implements ApplicationRoutes {
         router.GET().route("/editOffer/{offerId}").with(OfferController.class, "editOffer");
         router.POST().route("/updateOffer").with(OfferController.class, "updateOffer");
         router.GET().route("/approveOffer").with(OfferController.class, "approveOffer");
+        router.GET().route("/publishOffer").with(OfferController.class, "publishOffer");
+        router.GET().route("/applyForOffer").with(OfferController.class, "applyForOffer");
+        router.GET().route("/myApplications").with(ProfileController.class, "myApplications");
+        router.GET().route("/viewApplicants").with(OfferController.class, "viewApplicants");
+        router.POST().route("/selectCandidate").with(OfferController.class, "selectCandidate");
         router.GET().route("/admin").with(AdminController.class, "menu");
  
         ///////////////////////////////////////////////////////////////////////
