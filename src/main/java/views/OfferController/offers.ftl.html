@@ -6,12 +6,13 @@
 	<div class="row">
         <div class="col s12 m4 l3">
             <div id="aside">
+                <br/>
                 <#if session.role == "2"|| session.role == "1">
-                    <br/>
                     <a href="/newoffer" class="waves-effect waves-light btn-large">Nueva Oferta</a>
 
+                <#elseif session.role == "3">
+                    <a href="/myApplications" class="waves-effect waves-light btn-large">Mis Postulaciones</a>
                 </#if>
-
 
                 <div id="filters" class="collection z-depth-1">
                     <#list offerTypes as offerType>
@@ -19,58 +20,63 @@
                         <#else>
                     </#list>
 
-                    <#if session.role != "1">
+                    <#if session.role == "2">
                         <a href="#!" id="misOfertas" class="collection-item" data-filter="${session.userId}">${i18n("offers.myOffers")}<span class="badge">${userLoggedOffers?size}</span></a>
                     </#if>
                 </div>
+
+
             </div>
         </div>
 		<div class="col s12 m8 l9 ">
             <div>
-                <ul id="offerList" class="collection z-depth-1">
-                    <#list offers as offer>
-                        <li id="offerBlock" class="collection-item avatar" data-type="${offer.offerType.id}" data-id="${offer.organization.id}">
-                            <div class="row">
-                                <div class="col s1">
-                                    <img src="https://www.google.com.pg/images/branding/googleg/1x/googleg_standard_color_128dp.png" alt="" class="circle">
+                <#list offers>
+                    <ul id="offerList" class="collection z-depth-1">
+                        <#items  as offer>
+                            <li id="offerBlock" class="collection-item avatar" data-type="${offer.offerType.id}" data-id="${offer.organization.id}">
+                                <div class="row">
+                                    <div class="col s1">
+                                        <img src="https://www.google.com.pg/images/branding/googleg/1x/googleg_standard_color_128dp.png" alt="" class="circle">
 
-                                </div>
-                                <div class="col s7">
-                                    <h5>${offer.title}</h5>
-                                    <p>
-                                        <strong>${(offer.organization.user.firstName)!"N/A"}</strong> en ${offer.location}
-                                    </p>
-
-                                </div>
-                                <div class="col s4">
-
-                                        <div class="chip indigo">
-                                            ${offer.offerType.name}
-                                        </div>
-
-                                </div>
-
-                                    <div class="fixed-action-btn horizontal click-to-toggle" >
-                                        <a class="btn-floating btn-large red">
-                                            <i class="material-icons">menu</i>
-                                        </a>
-                                        <ul>
-                                            <li><a href="/offerDetails/${offer.id}" class="btn-floating green"><i class="material-icons right">details</i></a></li>
-                                            <#if session.role == "1" || (session.role == "2" && session.userId == offer.organization.id?c)>
-
-                                                <li> <a href="/deleteOffer/${offer.id}" class="btn-floating yellow"><i class="material-icons right">delete</i></a></li>
-                                                <li><a href="/editOffer/${offer.id}" class="btn-floating blue"><i class="material-icons right">edit</i></a></li>
-
-                                            </#if>
-
-                                        </ul>
                                     </div>
-                            </div>
-                        </li>
-                    <#else>
-                        <p>No hay ofertas disponibles</p>
-                    </#list>
-                </ul>
+                                    <div class="col s7">
+                                        <h5>${offer.title}</h5>
+                                        <p>
+                                            <strong>${(offer.organization.user.firstName)!"N/A"}</strong> en ${offer.location}
+                                        </p>
+
+                                    </div>
+                                    <div class="col s4">
+
+                                            <div class="chip indigo">
+                                                ${offer.offerType.name}
+                                            </div>
+
+                                    </div>
+
+                                        <div class="fixed-action-btn horizontal click-to-toggle" >
+                                            <a class="btn-floating btn-large red">
+                                                <i class="material-icons">menu</i>
+                                            </a>
+                                            <ul>
+                                                <li><a href="/offerDetails/${offer.id}" class="btn-floating green"><i class="material-icons right">details</i></a></li>
+                                                <#if session.role == "1" || (session.role == "2" && session.userId == offer.organization.id?c)>
+
+                                                    <li><a href="/deleteOffer/${offer.id}" class="btn-floating yellow <#if session.role == "2" && offer.approved>disabled</#if>" ><i class="material-icons right">delete</i></a></li>
+                                                    <li><a href="/editOffer/${offer.id}" class="btn-floating blue <#if session.role == "2" && offer.approved>disabled</#if>"><i class="material-icons right">edit</i></a></li>
+
+                                                </#if>
+
+                                            </ul>
+                                        </div>
+                                </div>
+                            </li>
+                        </#items>
+                    </ul>
+                <#else>
+                    <p>No hay ofertas disponibles</p>
+                </#list>
+
             </div>
 		</div>
 	</div>

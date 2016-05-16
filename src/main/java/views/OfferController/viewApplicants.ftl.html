@@ -1,0 +1,88 @@
+<#import "../layout/defaultLayout.ftl.html" as layout> 
+<@layout.myLayout "Ofertas">  
+
+<div class="container">
+
+    <div class="row">
+        <div class="col s12">
+            <br>
+            <#list applicationList>
+                <table class="responsive-table highlight white z-depth-1">
+                    <thead>
+                    <tr>
+                        <th data-field="name">Nombre</th>
+                        <th data-field="name">Apellido</th>
+                        <th data-field="career">Carrera</th>
+                        <th data-field="year">N° Matricula</th>
+                        <th data-field="date">Fecha postulacion</th>
+                        <th>Seleccionar como candidato</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <#items as application>
+                        <tr>
+                            <td> <a href="#!">${application.student.user.firstName}</a> </td>
+                            <td> <a href="#!">${application.student.user.lastName}</a> </td>
+                            <td>${application.student.career.careerName}</td>
+                            <td>${application.student.registrationNumber}</td>
+                            <td>${application.createdAt}</td>
+                            <td>
+                                <div class="switch">
+                                    <label>
+                                        <input data-id="${application.id}" data-candidate="${application.candidate?c}" type="checkbox" value="true" <#if application.candidate> checked </#if> />
+                                        <span class="lever"></span>
+                                    </label>
+                                </div>
+                            </td>
+                        </tr>
+                    </#items>
+                    </tbody>
+
+                </table>
+                <#else>
+                    <h2> No existen postulaciones para esta oferta</h2>
+            </#list>
+
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col s12">
+            <a class="waves-effect waves-light btn btn-large"
+                   href="/saveApplications"> <i class="material-icons left">check_circle</i>${i18n("button.save")}</a>
+            <a class="waves-effect waves-light btn btn-large grey"
+               href="/offerDetails/${offerId}"> <i class="material-icons left">cancel</i>${i18n("button.cancel")}</a>
+        </div>
+    </div>
+</div>
+
+    <script type="text/javascript">
+
+
+        $(document).ready(function(){
+            $('.switch').change(function(e){
+
+                $.ajax({
+                    type: 'POST',
+                    contentType: "application/json",
+                    url: 'http://localhost:8080/selectCandidate',
+                    data: JSON.stringify({id:$(this).attr('data-id'), candidate:$(this).is('checked')}),
+                    dataType: "json",
+                    success: function(response){
+                        $('#result').html(JSON.stringify(response));
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        $('#result').html(errorThrown);
+                        if( textStatus == 403 ) {
+                            alert('not authenticated');
+                        }
+                    }
+                });
+
+
+            });
+        });
+
+    </script>
+	
+</@layout.myLayout>
