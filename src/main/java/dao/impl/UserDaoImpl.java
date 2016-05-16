@@ -20,6 +20,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
+import models.Application;
 import models.Organization;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,6 +32,9 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 import dao.UserDao;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserDaoImpl implements UserDao {
 	
@@ -113,6 +117,33 @@ public class UserDaoImpl implements UserDao {
     	
     }
 
+	public User getUserById(int userId){
+
+		if (userId == 0){
+
+			return null;
+		}
+
+		EntityManager entityManager = entityManagerProvider.get();
+		Query query = entityManager.createQuery("Select x from User x where id = :userId");
+
+		User user = null;
+
+		try{
+
+			user = (User) query.setParameter("userId", userId).getSingleResult();
+
+		}catch(NoResultException nre){
+
+
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+
+		return user;
+
+	}
+
 
 	public Organization getOrganizationById(int organizationId) {
 
@@ -130,6 +161,25 @@ public class UserDaoImpl implements UserDao {
 		}
 
 		return organization;
+
+	}
+
+	public List<Application> getApplicationsByUserId(int userId) {
+
+		EntityManager entityManager = entityManagerProvider.get();
+		Query query = entityManager.createQuery("SELECT x FROM Application x WHERE student.id = :userId");
+		query.setParameter("userId", userId);
+
+		List<Application> applicationList = new ArrayList<>();
+		try{
+
+			applicationList = query.getResultList();
+		}catch(NoResultException nrex){
+			logger.info("No result in getApplicationsByUserId");
+			logger.info(nrex.getMessage());
+		}
+
+		return  applicationList;
 
 	}
 

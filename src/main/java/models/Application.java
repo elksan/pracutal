@@ -1,26 +1,25 @@
 package models;
 
+import etc.ApplicationStatus;
+
 import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.*;
 
 @Entity
 public class Application {
-	
-	private boolean approved;
-	private Date createdAt;
+
+
 	private Integer id;
 	private Integer priorityScore;
+	private boolean approved;
+	private ApplicationStatus status;
+	private boolean candidate;
+	private Date createdAt;
 	private Date updatedAt;
-	private String status;
-	private Offer offer;
 	private Student student;
-	
+	private Offer offer;
+
 	
 	public boolean isApproved() {
 		return approved;
@@ -38,6 +37,8 @@ public class Application {
 	}
 	
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(columnDefinition = "serial")
 	public Integer getId() {
 		return id;
 	}
@@ -60,30 +61,50 @@ public class Application {
 	public void setUpdatedAt(Date updatedAt) {
 		this.updatedAt = updatedAt;
 	}
-	public String getStatus() {
+
+	@Enumerated(EnumType.STRING)
+	public ApplicationStatus getStatus() {
 		return status;
 	}
-	public void setStatus(String status) {
+	public void setStatus(ApplicationStatus status) {
 		this.status = status;
 	}
-	
-	@OneToOne(fetch=FetchType.LAZY)
-	@PrimaryKeyJoinColumn
+
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name = "offer_id")
 	public Offer getOffer() {
 		return offer;
 	}
 	public void setOffer(Offer offer) {
 		this.offer = offer;
 	}
-	
-	@OneToOne(fetch=FetchType.LAZY)
-	@PrimaryKeyJoinColumn
+
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name = "student_id")
 	public Student getStudent() {
 		return student;
 	}
 	public void setStudent(Student student) {
 		this.student = student;
 	}
-	
-	
+
+	@PrePersist
+	protected void onCreate() {
+		createdAt = new Date();
+		status = ApplicationStatus.EN_PROCESO;
+	}
+
+	@PreUpdate
+	protected void onUpdate() {
+		updatedAt = new Date();
+	}
+
+
+	public boolean isCandidate() {
+		return candidate;
+	}
+
+	public void setCandidate(boolean candidate) {
+		this.candidate = candidate;
+	}
 }

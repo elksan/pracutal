@@ -5,12 +5,10 @@ import com.google.inject.persist.Transactional;
 import dao.OfferDao;
 import dao.UserDao;
 import dao.impl.UserDaoImpl;
-import models.Career;
-import models.Offer;
-import models.OfferType;
-import models.Organization;
+import models.*;
 import ninja.i18n.Lang;
 import ninja.jpa.UnitOfWork;
+import org.hibernate.Hibernate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import services.OfferService;
@@ -18,6 +16,7 @@ import vo.OfferVO;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -37,10 +36,31 @@ Logger logger = LoggerFactory.getLogger(UserDaoImpl.class);
 	@UnitOfWork
 	public List<Offer> getAllOffers(int userRoleId, int userId) {
 
-		if(userRoleId != 1)
-			return offerDao.getApprovedOffers(userId);
-		else
-			return offerDao.getAllOffers();
+		List<Offer> offers;
+
+		switch (userRoleId){
+
+			case 1:
+				offers = offerDao.getApprovedOffers();
+				break;
+			case 2:
+				offers = offerDao.getOffers(userId);
+				break;
+			default:
+				offers = offerDao.getAvailableOffers();
+				break;
+
+		}
+
+		if(offers != null ) {
+			for (Offer offer : offers) {
+				Hibernate.initialize(offer.getOfferType());
+				if (offer.getOrganization() != null)
+					Hibernate.initialize(offer.getOrganization().getUser());
+			}
+		}
+
+		return offers;
 		
 	}
 
@@ -148,5 +168,42 @@ Logger logger = LoggerFactory.getLogger(UserDaoImpl.class);
 		offer.setApproved(true);
 
 		offerDao.updateOffer(offer);
+	}
+
+	@Transactional
+	public void publishOffer(int offerId) {
+
+		Offer offer = offerDao.findOfferById(offerId);
+		offer.setAvailable(true);
+
+		offerDao.updateOffer(offer);
+	}
+
+	@Transactional
+	public void applyForOffer(int offerId, int userId) {
+
+		Application application = new Application();
+
+		Offer offer = offerDao.findOfferById(offerId);
+		application.setOffer(offer);
+
+		Student student = userDao.getUserById(userId).getStudent();
+		application.setStudent(student);
+
+		offerDao.saveApplication(application);
+
+	}
+
+	@UnitOfWork
+	public List<Application> getApplicationsByOfferId(int offerId) {
+
+		//List<Application> applicationList = offerDao.getApplicationsByOfferId(offerId);
+		Offer offer = offerDao.findOfferById(offerId);
+
+		for (Application application : offer.getApplications()){
+			Hibernate.initialize(application.getStudent());
+		}
+
+		return offer.getApplications();
 	}
 }

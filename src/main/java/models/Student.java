@@ -1,17 +1,9 @@
 package models;
 
 import java.util.Date;
+import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 
 @Entity
 public class Student {
@@ -31,6 +23,7 @@ public class Student {
 	
 	private User user;
 	private Career career;
+	private List<Application> applications;
 
 	@Id
 	public Integer getId() {
@@ -144,5 +137,14 @@ public class Student {
 	}
 	public void setCareer(Career career) {
 		this.career = career;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "student")
+	public List<Application> getApplications() {
+		return applications;
+	}
+
+	public void setApplications(List<Application> applications) {
+		this.applications = applications;
 	}
 }

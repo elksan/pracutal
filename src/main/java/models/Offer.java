@@ -37,11 +37,13 @@ public class Offer implements Serializable {
 	private String title;
 	private String position;
 	private Integer minimalLevelRequired;
+	private String language;
+	private boolean approved;
+
 	private OfferType offerType;
 	private List<Career> careers;
 	private Organization organization;
-	private String language;
-	private boolean approved;
+	private List<Application> applications;
 	
 	public Offer() {
 		
@@ -309,5 +311,14 @@ public class Offer implements Serializable {
 
 	public void setApproved(boolean approved) {
 		this.approved = approved;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "offer")
+	public List<Application> getApplications() {
+		return applications;
+	}
+
+	public void setApplications(List<Application> applications) {
+		this.applications = applications;
 	}
 }

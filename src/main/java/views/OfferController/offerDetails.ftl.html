@@ -48,6 +48,23 @@
         <#if session.role == "1">
             <div class="row">
                 <div class="col s12">
+
+                        <a id="publishOfferBtn" class="waves-effect waves-light btn btn-large green <#if selectedOffer.available> disabled </#if>"
+                               href="/publishOffer"> <i class="material-icons left">cloud</i>
+                            <#if selectedOffer.available> Oferta ya publicada <#else>${i18n("offerDetail.publishOffer")}</#if></a>
+
+                        <#if selectedOffer.available>
+
+                            <a id="viewApplicantsBtn" class="waves-effect waves-light btn btn-large blue-grey"
+                                   href="/viewApplicants">${i18n("offerDetail.viewApplicants")}<i class="material-icons left">group</i></a>
+                        </#if>
+
+
+                </div>
+            </div>
+        <#elseif session.role == "2">
+            <div class="row">
+                <div class="col s12">
                     <ul>
                         <li><a id="validateOfferBtn" class="waves-effect waves-light btn btn-large green <#if selectedOffer.approved> disabled </#if>"
                                href="/approveOffer"> <i class="material-icons left">check_circle</i>
@@ -58,10 +75,10 @@
         <#elseif session.role == "3">
             <div class="row">
                 <div class="col s12">
-                    <ul>
-                        <li><a id="applicateForOfferBtn" class="waves-effect waves-light btn btn-large green"
-                               href="/applicateForOffer"> <i class="material-icons left">assignment</i>${i18n("offerDetail.applicate")} </a></li>
-                    </ul>
+
+                    <a id="applicateForOfferBtn" class="waves-effect waves-light btn btn-large green"
+                           href="/applyForOffer"> <i class="material-icons left">assignment</i>${i18n("offerDetail.apply")} </a>
+
                 </div>
             </div>
         </#if>
