@@ -1,7 +1,9 @@
 package controllers;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.google.inject.Singleton;
 import etc.LoggedInRole;
@@ -30,7 +32,7 @@ public class OfferController {
 
 	Logger logger = LoggerFactory.getLogger(OfferController.class);
 	int offerId;
-	List<Application> applicationList;
+	Map<Integer, Application> applicationMap;
 	
 	public Result offers(@LoggedInUserId int userId, @LoggedInRole int userRoleId){
 
@@ -79,25 +81,17 @@ public class OfferController {
 		return  result;
 	}
 
-	public Result saveOffer(@LoggedInUserId String userId, Context context, Session session,
-                            @JSR303Validation OfferVO offer, Validation validation){
+	public Result saveOffer(@LoggedInUserId int userId, OfferVO offer){
 
         try {
-            if (validation.hasViolations()) {
-                List<FieldViolation> violations = validation.getFieldViolations();
-                Result result = Results.html();
-                result.render("violations", violations);
-                result.render("offer", offer);
-                return Results.redirect("/newOffer");
-            }
-            logger.debug("SIN ERROR DE VALIDACIONES");
+
             logger.debug("OFERTYPE>>>>>> " + offer.getOfferType());
-            //userId
-            //offer.setOrganizationId(userId);
-            offer.setOrganizationId(Integer.parseInt(userId));
+
+            offer.setOrganizationId(userId);
             offerService.saveOffer(offer);
 
             return Results.redirect("/offers");
+
         } catch (Exception e) {
             e.printStackTrace();
             logger.error(e.getMessage());
@@ -174,8 +168,13 @@ public class OfferController {
 
 	public Result viewApplicants(){
 
-		applicationList = offerService.getApplicationsByOfferId(offerId);
+		List<Application> applicationList = offerService.getApplicationsByOfferId(offerId);
+		applicationMap = new HashMap<>();
 
+		for(Application application : applicationList){
+
+			applicationMap.put(application.getId(), application);
+		}
 		Result result = Results.html();
 		result.render("applicationList", applicationList);
 		result.render("offerId", offerId);
@@ -185,14 +184,20 @@ public class OfferController {
 
 	public Result selectCandidate(Application selectedApplication){
 
-		for(Application application : applicationList){
+		Application appToModify = applicationMap.get(selectedApplication.getId());
+		appToModify.setCandidate(selectedApplication.isCandidate());
 
-			if(application.getId() == selectedApplication.getId()){
-
-				application.setCandidate(selectedApplication.isCandidate());
-			}
-		}
 		return Results.ok();
+	}
+
+	public Result saveCandidates(){
+
+		Offer offer = offerService.findOfferById(offerId);
+		offer.setApplications(new ArrayList<>(applicationMap.values()));
+
+		offerService.updateOffer(offer);
+
+		return Results.redirect("/offers");
 	}
 
 }

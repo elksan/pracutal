@@ -206,6 +206,12 @@ label:not(.active):after {
 	transform: translateY(-140%);
 }
 
+.loader{
+
+	height: 50px;
+	width: 60px;
+}
+
 @media only screen and (max-width: 992px){
 	.info {
 	    text-align: center;

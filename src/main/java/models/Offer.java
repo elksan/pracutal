@@ -313,7 +313,7 @@ public class Offer implements Serializable {
 		this.approved = approved;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "offer")
+	@OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL, mappedBy = "offer")
 	public List<Application> getApplications() {
 		return applications;
 	}

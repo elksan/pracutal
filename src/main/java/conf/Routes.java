@@ -16,6 +16,7 @@
 
 package conf;
 
+import controllers.*;
 import models.Offer;
 import ninja.AssetsController;
 import ninja.Router;
@@ -23,12 +24,6 @@ import ninja.application.ApplicationRoutes;
 import ninja.utils.NinjaProperties;
 
 import com.google.inject.Inject;
-
-import controllers.AdminController;
-import controllers.ApplicationController;
-import controllers.LoginLogoutController;
-import controllers.OfferController;
-import controllers.ProfileController;
 
 public class Routes implements ApplicationRoutes {
     
@@ -65,7 +60,7 @@ public class Routes implements ApplicationRoutes {
         router.GET().route("/profile").with(ProfileController.class, "profile");
         router.GET().route("/offers").with(OfferController.class, "offers");
         router.GET().route("/offerDetails/{offerId}").with(OfferController.class, "offerDetails");
-        router.GET().route("/newoffer").with(OfferController.class, "newOffer");
+        router.GET().route("/newOffer").with(OfferController.class, "newOffer");
         router.POST().route("/saveOffer").with(OfferController.class, "saveOffer");
         router.GET().route("/deleteOffer/{offerId}").with(OfferController.class, "deleteOffer");
         router.GET().route("/editOffer/{offerId}").with(OfferController.class, "editOffer");
@@ -76,7 +71,13 @@ public class Routes implements ApplicationRoutes {
         router.GET().route("/myApplications").with(ProfileController.class, "myApplications");
         router.GET().route("/viewApplicants").with(OfferController.class, "viewApplicants");
         router.POST().route("/selectCandidate").with(OfferController.class, "selectCandidate");
+        router.GET().route("/saveCandidates").with(OfferController.class, "saveCandidates");
         router.GET().route("/admin").with(AdminController.class, "menu");
+
+        ///////////////////////////////////////////////////////////////////////
+        // Validations
+        ///////////////////////////////////////////////////////////////////////
+        router.POST().route("/validateOffer").with(ValidationController.class, "validateOffer");
  
         ///////////////////////////////////////////////////////////////////////
         // Assets (pictures / javascript)

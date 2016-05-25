@@ -14,6 +14,7 @@ public interface OfferService {
 	List<OfferType> getOfferTypes();
 	void deleteOffer(int offerId);
 	void updateOffer(OfferVO offer);
+	void updateOffer(Offer offer);
 
 	void approveOffer(int offerId);
 	void publishOffer(int offerId);

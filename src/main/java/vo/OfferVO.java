@@ -3,9 +3,13 @@ package vo;
 import models.Career;
 import models.Offer;
 import models.OfferType;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.persistence.Enumerated;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -18,7 +22,6 @@ public class OfferVO {
 
     private Integer organizationId;
 	private Date createdAt;
-    @Size(min = 10)
 	private String description;
 	private boolean disabled;
 	private String duration;
@@ -136,6 +139,7 @@ public class OfferVO {
 	public void setCreatedAt(Date createdAt) {
 		this.createdAt = createdAt;
 	}
+	@Size(min = 10)
 	public String getDescription() {
 		return description;
 	}
@@ -160,12 +164,14 @@ public class OfferVO {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+	@NotEmpty
 	public String getEndDate() {
 		return endDate;
 	}
 	public void setEndDate(String endDate) {
 		this.endDate = endDate;
 	}
+
 	public boolean isHasIncome() {
 		return hasIncome;
 	}
@@ -214,12 +220,14 @@ public class OfferVO {
 	public void setRequirements(String requirements) {
 		this.requirements = requirements;
 	}
+	@NotEmpty
 	public String getStartDateAvailable() {
 		return startDateAvailable;
 	}
 	public void setStartDateAvailable(String startDateAvailable) {
 		this.startDateAvailable = startDateAvailable;
 	}
+	@NotEmpty
 	public String getStartDateInternship() {
 		return startDateInternship;
 	}
@@ -238,7 +246,7 @@ public class OfferVO {
 	public void setAvailable(boolean available) {
 		this.available = available;
 	}
-
+	@NotEmpty
 	public String getLocation() {
 		return location;
 	}
@@ -246,7 +254,7 @@ public class OfferVO {
 	public void setLocation(String location) {
 		this.location = location;
 	}
-
+	@NotEmpty
 	public String getTitle() {
 		return title;
 	}

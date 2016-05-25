@@ -162,6 +162,12 @@ Logger logger = LoggerFactory.getLogger(UserDaoImpl.class);
 	}
 
 	@Transactional
+	public void updateOffer(Offer offer) {
+
+		offerDao.updateOffer(offer);
+	}
+
+	@Transactional
 	public void approveOffer(int offerId){
 
 		Offer offer = offerDao.findOfferById(offerId);
