@@ -24,4 +24,6 @@ public interface OfferDao {
 	void saveApplication(Application application);
 
 	List<Application> getApplicationsByOfferId(int offerId);
+
+	List<Student> getCandidatesByOfferId(int offerId);
 }

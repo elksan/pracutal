@@ -24,6 +24,7 @@ public class Student {
 	private User user;
 	private Career career;
 	private List<Application> applications;
+	private List<Internship> internships;
 
 	@Id
 	public Integer getId() {
@@ -146,5 +147,14 @@ public class Student {
 
 	public void setApplications(List<Application> applications) {
 		this.applications = applications;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "student")
+	public List<Internship> getInternships() {
+		return internships;
+	}
+
+	public void setInternships(List<Internship> internships) {
+		this.internships = internships;
 	}
 }

@@ -21,10 +21,14 @@ import com.google.inject.Singleton;
 
 import dao.OfferDao;
 import dao.UserDao;
+import dao.impl.InternshipDaoImpl;
 import dao.impl.OfferDaoImpl;
 import dao.impl.UserDaoImpl;
+import services.InternshipService;
 import services.OfferService;
 import services.UserService;
+import services.impl.InternshipDao;
+import services.impl.InternshipServiceImpl;
 import services.impl.OfferServiceImpl;
 import services.impl.UserServiceImpl;
 
@@ -41,6 +45,9 @@ public class Module extends AbstractModule {
         
         bind(OfferService.class).to(OfferServiceImpl.class);
         bind(OfferDao.class).to(OfferDaoImpl.class);
+
+        bind(InternshipService.class).to(InternshipServiceImpl.class);
+        bind(InternshipDao.class).to(InternshipDaoImpl.class);
     }
 
 }

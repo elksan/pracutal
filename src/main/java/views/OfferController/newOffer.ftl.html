@@ -19,22 +19,22 @@
 					</div>
 					<div class="row">
 						<div class="input-field col s12">
-							<input placeholder="${i18n('offer.title.placeholder')}" id="title" name="title"  type="text"
+							<input placeholder="${i18n('offer.title.placeholder')}" id="${i18n('offer.title')}" name="title"  type="text"
 								   class="validate" required aria-required="true" value="<#if offer??>${(offer.title)!}</#if>">
-							<label for="title">${i18n("offer.title")}</label>
+							<label for="${i18n('offer.title')}">${i18n("offer.title")}</label>
 						</div>
 					</div>
 					<div class="row">	
 						<div class="input-field col s12">
-							<textarea id="description" name="description" placeholder="${i18n('offer.description.placeholder')}"
+							<textarea id="${i18n('offer.description')}" name="description" placeholder="${i18n('offer.description.placeholder')}"
 									  class="validate" value="<#if offer??>${(offer.description)!}</#if>"></textarea><br/>
-							<label for="description">${i18n("offer.description")}</label>
+							<label for="${i18n('offer.description')}">${i18n("offer.description")}</label>
 						</div>
 					</div>
 					<div class="row">
 						<div class="input-field col s6">
-							<input id="startDate" name="startDateInternship" type="date" class="datepicker" readonly="false" required>
-							<label for="startDate">${i18n("offer.startDate")}</label>
+							<input id="${i18n('offer.startDate')}" name="startDateInternship" type="date" class="datepicker" readonly="false" required>
+							<label for="${i18n('offer.startDate')}">${i18n("offer.startDate")}</label>
 						</div>
 						<div class="input-field col s6">
 							<input id="endDate" name="endDate" type="date" class="datepicker" required>
@@ -206,7 +206,9 @@
 
 	$(document).ready(function() {
 		$('select').material_select();
-		$('#description').materialnote();
+		tinymce.init({
+			selector: '#${i18n("offer.description")}'
+		});
 	});
 
 
@@ -220,7 +222,7 @@
 
 		var $toastContent = $(' ');
 
-
+		tinyMCE.triggerSave();
 		$('#loadingModal').openModal();
 
 		$.ajax({
@@ -249,7 +251,13 @@
 
 			var errorInfo = "";
 			$.each(data.responseJSON.violations, function (key, value) {
-				Materialize.toast(value.field + " " + value.constraintViolation.messageKey, 4000);
+
+				if($("[name='" + value.field + "']").attr("id") == null){
+					Materialize.toast($("[name='" + value.field + "']:eq(1)").attr("id") + " " + value.constraintViolation.messageKey, 10000);
+				}else {
+					Materialize.toast($("[name='" + value.field + "']").attr("id") + " " + value.constraintViolation.messageKey, 10000);
+				}
+
 			});
 
 		})
@@ -260,7 +268,11 @@
 
 		;
 
-
+		$(document).on('click', '#toast-container .toast', function() {
+			$(this).fadeOut(function(){
+				$(this).remove();
+			});
+		});
 	});
 
 

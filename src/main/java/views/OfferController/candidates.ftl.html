@@ -1,0 +1,37 @@
+<#import "../layout/defaultLayout.ftl.html" as layout>
+<@layout.myLayout "Ver Postulantes">
+
+    <div class="container">
+        <div class="row">
+            <#list studentList as student>
+
+
+                <div class="col s12 m6 l4">
+                    <div class="card">
+                        <div class="card-image">
+                            <img src="/assets/images/user.png">
+                            <span class="card-title">${student.user.firstName} ${student.user.lastName}</span>
+                        </div>
+                        <div class="card-content">
+                            <p>I am a very simple card. I am good at containing small bits of information.
+                                I am convenient because I require little markup to use effectively.</p>
+                        </div>
+                        <div class="card-action">
+                            <a href="#">Ver Perfil</a>
+                            <a href="/assignInternship/${student.user.id}">Asignar a practica</a>
+                        </div>
+                    </div>
+                </div>
+
+            <#else>
+                <div class="col s12 ">
+                    <h3 class="center-align">${i18n("candidates.empty")}</h3>
+                </div>
+
+            </#list>
+
+        </div>
+    </div>
+
+
+</@layout.myLayout>

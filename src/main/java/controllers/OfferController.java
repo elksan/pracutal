@@ -200,4 +200,20 @@ public class OfferController {
 		return Results.redirect("/offers");
 	}
 
+
+	public Result candidates(){
+
+		List<Student> studentList = offerService.getCandidatesByOfferId(offerId);
+		applicationMap = new HashMap<>();
+
+	/*	for(Application application : applicationList){
+
+			applicationMap.put(application.getId(), application);
+		}*/
+		Result result = Results.html();
+		result.render("studentList", studentList);
+
+		return result;
+	}
+
 }

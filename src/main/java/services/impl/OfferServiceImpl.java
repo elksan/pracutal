@@ -212,4 +212,17 @@ Logger logger = LoggerFactory.getLogger(UserDaoImpl.class);
 
 		return offer.getApplications();
 	}
+
+	@UnitOfWork
+	public List<Student> getCandidatesByOfferId(int offerId) {
+
+		List<Student> studentList = offerDao.getCandidatesByOfferId(offerId);
+		//Offer offer = offerDao.findOfferById(offerId);
+
+	/*	for (Application application : offer.getApplications()){
+			Hibernate.initialize(application.getStudent());
+		}*/
+
+		return studentList;
+	}
 }

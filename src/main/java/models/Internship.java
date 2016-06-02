@@ -2,12 +2,7 @@ package models;
 
 import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.*;
 
 @Entity
 public class Internship {
@@ -65,6 +60,8 @@ public class Internship {
 	}
 	
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(columnDefinition = "serial")
 	public Integer getId() {
 		return id;
 	}
@@ -80,8 +77,8 @@ public class Internship {
 		this.startDate = startDate;
 	}
 	
-	@OneToOne(fetch=FetchType.LAZY)
-	@PrimaryKeyJoinColumn
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name = "student_id")
 	public Student getStudent() {
 		return student;
 	}

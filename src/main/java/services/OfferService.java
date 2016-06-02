@@ -22,4 +22,5 @@ public interface OfferService {
 	void applyForOffer(int offerId, int userId);
 
 	List<Application> getApplicationsByOfferId(int offerId);
+	List<Student> getCandidatesByOfferId(int offerId);
 }

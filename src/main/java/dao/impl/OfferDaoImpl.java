@@ -223,6 +223,18 @@ public class OfferDaoImpl implements OfferDao{
 		return applicationList;
 	}
 
+	public List<Student> getCandidatesByOfferId(int offerId) {
+		List<Student> studentList = new ArrayList<>();
+
+		EntityManager entityManager = entityManagerProvider.get();
+		Query q = entityManager.createQuery("SELECT s FROM Application a INNER JOIN a.student s WHERE a.offer.id = :offerId");
+		q.setParameter("offerId", offerId);
+
+		studentList = q.getResultList();
+
+		return studentList;
+	}
+
 	public List<Career> getCareers(List<Integer> careerIds) {
 		EntityManager entityManager = entityManagerProvider.get();
 

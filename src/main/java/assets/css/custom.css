@@ -211,6 +211,9 @@ label:not(.active):after {
 	height: 50px;
 	width: 60px;
 }
+#toast-container .toast {
+	cursor: pointer;
+}
 
 @media only screen and (max-width: 992px){
 	.info {
