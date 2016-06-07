@@ -212,6 +212,7 @@ public class OfferController {
 		}*/
 		Result result = Results.html();
 		result.render("studentList", studentList);
+		result.render("offerId", offerId);
 
 		return result;
 	}

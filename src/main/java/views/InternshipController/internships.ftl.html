@@ -1,0 +1,26 @@
+<#import "../layout/defaultLayout.ftl.html" as layout>
+
+<@layout.myLayout i18n("title")>
+
+    <div class="container">
+
+        <#list internshipList>
+            <ul class="collection">
+                <#items as internship>
+                    <li class="collection-item avatar">
+                        <img src="https://www.google.com.pg/images/branding/googleg/1x/googleg_standard_color_128dp.png" class="circle">
+                        <span class="title">${internship.offer.title}</span>
+                        <p>${internship.offer.organization.user.firstName} <br>
+                           <#if !internship.closed> ${i18n("internship.inprogress")} <#else> ${i18n("internship.closed")} </#if><br>
+                        </p>
+                        <a href="/logbook/${internship.id}" class="secondary-content"><i class="material-icons ">details</i></a>
+                    </li>
+                </#items>
+            </ul>
+        <#else>
+            <h3 class="center-align">${i18n("internship.noItems")}</h3>
+        </#list>
+
+
+    </div>
+</@layout.myLayout>

@@ -27,7 +27,7 @@ import dao.impl.UserDaoImpl;
 import services.InternshipService;
 import services.OfferService;
 import services.UserService;
-import services.impl.InternshipDao;
+import dao.InternshipDao;
 import services.impl.InternshipServiceImpl;
 import services.impl.OfferServiceImpl;
 import services.impl.UserServiceImpl;

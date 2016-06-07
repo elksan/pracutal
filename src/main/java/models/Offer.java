@@ -44,6 +44,7 @@ public class Offer implements Serializable {
 	private List<Career> careers;
 	private Organization organization;
 	private List<Application> applications;
+	private List<Internship> internships;
 	
 	public Offer() {
 		
@@ -320,5 +321,14 @@ public class Offer implements Serializable {
 
 	public void setApplications(List<Application> applications) {
 		this.applications = applications;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "offer")
+	public List<Internship> getInternships() {
+		return internships;
+	}
+
+	public void setInternships(List<Internship> internships) {
+		this.internships = internships;
 	}
 }

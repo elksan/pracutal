@@ -1,6 +1,7 @@
 package models;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.*;
 
@@ -15,9 +16,14 @@ public class Internship {
 	private String duration;
 	private Integer id;
 	private Date startDate;
-	private Student student;
-	//private Supervisor supervisor;
+	private Date endDate;
 	private Date updatedAt;
+	private String title;
+
+	private Student student;
+	private Offer offer;
+	private List<LogbookEntry> logbookEntries;
+
 	
 	
 	public boolean isApproved() {
@@ -76,8 +82,16 @@ public class Internship {
 	public void setStartDate(Date startDate) {
 		this.startDate = startDate;
 	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
 	
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "student_id")
 	public Student getStudent() {
 		return student;
@@ -94,5 +108,41 @@ public class Internship {
 		this.updatedAt = updatedAt;
 	}
 
-	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "offer_id")
+	public Offer getOffer() {
+		return offer;
+	}
+
+	public void setOffer(Offer offer) {
+		this.offer = offer;
+	}
+
+	@PrePersist
+	protected void onCreate() {
+		createdAt = new Date();
+	}
+
+	@PreUpdate
+	protected void onUpdate() {
+		updatedAt = new Date();
+	}
+
+	@Column(name="end_date")
+	public Date getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL, mappedBy = "internship")
+	public List<LogbookEntry> getLogbookEntries() {
+		return logbookEntries;
+	}
+
+	public void setLogbookEntries(List<LogbookEntry> logbookEntries) {
+		this.logbookEntries = logbookEntries;
+	}
 }
