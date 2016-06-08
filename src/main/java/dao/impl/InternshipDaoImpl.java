@@ -6,9 +6,13 @@ import dao.InternshipDao;
 import models.Internship;
 import models.LogbookEntry;
 
+import javax.persistence.EntityGraph;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import javax.persistence.Subgraph;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Diego on 02-06-2016.
@@ -42,7 +46,12 @@ public class InternshipDaoImpl implements InternshipDao {
 	public Internship findInternshipById(int internshipId) {
 
 		EntityManager entityManager = entityManagerProvider.get();
-		Internship internship = entityManager.find(Internship.class, internshipId);
+		EntityGraph graph = entityManager.getEntityGraph("graph.Internship.entries");
+
+		Map hints = new HashMap();
+		hints.put("javax.persistence.fetchgraph", graph);
+
+		Internship internship = entityManager.find(Internship.class, internshipId, hints);
 
 		return internship;
 	}

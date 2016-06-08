@@ -52,8 +52,8 @@ public class InternshipServiceImpl implements InternshipService{
 
 		internshipList = internshipDao.getinternships(userId);
 
-		for(Internship internship : internshipList)
-			Hibernate.initialize(internship.getOffer().getOrganization().getUser());
+		/*for(Internship internship : internshipList)
+			Hibernate.initialize(internship.getOffer().getOrganization().getUser());*/
 
 		return internshipList;
 	}
@@ -62,10 +62,7 @@ public class InternshipServiceImpl implements InternshipService{
 	public Internship findInternshipById(int internshipId) {
 
 		Internship internship = internshipDao.findInternshipById(internshipId);
-		for(LogbookEntry logbookEntry : internship.getLogbookEntries()){
-			logbookEntry.getInternship().getStudent();
-			logbookEntry.getInternship().getOffer().getOrganization();
-		}
+
 		return internship;
 	}
 

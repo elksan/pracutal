@@ -6,6 +6,13 @@ import java.util.List;
 import javax.persistence.*;
 
 @Entity
+@NamedEntityGraphs({
+		@NamedEntityGraph(name = "graph.Internship.entries",
+						attributeNodes = @NamedAttributeNode(value = "logbookEntries")),
+		@NamedEntityGraph(name = "graph.Internship.offer.organization.user",
+				attributeNodes = @NamedAttributeNode(value = "offer", subgraph = "organization"),
+				subgraphs = @NamedSubgraph(name = "organization", attributeNodes = @NamedAttributeNode("organization")))
+})
 public class Internship {
 	
 	private boolean approved;
