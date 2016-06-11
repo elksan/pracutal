@@ -52,13 +52,12 @@ Logger logger = LoggerFactory.getLogger(UserDaoImpl.class);
 
 		}
 
-		if(offers != null ) {
+		/*if(offers != null ) {
 			for (Offer offer : offers) {
 				Hibernate.initialize(offer.getOfferType());
-				if (offer.getOrganization() != null)
-					Hibernate.initialize(offer.getOrganization().getUser());
+				Hibernate.initialize(offer.getOrganization());
 			}
-		}
+		}*/
 
 		return offers;
 		
@@ -193,7 +192,7 @@ Logger logger = LoggerFactory.getLogger(UserDaoImpl.class);
 		Offer offer = offerDao.findOfferById(offerId);
 		application.setOffer(offer);
 
-		Student student = userDao.getUserById(userId).getStudent();
+		Student student = (Student) userDao.getUserById(userId);
 		application.setStudent(student);
 
 		offerDao.saveApplication(application);

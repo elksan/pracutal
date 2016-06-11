@@ -9,9 +9,8 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-public class Organization {
+public class Organization extends User{
 
-	private Integer id;
 	private String activity;
 	private String area;
 	private Date createdAt;
@@ -21,16 +20,6 @@ public class Organization {
 	private String webpage;
 	private Integer phoneNumber;
 	private List<Offer> offers;
-	private User user;
-
-	@Id
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
 
 	public String getActivity() {
 		return activity;
@@ -108,13 +97,4 @@ public class Organization {
 		this.offers = offers;
 	}
 
-	@OneToOne(fetch=FetchType.LAZY)
-	@PrimaryKeyJoinColumn
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
 }

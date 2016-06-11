@@ -56,9 +56,9 @@ public class InternshipController {
 	}
 
 	@FileProvider(DiskFileItemProvider.class)
-	public Result evaluationUploadFinish(Context context, @Param("upfile") FileItem upfile) throws Exception {
+	public Result evaluationUploadFinish(@LoggedInUserId int userId, Context context, @Param("upfile") FileItem upfile) throws Exception {
 
-		File destination = new File("target/classes/assets/images/hola");
+		File destination = new File("src/main/java/assets/uploadedContent/"+ userId + "_" + upfile.getFileName());
 
 		if(!destination.createNewFile())
 			return Results.badRequest();

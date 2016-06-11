@@ -5,7 +5,7 @@ import ninja.Results;
 
 public class AdminController {
 
-	public Result addUser() {
+	public Result newStudent() {
 		
 		return Results.html();
 	}

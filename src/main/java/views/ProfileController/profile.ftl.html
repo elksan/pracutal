@@ -10,7 +10,7 @@
 
 					<div class="heading">
 						<div>
-							<img class="responsive-img" src="/assets/images/user.png">
+							<a href="#modal1" class="modal-trigger"><img class="responsive-img" src="/assets/images/user.png"></a>
 						</div>
 
 						<div class="col s12 m12 l9 name">
@@ -206,12 +206,41 @@
 		</div>
 	</div>
 
+
+
+		<!-- Modal Structure -->
+		<div id="modal1" class="modal">
+
+			<form method="post" enctype="multipart/form-data" action="/evaluationUploadFinish">
+			<div class="modal-content">
+
+				<h5>${i18n("profile.uploadMessage")}</h5>
+				<br>
+
+				<div class="file-field input-field">
+					<div class="btn">
+						<span>File</span>
+						<input type="file" name="upfile" accept=".png,.jpg, .jpeg"><br />
+					</div>
+					<div class="file-path-wrapper">
+						<input class="file-path validate" type="text">
+					</div>
+				</div>
+
+			</div>
+			<div class="modal-footer">
+				<button type="submit" class="btn waves-effect waves-light">${i18n("offer.submit")}<i class="material-icons right">send</i></button>
+			</div>
+			</form>
+		</div>
+
 	<script type="text/javascript">
 		$(document).ready(function(){
 
 			$('.navbar li.active').removeClass('active');
 			$('#menus #profile-btn').addClass('active');
 
+			$('.modal-trigger').leanModal();
 		});
 	</script>
 	</@layout.myLayout>

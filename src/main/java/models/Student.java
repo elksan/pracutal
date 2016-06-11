@@ -6,9 +6,9 @@ import java.util.List;
 import javax.persistence.*;
 
 @Entity
-public class Student {
+public class Student extends User {
 
-	private Integer id;
+
 	private Date birthdate;
 	private Date createdAt;
 	private Integer entryYear;
@@ -20,20 +20,10 @@ public class Student {
 	private Date updateAt;	
 	private String jobObjective;
 	private Integer registrationNumber;
-	
-	private User user;
+
 	private Career career;
 	private List<Application> applications;
 	private List<Internship> internships;
-
-	@Id
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
 
 	@Temporal(TemporalType.DATE)
 	public Date getBirthdate() {
@@ -43,7 +33,7 @@ public class Student {
 		this.birthdate = birthdate;
 	}
 
-	@Column(name="created_at")
+	@Column(name="created_at", insertable=false, updatable=false)
 	public Date getCreatedAt() {
 		return createdAt;
 	}
@@ -91,7 +81,7 @@ public class Student {
 		this.priorityScore = priorityScore;
 	}
 
-	@Column(name="updated_at")
+	@Column(name="updated_at", insertable=false, updatable=false)
 	public Date getUpdateAt() {
 		return updateAt;
 	}	
@@ -122,15 +112,6 @@ public class Student {
 		this.registrationNumber = registrationNumber;
 	}
 
-	@OneToOne(fetch=FetchType.LAZY)
-	@PrimaryKeyJoinColumn
-	public User getUser() {
-		return user;
-	}
-	public void setUser(User user) {
-		this.user = user;
-	}
-	
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="career_id", unique=true, nullable=false)
 	public Career getCareer() {

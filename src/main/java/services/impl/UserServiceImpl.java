@@ -47,7 +47,7 @@ public class UserServiceImpl implements UserService {
 
 		for(Application app : applicationList){
 
-			Hibernate.initialize(app.getOffer().getOrganization().getUser());
+			Hibernate.initialize(app.getOffer().getOrganization());
 		}
 		return applicationList;
 	}

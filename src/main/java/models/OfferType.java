@@ -8,6 +8,11 @@ import java.util.List;
  */
 @Entity
 @Table(name = "offer_type")
+@NamedEntityGraphs({
+        @NamedEntityGraph(name = "offerType.offers", attributeNodes = {
+                @NamedAttributeNode(value = "offers")
+        })
+})
 public class OfferType {
 
 

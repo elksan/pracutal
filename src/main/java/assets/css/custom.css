@@ -215,6 +215,17 @@ label:not(.active):after {
 	cursor: pointer;
 }
 
+.admin-menu{
+
+	margin-top: 64px;
+	color: #000;
+}
+main, footer{
+
+	padding-left: 240px;
+
+}
+
 @media only screen and (max-width: 992px){
 	.info {
 	    text-align: center;

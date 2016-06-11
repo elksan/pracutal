@@ -3,7 +3,13 @@
     <script defer type="text/javascript">
         $(window).load(function() {
             tinyMCE.init({
-                mode : "textareas"
+                selector : "#content",
+                plugins: [
+                    'advlist autolink lists link charmap print preview hr anchor pagebreak',
+                    'searchreplace wordcount visualblocks visualchars code fullscreen',
+                    'insertdatetime nonbreaking save table contextmenu directionality',
+                    'emoticons template paste textcolor colorpicker textpattern '
+                ]
             });
         });
     </script>

@@ -12,27 +12,16 @@ import javax.persistence.*;
 				attributeNodes = @NamedAttributeNode(value = "logbookEntries")),
 
 		@NamedEntityGraph(
-				name = "graph.Internship.offer.organization.user",
+				name = "graph.Internship.offer.organization",
 				attributeNodes = {
 						@NamedAttributeNode(value = "offer", subgraph = "organization")
 				},
 				subgraphs = {
 						@NamedSubgraph(
 								name = "organization",
-								attributeNodes = @NamedAttributeNode(value = "organization", subgraph = "user")),
+								attributeNodes = @NamedAttributeNode(value = "organization")),
 
-						@NamedSubgraph(
-								name = "user",
-								attributeNodes = {
-										@NamedAttributeNode(value = "user", subgraph = "user.name"),
-								}),
-						@NamedSubgraph(
-								name = "user.name",
-								attributeNodes = {
-										@NamedAttributeNode(value = "firstName"),
-										@NamedAttributeNode(value = "student")
-								}
-						)
+
 		})
 })
 public class Internship {
@@ -167,6 +156,7 @@ public class Internship {
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL, mappedBy = "internship")
+	@OrderBy(value = "createdAt DESC, updatedAt DESC ")
 	public List<LogbookEntry> getLogbookEntries() {
 		return logbookEntries;
 	}

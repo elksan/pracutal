@@ -19,9 +19,9 @@
 					</div>
 					<div class="row">
 						<div class="input-field col s12">
-							<input placeholder="${i18n('offer.title.placeholder')}" id="${i18n('offer.title')}" name="title"  type="text"
-								   class="validate" required aria-required="true" value="<#if offer??>${(offer.title)!}</#if>">
-							<label for="${i18n('offer.title')}">${i18n("offer.title")}</label>
+							<input id="${i18n('offer.title')}" name="title"  type="text"
+								   class="validate" required aria-required="true">
+							<label for="${i18n('offer.title')}">Nombre</label>
 						</div>
 					</div>
 					<div class="row">	
@@ -263,10 +263,7 @@
 		})
 		.always(function (){
 			$('#loadingModal').closeModal();
-		})
-
-
-		;
+		});
 
 		$(document).on('click', '#toast-container .toast', function() {
 			$(this).fadeOut(function(){

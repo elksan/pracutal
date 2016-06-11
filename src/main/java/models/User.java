@@ -4,21 +4,14 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.JoinTable;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
 @Entity
+@Inheritance(strategy=InheritanceType.JOINED)
 public class User {
-      
+
     private Integer id;
-    
+
     private String password;
     
     private String firstName;
@@ -48,10 +41,6 @@ public class User {
     private int signInCount;
     
     private Date updatedAt;
-    
-    private Student student;
-
-	private Organization organization;
     
     private List<Role> roles;
 
@@ -228,23 +217,6 @@ public class User {
 
 	public void setMotherLastName(String motherLastName) {
 		this.motherLastName = motherLastName;
-	}
-
-	@OneToOne(fetch=FetchType.LAZY, mappedBy="user")
-	public Student getStudent() {
-		return student;
-	}
-	public void setStudent(Student student) {
-		this.student = student;
-	}
-
-	@OneToOne(fetch=FetchType.LAZY, mappedBy="user")
-	public Organization getOrganization() {
-		return organization;
-	}
-
-	public void setOrganization(Organization organization) {
-		this.organization = organization;
 	}
 
 	@ManyToMany(fetch=FetchType.LAZY, cascade=CascadeType.ALL)

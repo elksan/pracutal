@@ -101,8 +101,8 @@ public class UserDaoImpl implements UserDao {
     		user = (User) query.setParameter("userId", userId).getSingleResult();
     		
     		logger.debug("user logged = " + user.getEmail());
-    		if(user.getStudent() != null && user.getStudent().getCareer() != null)
-    			logger.debug("careerName = " + user.getStudent().getCareer().getCareerName());
+    		/*if(user.getStudent() != null && user.getStudent().getCareer() != null)
+    			logger.debug("careerName = " + user.getStudent().getCareer().getCareerName());*/
 
 			logger.debug("user role = " + user.getRoles().get(0));
     		

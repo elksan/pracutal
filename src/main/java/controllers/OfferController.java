@@ -40,10 +40,6 @@ public class OfferController {
 
 		logger.debug(String.valueOf(offers.size()));
 
-		if(!offers.isEmpty()) {
-			logger.debug(String.valueOf(offers.get(0).getDescription()));
-
-		}
 		List<OfferType> offerTypes = offerService.getOfferTypes();
 		List<Integer> userLoggedOffers = new ArrayList<>();
 

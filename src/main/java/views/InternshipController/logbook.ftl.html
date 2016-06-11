@@ -1,22 +1,6 @@
 <#import "../layout/defaultLayout.ftl.html" as layout> <@layout.myLayout i18n("logbook")>
 
     <div class="container">
-        <form method="post" enctype="multipart/form-data" action="/evaluationUploadFinish">
-            Please specify file to upload:
-
-            <div class="file-field input-field">
-                <div class="btn">
-                    <span>File</span>
-                    <input type="file" name="upfile"><br />
-                </div>
-                <div class="file-path-wrapper">
-                    <input class="file-path validate" type="text">
-                </div>
-            </div>
-
-            <button type="submit" class="btn waves-effect waves-light">${i18n("offer.submit")}<i class="material-icons right">send</i></button>
-        </form>
-
 
         <#if internship??>
 
@@ -39,10 +23,14 @@
                 <#list internship.logbookEntries as entry>
                     <div class="card">
                         <div class="card-content">
-                            <h3></h3>
-                            <span class="right"></span>
-                            <p><#noescape>${entry.content}</#noescape></p>
-                            <p>${entry.createdAt?date}</p>
+                            <div class="row">
+                                <div class="col s12">
+                                    <h3></h3>
+                                    <span class="right"></span>
+                                    <p><#noescape>${entry.content}</#noescape></p>
+                                    <p class="right">Agregado el <span>${entry.createdAt?date}</span></p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </#list>

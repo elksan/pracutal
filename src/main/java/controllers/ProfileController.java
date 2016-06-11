@@ -35,7 +35,7 @@ public class ProfileController {
 			User user = userService.getUserById(session.get("username"));
 			
 			result = Results.html();
-			result.render(user);
+			result.render("user", user);
 
 
 		} catch (Exception e) {

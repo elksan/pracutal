@@ -34,7 +34,7 @@ public class InternshipDaoImpl implements InternshipDao {
 		List<Internship> internshipList;
 
 		EntityManager entityManager = entityManagerProvider.get();
-		EntityGraph graph = entityManager.getEntityGraph("graph.Internship.offer.organization.user");
+		EntityGraph graph = entityManager.getEntityGraph("graph.Internship.offer.organization");
 
 		Query query = entityManager.createQuery(" SELECT x FROM Internship x WHERE student.id = :userId ");
 

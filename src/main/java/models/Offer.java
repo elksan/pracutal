@@ -10,6 +10,12 @@ import vo.OfferVO;
 
 @Entity
 @Table(name = "offer")
+@NamedEntityGraphs({
+		@NamedEntityGraph(name = "offer.organization+offertype", attributeNodes = {
+				@NamedAttributeNode(value = "organization"),
+				@NamedAttributeNode(value = "offerType")
+		})
+})
 public class Offer implements Serializable {
 
 	//private Integer organizationId;
