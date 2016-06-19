@@ -3,6 +3,7 @@ package controllers;
 import com.google.common.io.Files;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import etc.LoggedInRole;
 import etc.LoggedInUserId;
 import models.Internship;
 import models.LogbookEntry;
@@ -35,9 +36,9 @@ public class InternshipController {
 		return Results.redirect("/offers");
 	}
 
-	public Result internships(@LoggedInUserId int userId){
+	public Result internships(@LoggedInUserId int userId, @LoggedInRole int roleId){
 
-		List<Internship> internshipList = internshipService.getInternships(userId);
+		List<Internship> internshipList = internshipService.getInternships(userId, roleId);
 		Result result = Results.html();
 		result.render("internshipList", internshipList);
 		return result;
@@ -76,7 +77,8 @@ public class InternshipController {
 	public Result logbookSaveEntry(LogbookEntry entry){
 
 		internshipService.addLogbookEntry(entry, internshipId);
-
 		return Results.redirect("/logbook/" + internshipId);
 	}
+
+
 }

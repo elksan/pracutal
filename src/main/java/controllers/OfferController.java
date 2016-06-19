@@ -43,9 +43,34 @@ public class OfferController {
 		List<OfferType> offerTypes = offerService.getOfferTypes();
 		List<Integer> userLoggedOffers = new ArrayList<>();
 
+		int practices =0;
+		int freelance = 0;
+		int partTime = 0;
+		int fullTime = 0;
+		int thesis = 0;
+
 		for (Offer offer : offers){
 			if(offer.getOrganization().getId() == userId)
 				userLoggedOffers.add(offer.getId());
+
+			switch (offer.getOfferType().getId()){
+
+				case 1:
+					practices++;
+					break;
+				case 2:
+					thesis++;
+					break;
+				case 3:
+					fullTime++;
+					break;
+				case 4:
+					partTime++;
+					break;
+				case 5:
+					freelance++;
+					break;
+			}
 		}
 
 

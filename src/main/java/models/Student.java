@@ -20,7 +20,8 @@ public class Student extends User {
 	private Date updateAt;	
 	private String jobObjective;
 	private Integer registrationNumber;
-
+	private String lastName;
+	private String motherLastName;
 	private Career career;
 	private List<Application> applications;
 	private List<Internship> internships;
@@ -40,7 +41,7 @@ public class Student extends User {
 	public void setCreatedAt(Date createdAt) {
 		this.createdAt = createdAt;
 	}
-	
+
 	@Column(name="entry_year")
 	public Integer getEntryYear() {
 		return entryYear;
@@ -56,7 +57,23 @@ public class Student extends User {
 	public void setRut(Integer rut) {
 		this.rut = rut;
 	}
-	
+
+	@Column(name="last_name")
+	public String getLastName() {
+		return lastName;
+	}
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	@Column(name="mother_last_name")
+	public String getMotherLastName() {
+		return motherLastName;
+	}
+	public void setMotherLastName(String motherLastName) {
+		this.motherLastName = motherLastName;
+	}
+
 	@Column(name="phone_number")
 	public Integer getPhoneNumber() {
 		return phoneNumber;
@@ -138,4 +155,5 @@ public class Student extends User {
 	public void setInternships(List<Internship> internships) {
 		this.internships = internships;
 	}
+
 }

@@ -29,7 +29,7 @@ public class InternshipDaoImpl implements InternshipDao {
 		entityManager.persist(internship);
 	}
 
-	public List<Internship> getinternships(int userId) {
+	public List<Internship> getInternshipsByStudentId(int userId) {
 
 		List<Internship> internshipList;
 
@@ -37,6 +37,24 @@ public class InternshipDaoImpl implements InternshipDao {
 		EntityGraph graph = entityManager.getEntityGraph("graph.Internship.offer.organization");
 
 		Query query = entityManager.createQuery(" SELECT x FROM Internship x WHERE student.id = :userId ");
+
+		query.setParameter("userId", userId);
+		query.setHint("javax.persistence.fetchgraph", graph);
+
+		internshipList = query.getResultList();
+
+
+		return internshipList;
+	}
+
+	public List<Internship> getInternshipsByOrganizationId(int userId) {
+
+		List<Internship> internshipList;
+
+		EntityManager entityManager = entityManagerProvider.get();
+		EntityGraph graph = entityManager.getEntityGraph("graph.Internship.student");
+
+		Query query = entityManager.createQuery(" SELECT x FROM Internship x WHERE offer.organization.id = :userId ");
 
 		query.setParameter("userId", userId);
 		query.setHint("javax.persistence.fetchgraph", graph);

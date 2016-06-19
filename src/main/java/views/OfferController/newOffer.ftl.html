@@ -20,7 +20,7 @@
 					<div class="row">
 						<div class="input-field col s12">
 							<input id="${i18n('offer.title')}" name="title"  type="text"
-								   class="validate" required aria-required="true">
+								    required="" aria-required="true">
 							<label for="${i18n('offer.title')}">Nombre</label>
 						</div>
 					</div>
@@ -151,9 +151,6 @@
 				</div>
 				</div>
 			</div>
-			<div>
-				cargando...
-			</div>
 		</div>
 	</div>
 
@@ -209,6 +206,8 @@
 		tinymce.init({
 			selector: '#${i18n("offer.description")}'
 		});
+
+		$('#newOfferForm').validate();
 	});
 
 
@@ -228,7 +227,7 @@
 		$.ajax({
 			url: "/validateOffer",
 			type: "post",
-			data: $('#newOfferForm').serialize(),
+			data: $('#newOfferForm').serializeObject(),
 			dataType: "json"
 		})
 		// using the done promise callback

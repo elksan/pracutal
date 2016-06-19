@@ -19,10 +19,23 @@ import javax.persistence.*;
 				subgraphs = {
 						@NamedSubgraph(
 								name = "organization",
-								attributeNodes = @NamedAttributeNode(value = "organization")),
+								attributeNodes = @NamedAttributeNode(value = "organization")
+						)
+				}),
 
-
-		})
+		@NamedEntityGraph(
+				name = "graph.Internship.student",
+				attributeNodes = {
+						@NamedAttributeNode(value = "student"),
+						@NamedAttributeNode(value = "offer", subgraph = "organization2")
+				},
+				subgraphs = {
+						@NamedSubgraph(
+								name = "organization2",
+								attributeNodes = @NamedAttributeNode(value = "organization")
+						)
+				}
+		)
 })
 public class Internship {
 	

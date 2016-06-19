@@ -11,7 +11,7 @@ import java.util.List;
 public interface InternshipService {
 
 	void assignInternship(int studentId, int offerId);
-	List<Internship> getInternships(int userId);
+	List<Internship> getInternships(int userId, int roleId);
 
 	Internship findInternshipById(int internshipId);
 

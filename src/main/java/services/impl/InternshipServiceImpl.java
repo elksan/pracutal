@@ -46,15 +46,16 @@ public class InternshipServiceImpl implements InternshipService{
 	}
 
 	@UnitOfWork
-	public List<Internship> getInternships(int userId) {
+	public List<Internship> getInternships(int userId, int roleId) {
 
 		List<Internship> internshipList;
 
-		internshipList = internshipDao.getinternships(userId);
-
-		/*for(Internship internship : internshipList)
-			Hibernate.initialize(internship.getOffer().getOrganization().getUser());*/
-
+		if(roleId == 3) {
+			internshipList = internshipDao.getInternshipsByStudentId(userId);
+		}
+		else{
+			internshipList = internshipDao.getInternshipsByOrganizationId(userId);
+		}
 		return internshipList;
 	}
 

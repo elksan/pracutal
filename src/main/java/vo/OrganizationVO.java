@@ -1,17 +1,16 @@
-package models;
+package vo;
 
-/**
- * Created by Diego on 22-04-2016.
- */
+import com.fasterxml.jackson.annotation.JsonProperty;
+import models.Offer;
+import models.Role;
 
-import vo.OrganizationVO;
-
-import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
-@Entity
-public class Organization extends User{
+/**
+ * Created by Diego on 12-06-2016.
+ */
+public class OrganizationVO extends UserVO{
 
 	private String activity;
 	private String area;
@@ -19,21 +18,6 @@ public class Organization extends User{
 	private String description;
 	private String webpage;
 	private Integer phoneNumber;
-	private List<Offer> offers;
-
-	public Organization() {
-	}
-
-	public Organization(OrganizationVO organizationVO) {
-
-		this.activity = organizationVO.getActivity();
-		this.area = organizationVO.getArea();
-		this.description = organizationVO.getDescription();
-		this.webpage = organizationVO.getWebpage();
-		this.phoneNumber = organizationVO.getPhoneNumber();
-		this.name = organizationVO.getName();
-		this.email = organizationVO.getEmail();
-	}
 
 	public String getActivity() {
 		return activity;
@@ -75,31 +59,11 @@ public class Organization extends User{
 		this.webpage = webpage;
 	}
 
-	@Column(name="phone_number")
 	public Integer getPhoneNumber() {
 		return phoneNumber;
 	}
 
 	public void setPhoneNumber(Integer phoneNumber) {
 		this.phoneNumber = phoneNumber;
-	}
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "organization")
-	public List<Offer> getOffers() {
-		return offers;
-	}
-
-	public void setOffers(List<Offer> offers) {
-		this.offers = offers;
-	}
-
-	@PrePersist
-	protected void onCreate() {
-		createdAt = new Date();
-	}
-
-	@PreUpdate
-	protected void onUpdate() {
-		updatedAt = new Date();
 	}
 }

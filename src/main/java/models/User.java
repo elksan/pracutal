@@ -1,5 +1,10 @@
 package models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -10,39 +15,35 @@ import javax.persistence.*;
 @Inheritance(strategy=InheritanceType.JOINED)
 public class User {
 
-    private Integer id;
+    protected Integer id;
 
-    private String password;
-    
-    private String firstName;
-    
-    private String lastName;
-    
-    private String motherLastName;
-    
-    private Date createdAt;
-    
-    private Date currentSignInAt;
-    
-    private String currentSignInIp;
-    
-    private String email;
-    
-    private Date lastSignInAt;
-    
-    private String lastSignInIp;
-    
-    private Date rememberCreatedAt;
-    
-    private Date resetPasswordSentAt;
-    
-    private String resetPasswordToken;
-    
-    private int signInCount;
-    
-    private Date updatedAt;
-    
-    private List<Role> roles;
+	protected String password;
+
+	protected String name;
+
+	protected Date createdAt;
+
+	protected Date currentSignInAt;
+
+	protected String currentSignInIp;
+
+	protected String email;
+
+	protected Date lastSignInAt;
+
+	protected String lastSignInIp;
+
+	protected Date rememberCreatedAt;
+
+	protected Date resetPasswordSentAt;
+
+	protected String resetPasswordToken;
+
+	protected int signInCount;
+
+	protected Date updatedAt;
+
+	protected List<Role> roles;
 
     
     
@@ -56,14 +57,12 @@ public class User {
                                                                                                 
     
 
-    public User(int id, String password, String firstName, String lastName, Date createdAt, Date currentSignInAt,
+    public User(int id, String password, Date createdAt, Date currentSignInAt,
 			String currentSignInIp, String email, Date lastSignInAt, String lastSignInIp, Date rememberCreatedAt,
 			Date resetPasswordSentAt, String resetPasswordToken, int signInCount, Date updatedAt) {
 		super();
 		this.id = id;
 		this.password = password;
-		this.firstName = firstName;
-		this.lastName = lastName;
 		this.createdAt = createdAt;
 		this.currentSignInAt = currentSignInAt;
 		this.currentSignInIp = currentSignInIp;
@@ -78,6 +77,8 @@ public class User {
 	}
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(columnDefinition = "serial")
 	public Integer getId() {
 		return id;
 	}
@@ -94,23 +95,6 @@ public class User {
 		this.password = password;
 	}
 
-	@Column(name="first_name")
-	public String getFirstName() {
-		return firstName;
-	}
-
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	@Column(name="last_name")
-	public String getLastName() {
-		return lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
 
 	@Column(name="created_at")
 	public Date getCreatedAt() {
@@ -210,15 +194,6 @@ public class User {
 		this.updatedAt = updatedAt;
 	}
 
-	@Column(name="mother_last_name")
-	public String getMotherLastName() {
-		return motherLastName;
-	}
-
-	public void setMotherLastName(String motherLastName) {
-		this.motherLastName = motherLastName;
-	}
-
 	@ManyToMany(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
 	@JoinTable(name = "role_user", joinColumns = {
 			@JoinColumn(name = "user_id", nullable = false, updatable = false) },
@@ -231,5 +206,11 @@ public class User {
 	}
 
 
+	public String getName() {
+		return name;
+	}
 
+	public void setName(String name) {
+		this.name = name;
+	}
 }

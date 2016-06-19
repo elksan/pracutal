@@ -11,7 +11,8 @@ import java.util.List;
 public interface InternshipDao {
 
 	void saveInternship(Internship internship);
-	List<Internship> getinternships(int userId);
+	List<Internship> getInternshipsByStudentId(int userId);
+	List<Internship> getInternshipsByOrganizationId(int userId);
 
 	Internship findInternshipById(int internshipId);
 

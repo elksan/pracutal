@@ -1,0 +1,135 @@
+<#import "../layout/defaultLayout.ftl.html" as layout> <@layout.myLayout i18n("admin.adminitration")>
+
+    <div class="container">
+
+        <div class="row">
+            <div class="col s12">
+
+                <div class="card-panel  white margined-top">
+                    <form id="formito" action="/addOrganization" method="post" class="form-horizontal" role="form">
+
+                        <h4>${i18n("admin.newOrganization")}</h4>
+                        <br>
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <input id="${i18n('organization.name')}" name="name"  type="text" required aria-required="true"
+                                       value="<#if offer??>${(organization.name)!}</#if>">
+                                <label for="${i18n('organization.name')}">${i18n('organization.name')}</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <input id="${i18n('organization.area')}" name="area"  type="text" required aria-required="true"
+                                       value="<#if offer??>${(organization.area)!}</#if>">
+                                <label for="${i18n('organization.area')}">${i18n('organization.area')}</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <textarea id="${i18n('organization.description')}" name="description" placeholder="${i18n('organization.placeholder')}" required aria-required="true"
+                                       value="<#if offer??>${(organization.description)!}</#if>"></textarea>
+                                <label for="${i18n('organization.description')}"></label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <input id="${i18n('organization.email')}" name="email"  type="email" class="validate"
+                                       value="<#if offer??>${(organization.email)!}</#if>">
+                                <label for="${i18n('organization.email')}">${i18n('organization.email')}</label>
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <input id="${i18n('organization.webpage')}" name="webpage"  type="text"
+                                       value="<#if offer??>${(organization.webpage)!}</#if>">
+                                <label for="${i18n('organization.webpage')}">${i18n('organization.webpage')}</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <input id="${i18n('organization.phoneNumber')}" name="phoneNumber"  type="text"
+                                       value="<#if offer??>${(organization.phoneNumber)!}</#if>">
+                                <label for="${i18n('organization.phoneNumber')}">${i18n('organization.phoneNumber')}</label>
+                            </div>
+                        </div>
+                        <input type="submit" value="${i18n("offer.submit")}" class="btn btn-success pull-right" />
+
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+
+            $('.progress').hide();
+            tinymce.init({
+                selector: '#${i18n("organization.description")}'
+            });
+
+            $.validator.setDefaults({
+                errorClass: 'invalid',
+                validClass: "valid",
+                ignore: '',
+                errorPlacement: function (error, element) {
+                    $(element)
+                            .closest("form")
+                            .find("label[for='" + element.attr("id") + "']")
+                            .attr('data-error', error.text());
+                },
+                submitHandler: function (form) {
+                    console.log('form ok');
+                }
+            });
+
+
+            $('form').validate();
+        });
+
+        $('form').submit(function(e) {
+            $('.progress').show();
+            event.preventDefault();
+            e.returnValue = false;
+
+            tinyMCE.triggerSave();
+            var formData = JSON.stringify($('form').serializeObject());
+
+            $.ajax({
+                type: "POST",
+                url: "/addOrganization",
+                data: formData,
+                dataType: "json",
+                async: "false",
+                contentType: "application/json"
+            })
+
+            .done(function(data) {
+                console.log("success!");
+                $('.progress').hide();
+                if (data.redirect) {
+                    // data.redirect contains the string URL to redirect to
+                    window.location.replace(data.redirect);
+                }
+                else {
+                    // data.form contains the HTML for the replacement form
+                    $("#myform").replaceWith(data.form);
+                }
+            })
+
+            .fail(function (data) {
+                $('.progress').hide();
+                // here we will handle errors and validation messages
+                console.log("error");
+                console.log(data);
+
+                Materialize.toast(data.responseJSON.text);
+            })
+            .always(function (){
+            });
+        });
+    </script>
+</@layout.myLayout>

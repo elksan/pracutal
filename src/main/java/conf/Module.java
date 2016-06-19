@@ -19,15 +19,19 @@ package conf;
 import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 
+import dao.AdminDao;
 import dao.OfferDao;
 import dao.UserDao;
+import dao.impl.AdminDaoImpl;
 import dao.impl.InternshipDaoImpl;
 import dao.impl.OfferDaoImpl;
 import dao.impl.UserDaoImpl;
+import services.AdminService;
 import services.InternshipService;
 import services.OfferService;
 import services.UserService;
 import dao.InternshipDao;
+import services.impl.AdminServiceImpl;
 import services.impl.InternshipServiceImpl;
 import services.impl.OfferServiceImpl;
 import services.impl.UserServiceImpl;
@@ -48,6 +52,9 @@ public class Module extends AbstractModule {
 
         bind(InternshipService.class).to(InternshipServiceImpl.class);
         bind(InternshipDao.class).to(InternshipDaoImpl.class);
+
+        bind(AdminService.class).to(AdminServiceImpl.class);
+        bind(AdminDao.class).to(AdminDaoImpl.class);
     }
 
 }

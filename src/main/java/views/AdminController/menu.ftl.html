@@ -1,11 +1,11 @@
-<#import "../layout/defaultLayout.ftl.html" as layout> <@layout.myLayout i18n("admin.administation")>
+<#import "../layout/defaultLayout.ftl.html" as layout> <@layout.myLayout i18n("admin.adminitration")>
 
 
 
 
 		<nav class="side-nav fixed admin-menu">
 			<ul class="">
-				<li class="collection-item"><a href="#"><i class="material-icons left">local_library</i>${i18n("admin.students")}</a></li>
+				<li class="collection-item" href="/react"><a href="/react" style="width: 100%"><i class="material-icons left">local_library</i>${i18n("admin.students")}</a></li>
 				<li class="collection-item"><a><i class="material-icons left">business_center</i>${i18n("admin.organizations")}</a></li>
 				<li class="collection-item"><a><i class="material-icons left">insert_chart</i>${i18n("admin.reports")}</a></li>
 			</ul>
@@ -18,14 +18,14 @@
 				<h2> ${i18n("admin.administation")}</h2>
 			</div>
 
-		<div class="fixed-action-btn click-to-toggle" >
+		<div class="fixed-action-btn" >
 			<a class="btn-floating btn-large red">
 				<i class="material-icons">menu</i>
 			</a>
 			<ul>
 				<li><a href="/newStudent" class="btn-floating green tooltipped"
 					   data-position="left" data-delay="50" data-tooltip="Nuevo alumno"><i class="material-icons right">add</i></a></li>
-				<li><a href="#" class="btn-floating blue tooltipped"
+				<li><a  href="/newOrganization" class="btn-floating blue tooltipped"
 					   data-position="left" data-delay="50" data-tooltip="Nueva empresa"><i class="material-icons right">add</i></a></li>
 
 			</ul>
