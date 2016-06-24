@@ -22,6 +22,8 @@ import javax.persistence.Query;
 
 import models.Application;
 import models.Organization;
+import models.Role;
+import org.mindrot.jbcrypt.BCrypt;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -74,6 +76,11 @@ public class UserDaoImpl implements UserDao {
                 	
                     return true;
                 }
+				else{
+					if(BCrypt.checkpw(password, user.getPassword())){
+						return true;
+					}
+				}
                 
             }
 
@@ -181,6 +188,12 @@ public class UserDaoImpl implements UserDao {
 
 		return  applicationList;
 
+	}
+
+	public Role findRoleById(int roleId){
+
+		EntityManager entityManager = entityManagerProvider.get();
+		return entityManager.find(Role.class, roleId);
 	}
 
 

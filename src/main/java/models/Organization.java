@@ -5,6 +5,7 @@ package models;
  */
 
 import vo.OrganizationVO;
+import vo.VerificationToken;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -15,7 +16,6 @@ public class Organization extends User{
 
 	private String activity;
 	private String area;
-	private Boolean disabled;
 	private String description;
 	private String webpage;
 	private Integer phoneNumber;
@@ -49,14 +49,6 @@ public class Organization extends User{
 
 	public void setArea(String area) {
 		this.area = area;
-	}
-
-	public Boolean getDisabled() {
-		return disabled;
-	}
-
-	public void setDisabled(Boolean disabled) {
-		this.disabled = disabled;
 	}
 
 	public String getDescription() {
@@ -96,10 +88,14 @@ public class Organization extends User{
 	@PrePersist
 	protected void onCreate() {
 		createdAt = new Date();
+		disabled = true;
 	}
 
 	@PreUpdate
 	protected void onUpdate() {
 		updatedAt = new Date();
 	}
+
+
+
 }

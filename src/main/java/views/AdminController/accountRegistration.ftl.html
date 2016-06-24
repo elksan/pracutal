@@ -1,0 +1,95 @@
+<#import "../layout/defaultLayout.ftl.html" as layout> <@layout.myLayout i18n("title")>
+
+    <div class="container">
+        <div class="row">
+            <div class="col s12">
+                <div class="card-panel  white margined-top">
+                    <form action="/activateUser" method="post" class="form-horizontal" role="form">
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <input id="newPassword" name="newPassword"  type="password" required aria-required="true">
+                                <label for="newPassword">${i18n('user.newPassword')}</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <input id="confirmPassword" name="confirmPassword"  type="password" required aria-required="true">
+                                <label for="confirmPassword">${i18n('user.confirmPassword')}</label>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn waves-effect waves-light">${i18n("login.loginNowButton")}</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $.validator.setDefaults({
+            errorClass: 'invalid',
+            validClass: "valid",
+            ignore: '',
+            errorPlacement: function (error, element) {
+                $(element)
+                        .closest("form")
+                        .find("label[for='" + element.attr("id") + "']")
+                        .attr('data-error', error.text());
+            },
+            submitHandler: function (form) {
+                console.log('form ok');
+            }
+        });
+        $( "form" ).validate({
+            rules: {
+                newPassword: "required",
+                confirmPassword: {
+                    equalTo: "#newPassword"
+                }
+            }
+        });
+
+        $('form').submit(function(e) {
+            $('.progress').show();
+            event.preventDefault();
+            e.returnValue = false;
+
+            var formData = JSON.stringify($('form').serializeObject());
+
+            var url = window.location.href;
+            var token = url.split('/')[url.length -1];
+            $.ajax({
+                type: "POST",
+                url: "/activateUser",
+                data: formData,
+                dataType: "json",
+                async: "false",
+                contentType: "application/json"
+            })
+
+            .done(function(data) {
+                console.log("success!");
+                $('.progress').hide();
+                if (data.redirect) {
+                    // data.redirect contains the string URL to redirect to
+
+                    window.location.replace(data.redirect);
+                    Materialize.toast("${i18n('organization.successful')}");
+                }
+                else {
+                    // data.form contains the HTML for the replacement form
+                    $("#myform").replaceWith(data.form);
+                }
+            })
+
+            .fail(function (data) {
+                $('.progress').hide();
+                // here we will handle errors and validation messages
+                console.log("error");
+                console.log(data);
+
+                Materialize.toast(data.responseJSON.text);
+            })
+
+        });
+    </script>
+</@layout.myLayout>

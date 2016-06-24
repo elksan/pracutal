@@ -112,7 +112,9 @@
                 $('.progress').hide();
                 if (data.redirect) {
                     // data.redirect contains the string URL to redirect to
+
                     window.location.replace(data.redirect);
+                    Materialize.toast("${i18n('organization.successful')}");
                 }
                 else {
                     // data.form contains the HTML for the replacement form

@@ -4,46 +4,39 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import org.hibernate.annotations.*;
+import vo.VerificationToken;
 
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
 import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
 
 @Entity
 @Inheritance(strategy=InheritanceType.JOINED)
 public class User {
 
     protected Integer id;
-
 	protected String password;
-
 	protected String name;
-
 	protected Date createdAt;
-
 	protected Date currentSignInAt;
-
 	protected String currentSignInIp;
-
 	protected String email;
-
 	protected Date lastSignInAt;
-
 	protected String lastSignInIp;
-
 	protected Date rememberCreatedAt;
-
 	protected Date resetPasswordSentAt;
-
 	protected String resetPasswordToken;
-
 	protected int signInCount;
-
 	protected Date updatedAt;
-
+	protected Boolean disabled;
 	protected List<Role> roles;
+
+	protected List<VerificationToken> tokens;
 
     
     
@@ -194,6 +187,15 @@ public class User {
 		this.updatedAt = updatedAt;
 	}
 
+	public Boolean getDisabled() {
+		return disabled;
+	}
+
+	public void setDisabled(Boolean disabled) {
+		this.disabled = disabled;
+	}
+
+
 	@ManyToMany(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
 	@JoinTable(name = "role_user", joinColumns = {
 			@JoinColumn(name = "user_id", nullable = false, updatable = false) },
@@ -205,6 +207,14 @@ public class User {
 		this.roles = roles;
 	}
 
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
+	public List<VerificationToken> getTokens() {
+		return tokens;
+	}
+
+	public void setTokens(List<VerificationToken> tokens) {
+		this.tokens = tokens;
+	}
 
 	public String getName() {
 		return name;
