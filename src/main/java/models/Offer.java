@@ -14,7 +14,20 @@ import vo.OfferVO;
 		@NamedEntityGraph(name = "offer.organization+offertype", attributeNodes = {
 				@NamedAttributeNode(value = "organization"),
 				@NamedAttributeNode(value = "offerType")
-		})
+		}),
+
+		@NamedEntityGraph(
+				name = "graph.offer.internships",
+				attributeNodes = {
+						@NamedAttributeNode(value = "internships", subgraph = "student")
+				},
+				subgraphs = {
+						@NamedSubgraph(
+								name = "student",
+								attributeNodes = @NamedAttributeNode(value = "student")
+						)
+				}
+		)
 })
 public class Offer implements Serializable {
 

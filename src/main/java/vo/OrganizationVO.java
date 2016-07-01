@@ -2,8 +2,10 @@ package vo;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import models.Offer;
+import models.Organization;
 import models.Role;
 
+import javax.persistence.Id;
 import java.util.Date;
 import java.util.List;
 
@@ -19,6 +21,20 @@ public class OrganizationVO extends UserVO{
 	private String webpage;
 	private Integer phoneNumber;
 
+	public OrganizationVO(){
+
+	}
+	public OrganizationVO(Organization organization){
+
+		activity = organization.getActivity();
+		area = organization.getArea();
+		disabled = organization.getDisabled();
+		description = organization.getDescription();
+		webpage = organization.getWebpage();
+		phoneNumber = organization.getPhoneNumber();
+		id = organization.getId();
+		name = organization.getName();
+	}
 	public String getActivity() {
 		return activity;
 	}

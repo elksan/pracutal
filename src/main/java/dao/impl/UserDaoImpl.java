@@ -171,6 +171,26 @@ public class UserDaoImpl implements UserDao {
 
 	}
 
+	public Organization getOrganizationWithInternshipsById(int organizationId) {
+
+		EntityManager entityManager = entityManagerProvider.get();
+		Organization organization = null;
+		try{
+
+			organization = entityManager.find(Organization.class, organizationId);
+
+
+		}catch(NoResultException nre){
+
+
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+
+		return organization;
+
+	}
+
 	public List<Application> getApplicationsByUserId(int userId) {
 
 		EntityManager entityManager = entityManagerProvider.get();

@@ -8,6 +8,7 @@ import etc.SessionIdentifierGenerator;
 import models.Organization;
 import models.Role;
 import models.User;
+import ninja.jpa.UnitOfWork;
 import ninja.utils.NinjaProperties;
 import org.mindrot.jbcrypt.BCrypt;
 import services.AdminService;
@@ -79,6 +80,20 @@ public class AdminServiceImpl implements AdminService {
 		user.setPassword(hashedPassword);
 		adminDao.updateOrganization(user);
 
+	}
+
+	@UnitOfWork
+	public List<OrganizationVO> getOrganizations() {
+		List<OrganizationVO> organizationVOs = new ArrayList<>();
+
+		List<Organization> organizations = adminDao.getOrganizations();
+
+		for(Organization organization : organizations){
+			OrganizationVO organizationVO = new OrganizationVO(organization);
+			organizationVOs.add(organizationVO);
+		}
+
+		return organizationVOs;
 	}
 
 /*	public VerificationToken sendEmailRegistrationToken(String userId){

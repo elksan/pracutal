@@ -54,6 +54,7 @@ public class InternshipServiceImpl implements InternshipService{
 			internshipList = internshipDao.getInternshipsByStudentId(userId);
 		}
 		else{
+			//OuserDao.getOrganizationById(userId);
 			internshipList = internshipDao.getInternshipsByOrganizationId(userId);
 		}
 		return internshipList;

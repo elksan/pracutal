@@ -105,4 +105,14 @@ public class AdminController {
 		}
 		return Results.json().render(resultVO);
 	}
+
+	public Result organizations(){
+
+		List<OrganizationVO> organizations = adminService.getOrganizations();
+
+		Result result = Results.html();
+		result.render("organizations", organizations);
+
+		return result;
+	}
 }

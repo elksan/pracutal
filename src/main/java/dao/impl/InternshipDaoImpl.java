@@ -52,9 +52,9 @@ public class InternshipDaoImpl implements InternshipDao {
 		List<Internship> internshipList;
 
 		EntityManager entityManager = entityManagerProvider.get();
-		EntityGraph graph = entityManager.getEntityGraph("graph.Internship.student");
+		EntityGraph graph = entityManager.getEntityGraph("graph.Internship.student+organization");
 
-		Query query = entityManager.createQuery(" SELECT x FROM Internship x WHERE offer.organization.id = :userId ");
+		Query query = entityManager.createQuery(" SELECT x FROM Internship x WHERE organization.id = :userId ");
 
 		query.setParameter("userId", userId);
 		query.setHint("javax.persistence.fetchgraph", graph);

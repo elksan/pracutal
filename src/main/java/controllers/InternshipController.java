@@ -80,5 +80,8 @@ public class InternshipController {
 		return Results.redirect("/logbook/" + internshipId);
 	}
 
+	public Result evaluate(){
 
+		return Results.html();
+	}
 }

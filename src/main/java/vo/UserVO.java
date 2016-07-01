@@ -25,22 +25,22 @@ import java.util.List;
 		@Type(value = Student.class, name = "student") })*/
 public class UserVO {
 
-	private Integer id;
-	private String password;
-	private String name;
-	private Date createdAt;
-	private Date currentSignInAt;
-	private String currentSignInIp;
-	private String email;
-	private Date lastSignInAt;
-	private String lastSignInIp;
-	private Date rememberCreatedAt;
-	private Date resetPasswordSentAt;
-	private String resetPasswordToken;
-	private int signInCount;
-	private Date updatedAt;
+	protected Integer id;
+	protected String password;
+	protected String name;
+	protected Date createdAt;
+	protected Date currentSignInAt;
+	protected String currentSignInIp;
+	protected String email;
+	protected Date lastSignInAt;
+	protected String lastSignInIp;
+	protected Date rememberCreatedAt;
+	protected Date resetPasswordSentAt;
+	protected String resetPasswordToken;
+	protected int signInCount;
+	protected Date updatedAt;
 	public String type;
-	private List<Role> roles;
+	protected List<Role> roles;
 
 	public Integer getId() {
 		return id;

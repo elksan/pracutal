@@ -16,7 +16,9 @@
 
 package conf;
 
+import com.google.inject.internal.InternalFlags;
 import controllers.*;
+import models.Internship;
 import models.Offer;
 import ninja.AssetsController;
 import ninja.Router;
@@ -83,6 +85,7 @@ public class Routes implements ApplicationRoutes {
         router.GET().route("/newLogbookEntry").with(InternshipController.class, "logbookNewEntry");
         router.POST().route("/addLogbookEntry").with(InternshipController.class, "logbookSaveEntry");
         router.POST().route("/evaluationUploadFinish").with(InternshipController.class, "evaluationUploadFinish");
+        router.GET().route("/evaluate").with(InternshipController.class, "evaluate");
         ///////////////////////////////////////////////////////////////////////
         // ADMINISTRATION
         ///////////////////////////////////////////////////////////////////////
@@ -92,6 +95,7 @@ public class Routes implements ApplicationRoutes {
         router.POST().route("/addOrganization").with(AdminController.class, "addOrganization");
         router.GET().route("/registerUser/{token}").with(AdminController.class, "accountRegistration");
         router.POST().route("/activateUser").with(AdminController.class, "activateUser");
+        router.GET().route("/organizations").with(AdminController.class, "organizations");
         router.GET().route("/react").with(AdminController.class, "react");
         ///////////////////////////////////////////////////////////////////////
         // Validations

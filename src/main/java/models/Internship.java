@@ -24,16 +24,10 @@ import javax.persistence.*;
 				}),
 
 		@NamedEntityGraph(
-				name = "graph.Internship.student",
+				name = "graph.Internship.student+organization",
 				attributeNodes = {
 						@NamedAttributeNode(value = "student"),
-						@NamedAttributeNode(value = "offer", subgraph = "organization2")
-				},
-				subgraphs = {
-						@NamedSubgraph(
-								name = "organization2",
-								attributeNodes = @NamedAttributeNode(value = "organization")
-						)
+						@NamedAttributeNode(value = "organization")
 				}
 		)
 })
@@ -54,6 +48,7 @@ public class Internship {
 	private Student student;
 	private Offer offer;
 	private List<LogbookEntry> logbookEntries;
+	private Organization organization;
 
 	
 	
@@ -176,5 +171,15 @@ public class Internship {
 
 	public void setLogbookEntries(List<LogbookEntry> logbookEntries) {
 		this.logbookEntries = logbookEntries;
+	}
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "organization_id")
+	public Organization getOrganization() {
+		return organization;
+	}
+
+	public void setOrganization(Organization organization) {
+		this.organization = organization;
 	}
 }

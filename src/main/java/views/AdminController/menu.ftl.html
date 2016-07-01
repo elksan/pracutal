@@ -5,15 +5,15 @@
 
 		<nav class="side-nav fixed admin-menu">
 			<ul class="">
-				<li class="collection-item" href="/react"><a href="/react" style="width: 100%"><i class="material-icons left">local_library</i>${i18n("admin.students")}</a></li>
-				<li class="collection-item"><a><i class="material-icons left">business_center</i>${i18n("admin.organizations")}</a></li>
+				<li class="collection-item"><a href="/react" style="width: 100%"><i class="material-icons left">local_library</i>${i18n("admin.students")}</a></li>
+				<li class="collection-item"><a id="organizationsBtn"><i class="material-icons left">business_center</i>${i18n("admin.organizations")}</a></li>
 				<li class="collection-item"><a><i class="material-icons left">insert_chart</i>${i18n("admin.reports")}</a></li>
 			</ul>
 
 		</nav>
 
 
-			<div class="container">
+			<div class="container" id="content">
 
 				<h2> ${i18n("admin.administation")}</h2>
 			</div>
@@ -30,5 +30,24 @@
 
 			</ul>
 		</div>
+
+	<script type="text/javascript">
+		$(document).ready(function () {
+			$('#organizationsBtn').click(function () {
+
+				$('.progress').show();
+				$.ajax({
+					url: "/organizations",
+					type: "get"
+				})
+					.done(function (data) {
+						console.log("success");
+						$('#content').html(data);
+						$('.progress').hide();
+					})
+			});
+		});
+
+	</script>
 
 </@layout.myLayout>

@@ -11,6 +11,7 @@ import vo.VerificationToken;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import java.util.List;
 
 /**
  * Created by Diego on 19-06-2016.
@@ -45,5 +46,14 @@ public class AdminDaoImpl implements AdminDao {
 		EntityManager entityManager = entityManagerProvider.get();
 		entityManager.merge(user);
 
+	}
+
+	@Override
+	public List<Organization> getOrganizations() {
+
+		EntityManager entityManager = entityManagerProvider.get();
+		Query query = entityManager.createQuery("SELECT x FROM  Organization x ");
+
+		return query.getResultList();
 	}
 }

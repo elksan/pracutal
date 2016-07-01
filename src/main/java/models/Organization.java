@@ -8,6 +8,7 @@ import vo.OrganizationVO;
 import vo.VerificationToken;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -20,6 +21,7 @@ public class Organization extends User{
 	private String webpage;
 	private Integer phoneNumber;
 	private List<Offer> offers;
+	private List<Internship> internships;
 
 	public Organization() {
 	}
@@ -33,6 +35,7 @@ public class Organization extends User{
 		this.phoneNumber = organizationVO.getPhoneNumber();
 		this.name = organizationVO.getName();
 		this.email = organizationVO.getEmail();
+		this.roles = new ArrayList<>();
 	}
 
 	public String getActivity() {
@@ -96,6 +99,12 @@ public class Organization extends User{
 		updatedAt = new Date();
 	}
 
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "organization")
+	public List<Internship> getInternships() {
+		return internships;
+	}
 
-
+	public void setInternships(List<Internship> internships) {
+		this.internships = internships;
+	}
 }
