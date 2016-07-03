@@ -10,8 +10,7 @@ import javax.persistence.*;
 		@NamedEntityGraph(
 				name = "graph.Internship.entries",
 				attributeNodes = {
-						@NamedAttributeNode(value = "logbookEntries"),
-						@NamedAttributeNode(value = "evaluations")
+						@NamedAttributeNode(value = "logbookEntries")
 				}),
 
 		@NamedEntityGraph(
@@ -31,6 +30,13 @@ import javax.persistence.*;
 				attributeNodes = {
 						@NamedAttributeNode(value = "student"),
 						@NamedAttributeNode(value = "organization")
+				}
+		),
+
+		@NamedEntityGraph(
+				name = "graph.internshipWithEvaluations",
+				attributeNodes = {
+						@NamedAttributeNode(value = "evaluations")
 				}
 		)
 })

@@ -18,4 +18,6 @@ public interface InternshipDao {
 
 	void updateinternship(Internship internship);
 	void createLogbookEntry(LogbookEntry logbookEntry);
+
+	Internship findInternshipWithEvaluationsById(int internshipId);
 }

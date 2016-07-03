@@ -2,47 +2,57 @@
 
     <div class="container">
         <div class="row">
-            <div class="col s12">
-                <h2>${i18n("internship.evaluationTitle")}</h2>
-                <h5>Completar evaluacion en formulario online</h5>
-                <a href="https://docs.google.com/forms/d/1k7vU_XoPi4QQW-cb2y0O5lWg06LtIczV7BJJ3BnGiAs/viewform?c=0&w=1"> Formulario online</a>
+            <div class="col s8">
+                <div class="row">
+                    <div class="col s12">
+                        <h2>${i18n("internship.evaluationTitle")}</h2>
+                        <h5>Completar evaluacion en formulario online</h5>
+                        <a href="https://docs.google.com/forms/d/1k7vU_XoPi4QQW-cb2y0O5lWg06LtIczV7BJJ3BnGiAs/viewform?c=0&w=1">${i18n("internship.onlineForm")}</a>
+                        <br>
+                        <a href="/assets/uploadedContent/Encuesta de Percepción de Competencias - I.C.INDUSTRIAL - Plan 44 - Empresa.pdf">${i18n("internship.downloadForm")}</a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s12">
+                        <form method="post" enctype="multipart/form-data" action="/evaluationUploadFinish">
+                            <h5>Adjuntar documento</h5>
+                            <div class="file-field input-field">
+                                <div class="btn">
+                                    <span>File</span>
+                                    <input type="file" name="upfile"><br />
+                                </div>
+                                <div class="file-path-wrapper">
+                                    <input class="file-path validate" type="text">
+                                </div>
+                            </div>
+                            <button type="submit" class="btn waves-effect waves-light">${i18n("offer.submit")}<i class="material-icons right">send</i></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col s4">
+                <div class="row">
+                    <div class="col s12">
+                        <table>
+                            <thead>
+                            <th>Nombre archivo</th>
+                            </thead>
+                            <tbody>
+                            <#list evaluationFiles as file>
+                                <tr>
+                                    <td><a href="/assets/uploadedContent/${file.filename}">${file.filename}</a></td>
+                                </tr>
+
+                            </#list>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
-         <div class="row">
-             <div class="col s12">
-                <form method="post" enctype="multipart/form-data" action="/evaluationUploadFinish">
-                    <h5>Adjuntar documento</h5>
-                    <div class="file-field input-field">
-                        <div class="btn">
-                            <span>File</span>
-                            <input type="file" name="upfile"><br />
-                        </div>
-                        <div class="file-path-wrapper">
-                            <input class="file-path validate" type="text">
-                        </div>
-                    </div>
-                    <button type="submit" class="btn waves-effect waves-light">${i18n("offer.submit")}<i class="material-icons right">send</i></button>
-                </form>
-             </div>
-         </div>
 
-         <div class="row">
-             <div class="col s12">
-                 <table>
-                     <thead>
-                        <th>Nombre archivo</th>
-                     </thead>
-                     <tbody>
-                        <#list evaluationFiles as file>
-                            <tr>
-                                <td><a href="/assets/uploadedContent/${file.filename}">${file.filename}</a></td>
-                            </tr>
 
-                        </#list>
 
-                     </tbody>
-                 </table>
-             </div>
-         </div>
     </div>
 </@layout.myLayout>

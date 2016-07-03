@@ -82,7 +82,7 @@ public class InternshipServiceImpl implements InternshipService{
 		Evaluation evaluation = new Evaluation();
 		evaluation.setDate(new Date());
 		evaluation.setFilename(evaluationName);
-		Internship internship = internshipDao.findInternshipById(internshipId);
+		Internship internship = internshipDao.findInternshipWithEvaluationsById(internshipId);
 		evaluation.setInternship(internship);
 		if(evaluation.getInternship() == null) {
 			throw new Exception("could not find internship with id: " + internshipId);
@@ -96,6 +96,6 @@ public class InternshipServiceImpl implements InternshipService{
 	@UnitOfWork
 	public List<Evaluation> getInternshipEvaluations(Integer internshipId) {
 
-		return internshipDao.findInternshipById(internshipId).getEvaluations();
+		return internshipDao.findInternshipWithEvaluationsById(internshipId).getEvaluations();
 	}
 }

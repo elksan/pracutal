@@ -79,6 +79,18 @@ public class InternshipDaoImpl implements InternshipDao {
 		return internship;
 	}
 
+	public Internship findInternshipWithEvaluationsById(int internshipId) {
+
+		EntityManager entityManager = entityManagerProvider.get();
+		EntityGraph graph = entityManager.getEntityGraph("graph.internshipWithEvaluations");
+
+		Map hints = new HashMap();
+		hints.put("javax.persistence.fetchgraph", graph);
+
+		Internship internship = entityManager.find(Internship.class, internshipId, hints);
+
+		return internship;
+	}
 	public void updateinternship(Internship internship) {
 
 		EntityManager entityManager = entityManagerProvider.get();
