@@ -5,6 +5,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import etc.LoggedInRole;
 import etc.LoggedInUserId;
+import models.Evaluation;
 import models.Internship;
 import models.LogbookEntry;
 import ninja.*;
@@ -59,14 +60,16 @@ public class InternshipController {
 	@FileProvider(DiskFileItemProvider.class)
 	public Result evaluationUploadFinish(@LoggedInUserId int userId, Context context, @Param("upfile") FileItem upfile) throws Exception {
 
-		File destination = new File("src/main/java/assets/uploadedContent/"+ userId + "_" + upfile.getFileName());
+		String evaluationName = userId + "_" + upfile.getFileName();
+		File destination = new File("src/main/java/assets/uploadedContent/"+ evaluationName);
 
 		if(!destination.createNewFile())
 			return Results.badRequest();
 
 		Files.copy(upfile.getFile(), destination );
+		internshipService.addEvaluation(internshipId, evaluationName);
 
-		return Results.ok();
+		return Results.redirect("/evaluate");
 	}
 
 	public Result logbookNewEntry(){
@@ -82,6 +85,9 @@ public class InternshipController {
 
 	public Result evaluate(){
 
-		return Results.html();
+		List<Evaluation> evaluations = internshipService.getInternshipEvaluations(internshipId);
+
+		return Results.html().render("evaluationFiles", evaluations);
+
 	}
 }

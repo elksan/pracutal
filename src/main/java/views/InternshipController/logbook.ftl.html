@@ -17,7 +17,12 @@
                     <h3>${i18n("internship.logbook")}</h3>
                 </div>
             </div>
-            <a href="/newLogbookEntry" class="btn "><i class="small material-icons left">add</i>${i18n("internship.newEntry")}</a>
+            <#if session.role == "3">
+                <a href="/newLogbookEntry" class="btn "><i class="small material-icons left">add</i>${i18n("internship.newEntry")}</a>
+            <#else>
+                <a href="/evaluate" class="btn "><i class="small material-icons left">add</i>${i18n("internship.evaluate")}</a>
+            </#if>
+
             <#if internship.logbookEntries??>
 
                 <#list internship.logbookEntries as entry>

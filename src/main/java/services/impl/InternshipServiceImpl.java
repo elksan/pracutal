@@ -5,14 +5,12 @@ import com.google.inject.persist.Transactional;
 import dao.InternshipDao;
 import dao.OfferDao;
 import dao.UserDao;
-import models.Internship;
-import models.LogbookEntry;
-import models.Offer;
-import models.User;
+import models.*;
 import ninja.jpa.UnitOfWork;
 import org.hibernate.Hibernate;
 import services.InternshipService;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -76,5 +74,28 @@ public class InternshipServiceImpl implements InternshipService{
 
 		internshipDao.createLogbookEntry(entry);
 
+	}
+
+	@Transactional
+	public void addEvaluation(Integer internshipId, String evaluationName) throws Exception {
+
+		Evaluation evaluation = new Evaluation();
+		evaluation.setDate(new Date());
+		evaluation.setFilename(evaluationName);
+		Internship internship = internshipDao.findInternshipById(internshipId);
+		evaluation.setInternship(internship);
+		if(evaluation.getInternship() == null) {
+			throw new Exception("could not find internship with id: " + internshipId);
+		}
+		internship.getEvaluations().add(evaluation);
+
+		internshipDao.updateinternship(internship);
+
+	}
+
+	@UnitOfWork
+	public List<Evaluation> getInternshipEvaluations(Integer internshipId) {
+
+		return internshipDao.findInternshipById(internshipId).getEvaluations();
 	}
 }

@@ -1,5 +1,6 @@
 package services;
 
+import models.Evaluation;
 import models.Internship;
 import models.LogbookEntry;
 
@@ -16,4 +17,8 @@ public interface InternshipService {
 	Internship findInternshipById(int internshipId);
 
 	void addLogbookEntry(LogbookEntry entry, Integer internshipId);
+
+	void addEvaluation(Integer internshipId, String evaluationName) throws Exception;
+
+	List<Evaluation> getInternshipEvaluations(Integer internshipId);
 }

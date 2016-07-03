@@ -9,7 +9,10 @@ import javax.persistence.*;
 @NamedEntityGraphs({
 		@NamedEntityGraph(
 				name = "graph.Internship.entries",
-				attributeNodes = @NamedAttributeNode(value = "logbookEntries")),
+				attributeNodes = {
+						@NamedAttributeNode(value = "logbookEntries"),
+						@NamedAttributeNode(value = "evaluations")
+				}),
 
 		@NamedEntityGraph(
 				name = "graph.Internship.offer.organization",
@@ -49,6 +52,7 @@ public class Internship {
 	private Offer offer;
 	private List<LogbookEntry> logbookEntries;
 	private Organization organization;
+	private List<Evaluation> evaluations;
 
 	
 	
@@ -181,5 +185,14 @@ public class Internship {
 
 	public void setOrganization(Organization organization) {
 		this.organization = organization;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "internship", cascade = CascadeType.ALL)
+	public List<Evaluation> getEvaluations() {
+		return evaluations;
+	}
+
+	public void setEvaluations(List<Evaluation> evaluations) {
+		this.evaluations = evaluations;
 	}
 }
