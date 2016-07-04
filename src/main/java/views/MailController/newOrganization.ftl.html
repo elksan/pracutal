@@ -1,0 +1,16 @@
+<#import "mailLayout.ftl.html" as layout>
+<@layout.mailLayout>
+
+    <h2>Bienvenido ${organization.name} ! </h2>
+    <p>
+        Centro de pr&aacute;cticas de la universidad de talca te informa que tu cuenta para el portal ha sido creada.
+
+        por favor haz click en el siguiente link para ingresar tu nueva clave
+        <br>
+        <a href="http://${url}">Activar Cuenta</a>
+        <br>
+        Despu&eacute;s ser&aacute;s redireccionado al login para entrar al sistema.
+
+    </p>
+
+</@layout.mailLayout>

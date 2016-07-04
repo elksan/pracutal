@@ -11,7 +11,7 @@ import java.util.List;
  */
 public interface AdminDao {
 
-	void saveOrganization(Organization organization);
+	Organization saveOrganization(Organization organization);
 
 	VerificationToken getVerificationToken(String token);
 

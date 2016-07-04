@@ -22,10 +22,11 @@ public class AdminDaoImpl implements AdminDao {
 	@Inject
 	Provider<EntityManager> entityManagerProvider;
 
-	public void saveOrganization(Organization organization) {
+	public Organization saveOrganization(Organization organization) {
 		EntityManager entityManager = entityManagerProvider.get();
 
 		entityManager.persist(organization);
+		return organization;
 	}
 
 	@Override

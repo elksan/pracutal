@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import models.Organization;
 import models.User;
+import ninja.Context;
 import ninja.Result;
 import ninja.Results;
 import ninja.exceptions.BadRequestException;
@@ -32,6 +33,9 @@ public class AdminController {
 	@Inject
 	UserService userService;
 
+	@Inject
+	MailController mailController;
+
 	Logger logger = LoggerFactory.getLogger(AdminController.class);
 
 	String tokenGlobal;
@@ -51,12 +55,14 @@ public class AdminController {
 	public Result newOrganization() {
 		return Results.html();
 	}
-	public Result addOrganization(OrganizationVO organizationVO){
+	public Result addOrganization(Context context, OrganizationVO organizationVO){
 
-		adminService.saveOrganization(organizationVO);
+		Organization organization = adminService.saveOrganization(organizationVO);
 
 		ResultVO resultVO = new ResultVO();
 		resultVO.setRedirect("/admin");
+
+		mailController.sendMail(context, organization);
 
 		return Results.json().render(resultVO);
 

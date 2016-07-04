@@ -1,5 +1,6 @@
 package services;
 
+import models.Organization;
 import vo.ActivationFormVO;
 import vo.OrganizationVO;
 
@@ -10,7 +11,7 @@ import java.util.List;
  */
 public interface AdminService {
 
-	void saveOrganization(OrganizationVO organizationVO);
+	Organization saveOrganization(OrganizationVO organizationVO);
 
 	boolean verifyToken(String token) throws Exception;
 

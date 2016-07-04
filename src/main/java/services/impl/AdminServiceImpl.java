@@ -34,7 +34,7 @@ public class AdminServiceImpl implements AdminService {
 	NinjaProperties ninjaProperties;
 
 	@Transactional
-	public void saveOrganization(OrganizationVO organizationVO) {
+	public Organization saveOrganization(OrganizationVO organizationVO) {
 
 		Organization organization = new Organization(organizationVO);
 
@@ -49,8 +49,9 @@ public class AdminServiceImpl implements AdminService {
 
 		Role role = userDao.findRoleById(2);
 		organization.getRoles().add(role);
-		adminDao.saveOrganization(organization);
-		//MAILSERVICE.SENDREGISTRATIONEMAILUSING THE TOKEN
+		return adminDao.saveOrganization(organization);
+
+
 	}
 
 	@Transactional
@@ -62,9 +63,6 @@ public class AdminServiceImpl implements AdminService {
 		if(verificationToken.isVerified() || !verificationToken.getUser().getDisabled()){
 			throw new Exception("ya se encuentra activado");
 		}
-		verificationToken.setVerified(true);
-		verificationToken.getUser().setDisabled(false);
-
 		return true;
 	}
 
@@ -74,6 +72,9 @@ public class AdminServiceImpl implements AdminService {
 		VerificationToken verificationToken = adminDao.getVerificationToken(activationFormVO.getToken());
 		if(verificationToken.getUser() == null)
 			throw new Exception("token inválido");
+
+		verificationToken.setVerified(true);
+		verificationToken.getUser().setDisabled(false);
 
 		String hashedPassword = BCrypt.hashpw(activationFormVO.getNewPassword(), BCrypt.gensalt());
 		User user = verificationToken.getUser();

@@ -14,6 +14,7 @@ import java.util.Set;
 import javax.persistence.*;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.OrderBy;
 
 @Entity
 @Inheritance(strategy=InheritanceType.JOINED)
@@ -212,6 +213,7 @@ public class User {
 		return tokens;
 	}
 
+	@OrderBy(value = "id DESC ")
 	public void setTokens(List<VerificationToken> tokens) {
 		this.tokens = tokens;
 	}
