@@ -11,11 +11,10 @@ import java.util.List;
  */
 public interface AdminService {
 
-	Organization saveOrganization(OrganizationVO organizationVO);
 
 	boolean verifyToken(String token) throws Exception;
 
 	void activateUser(ActivationFormVO activationFormVO) throws Exception;
 
-	List<OrganizationVO> getOrganizations();
+
 }

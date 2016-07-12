@@ -1,9 +1,6 @@
 package dao;
 
-import models.Application;
-import models.Organization;
-import models.Role;
-import models.User;
+import models.*;
 
 import java.util.List;
 
@@ -15,4 +12,13 @@ public interface UserDao {
 	Organization getOrganizationById(int organizationId);
 	List<Application> getApplicationsByUserId(int userId);
 	Role findRoleById(int roleId);
+
+	void saveStudentList(List<Student> studentList);
+
+	void saveUser(User user);
+
+	Career findCareerById(Integer careerId);
+	Organization saveOrganization(Organization organization);
+
+	List<Organization> getOrganizations();
 }

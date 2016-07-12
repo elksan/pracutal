@@ -46,6 +46,7 @@ public class User {
     public User() {
     	
     	this.signInCount = 0;
+		this.disabled = true;
     }
     
                                                                                                 
@@ -224,5 +225,15 @@ public class User {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	@PrePersist
+	protected void onCreate() {
+		createdAt = new Date();
+	}
+
+	@PreUpdate
+	protected void onUpdate() {
+		updatedAt = new Date();
 	}
 }

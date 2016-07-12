@@ -22,13 +22,6 @@ public class AdminDaoImpl implements AdminDao {
 	@Inject
 	Provider<EntityManager> entityManagerProvider;
 
-	public Organization saveOrganization(Organization organization) {
-		EntityManager entityManager = entityManagerProvider.get();
-
-		entityManager.persist(organization);
-		return organization;
-	}
-
 	@Override
 	public VerificationToken getVerificationToken(String token) {
 		EntityManager entityManager = entityManagerProvider.get();
@@ -49,12 +42,5 @@ public class AdminDaoImpl implements AdminDao {
 
 	}
 
-	@Override
-	public List<Organization> getOrganizations() {
 
-		EntityManager entityManager = entityManagerProvider.get();
-		Query query = entityManager.createQuery("SELECT x FROM  Organization x ");
-
-		return query.getResultList();
-	}
 }

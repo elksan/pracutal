@@ -11,11 +11,10 @@ import java.util.List;
  */
 public interface AdminDao {
 
-	Organization saveOrganization(Organization organization);
+
 
 	VerificationToken getVerificationToken(String token);
 
 	void updateOrganization(User user);
 
-	List<Organization> getOrganizations();
 }

@@ -20,14 +20,11 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
-import models.Application;
-import models.Organization;
-import models.Role;
+import models.*;
 import org.mindrot.jbcrypt.BCrypt;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import models.User;
 import ninja.jpa.UnitOfWork;
 
 import com.google.inject.Inject;
@@ -216,5 +213,40 @@ public class UserDaoImpl implements UserDao {
 		return entityManager.find(Role.class, roleId);
 	}
 
+	@Override
+	public void saveStudentList(List<Student> studentList) {
+		EntityManager entityManager = entityManagerProvider.get();
 
+		entityManager.persist(studentList);
+	}
+
+	@Override
+	public void saveUser(User user) {
+
+		EntityManager em = entityManagerProvider.get();
+
+		em.persist(user);
+	}
+
+	@Override
+	public Career findCareerById(Integer careerId) {
+		EntityManager em = entityManagerProvider.get();
+		return em.find(Career.class, careerId);
+	}
+
+	public Organization saveOrganization(Organization organization) {
+		EntityManager entityManager = entityManagerProvider.get();
+
+		entityManager.persist(organization);
+		return organization;
+	}
+
+	@Override
+	public List<Organization> getOrganizations() {
+
+		EntityManager entityManager = entityManagerProvider.get();
+		Query query = entityManager.createQuery("SELECT x FROM  Organization x ");
+
+		return query.getResultList();
+	}
 }

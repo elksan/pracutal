@@ -30,29 +30,8 @@ public class AdminServiceImpl implements AdminService {
 	@Inject
 	UserDao userDao;
 
-	@Inject
-	NinjaProperties ninjaProperties;
-
-	@Transactional
-	public Organization saveOrganization(OrganizationVO organizationVO) {
-
-		Organization organization = new Organization(organizationVO);
-
-		SessionIdentifierGenerator sig = new SessionIdentifierGenerator();
-		String generatedId = sig.nextSessionId();
-		VerificationToken token = new VerificationToken(organization, VerificationToken.VeriticationTokenType.EMAIL_REGISTRATION, generatedId,
-				Integer.parseInt(ninjaProperties.get("token.expiry.date")));
-
-		List<VerificationToken> tokens = new ArrayList<>();
-		tokens.add(token);
-		organization.setTokens(tokens);
-
-		Role role = userDao.findRoleById(2);
-		organization.getRoles().add(role);
-		return adminDao.saveOrganization(organization);
 
 
-	}
 
 	@Transactional
 	public boolean verifyToken(String token) throws Exception {
@@ -83,19 +62,7 @@ public class AdminServiceImpl implements AdminService {
 
 	}
 
-	@UnitOfWork
-	public List<OrganizationVO> getOrganizations() {
-		List<OrganizationVO> organizationVOs = new ArrayList<>();
 
-		List<Organization> organizations = adminDao.getOrganizations();
-
-		for(Organization organization : organizations){
-			OrganizationVO organizationVO = new OrganizationVO(organization);
-			organizationVOs.add(organizationVO);
-		}
-
-		return organizationVOs;
-	}
 
 /*	public VerificationToken sendEmailRegistrationToken(String userId){
 

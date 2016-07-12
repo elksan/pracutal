@@ -26,15 +26,9 @@ import dao.impl.AdminDaoImpl;
 import dao.impl.InternshipDaoImpl;
 import dao.impl.OfferDaoImpl;
 import dao.impl.UserDaoImpl;
-import services.AdminService;
-import services.InternshipService;
-import services.OfferService;
-import services.UserService;
+import services.*;
 import dao.InternshipDao;
-import services.impl.AdminServiceImpl;
-import services.impl.InternshipServiceImpl;
-import services.impl.OfferServiceImpl;
-import services.impl.UserServiceImpl;
+import services.impl.*;
 
 @Singleton
 public class Module extends AbstractModule {
@@ -55,6 +49,8 @@ public class Module extends AbstractModule {
 
         bind(AdminService.class).to(AdminServiceImpl.class);
         bind(AdminDao.class).to(AdminDaoImpl.class);
+
+        bind(MailService.class).to(MailServiceImpl.class);
     }
 
 }

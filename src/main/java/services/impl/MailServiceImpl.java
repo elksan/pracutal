@@ -1,17 +1,20 @@
-package controllers;
+package services.impl;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import etc.LoggedInUser;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
+import models.Offer;
 import models.Organization;
+import models.Student;
+import models.User;
 import ninja.Context;
 import ninja.postoffice.Mail;
 import ninja.postoffice.Postoffice;
 import org.apache.commons.mail.EmailException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import services.MailService;
 import services.UserService;
 import vo.VerificationToken;
 
@@ -19,12 +22,13 @@ import javax.mail.internet.AddressException;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
  * Created by Diego on 03-07-2016.
  */
-public class MailController {
+public class MailServiceImpl implements MailService {
 
 	@Inject
 	Provider<Mail> mailProvider;
@@ -35,31 +39,31 @@ public class MailController {
 	@Inject
 	UserService userService;
 
-	Logger logger = LoggerFactory.getLogger(MailController.class);
+	Logger logger = LoggerFactory.getLogger(MailServiceImpl.class);
 
-	public void sendMail(Context context, Organization organization) {
+	public void sendMailForNewOrganization(Context context, User user) {
 
 		Mail mail = mailProvider.get();
 
 		// fill the mail with content:
-		mail.setSubject("Tu cuenta ha sido creada");
+		mail.setSubject("Su cuenta en la Plataforma del Centro de Prácticas ha sido creada.");
 		mail.setFrom("donotreply@utalca.cl");
 		mail.setCharset("utf-8");
-		mail.addTo(organization.getEmail());
+		mail.addTo(user.getEmail());
 
 
 
-		VerificationToken lastToken = organization.getTokens().get(0);
+		VerificationToken lastToken = user.getTokens().get(0);
 		if(lastToken.isVerified())
 			logger.error("Token already verified" + lastToken.getToken());
 
 		Map<String, Object> params = new HashMap<>();
-		params.put("organization", organization);
+		params.put("user", user);
 
 		String url = context.getHostname()+context.getContextPath()+"/registerUser/"+ lastToken.getToken();
 		params.put("url", url);
 
-		mail.setBodyHtml(setBodyHtmlFromTemplate("newOrganization.ftl.html", params));
+		mail.setBodyHtml(setBodyHtmlFromTemplate("newUserEmail.ftl.html", params));
 
 		// finally send the mail
 		try {
@@ -70,6 +74,29 @@ public class MailController {
 			e.printStackTrace();
 		}
 	}
+
+	@Override
+	public void newOfferNotification(Offer offer, User admin) {
+
+		logger.info("sending email notification:");
+		logger.info("to: " + admin.getEmail());
+
+		Mail mail = mailProvider.get();
+		mail.setSubject("Una nueva oferta ha sido creda por " + offer.getOrganization().getName());
+		mail.setFrom("donotreply@utalca.cl");
+		mail.setCharset("utf-8");
+		mail.addTo(admin.getEmail());
+	}
+
+	/*public sendMailForNewStudents(List<Student> studentList){
+		Mail mail = mailProvider.get();
+
+		// fill the mail with content:
+		mail.setSubject("Su cuenta en la Plataforma del Centro de Prácticas ha sido creada.");
+		mail.setFrom("donotreply@utalca.cl");
+		mail.setCharset("utf-8");
+		mail.addTo(studentList.getEmail());
+	}*/
 
 	public String setBodyHtmlFromTemplate(String name, Map<String, Object> args){
 

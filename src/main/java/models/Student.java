@@ -10,14 +10,12 @@ public class Student extends User {
 
 
 	private Date birthdate;
-	private Date createdAt;
 	private Integer entryYear;
 	private Integer rut;
 	private Integer phoneNumber;
 	private Integer internshipsApproved;
 	private Integer priorityScore;
 	private String gender;
-	private Date updateAt;	
 	private String jobObjective;
 	private Integer registrationNumber;
 	private String lastName;
@@ -26,20 +24,17 @@ public class Student extends User {
 	private List<Application> applications;
 	private List<Internship> internships;
 
+	public Student(){
+		this.internshipsApproved = 0;
+		this.priorityScore = 0;
+	}
+
 	@Temporal(TemporalType.DATE)
 	public Date getBirthdate() {
 		return birthdate;
 	}
 	public void setBirthdate(Date birthdate) {
 		this.birthdate = birthdate;
-	}
-
-	@Column(name="created_at", insertable=false, updatable=false)
-	public Date getCreatedAt() {
-		return createdAt;
-	}
-	public void setCreatedAt(Date createdAt) {
-		this.createdAt = createdAt;
 	}
 
 	@Column(name="entry_year")
@@ -96,14 +91,6 @@ public class Student extends User {
 	}
 	public void setPriorityScore(Integer priorityScore) {
 		this.priorityScore = priorityScore;
-	}
-
-	@Column(name="updated_at", insertable=false, updatable=false)
-	public Date getUpdateAt() {
-		return updateAt;
-	}	
-	public void setUpdateAt(Date updateAt) {
-		this.updateAt = updateAt;
 	}
 
 	public String getGender() {
