@@ -16,11 +16,17 @@ public interface OfferService {
 	void updateOffer(OfferVO offer);
 	void updateOffer(Offer offer);
 
-	void approveOffer(int offerId);
+	Offer approveOffer(int offerId);
 	void publishOffer(int offerId);
 
 	void applyForOffer(int offerId, int userId);
 
-	List<Application> getApplicationsByOfferId(int offerId);
-	List<Student> getCandidatesByOfferId(int offerId);
+	Offer getApplicationsByOfferId(int offerId);
+	List<Application> getCandidatesByOfferId(int offerId);
+
+	Application findApplicationById(int applicationId);
+
+	boolean endApplicationProcess(int applicationId, int studentId);
+
+	void setFinalCandidate(int applicationId);
 }

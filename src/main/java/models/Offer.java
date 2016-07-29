@@ -27,6 +27,20 @@ import vo.OfferVO;
 								attributeNodes = @NamedAttributeNode(value = "student")
 						)
 				}
+		),
+		@NamedEntityGraph(name = "offer.organization", attributeNodes = {
+				@NamedAttributeNode(value = "organization")
+		}),
+		@NamedEntityGraph(name = "offer.applications",
+				attributeNodes = {
+					@NamedAttributeNode(value = "applications", subgraph = "student"),
+				},
+				subgraphs = {
+						@NamedSubgraph(
+								name = "student",
+								attributeNodes = @NamedAttributeNode(value = "student")
+						)
+				}
 		)
 })
 public class Offer implements Serializable {
@@ -58,6 +72,7 @@ public class Offer implements Serializable {
 	private Integer minimalLevelRequired;
 	private String language;
 	private boolean approved;
+	private boolean closed;
 
 	private OfferType offerType;
 	private List<Career> careers;
@@ -93,6 +108,7 @@ public class Offer implements Serializable {
 		this.minimalLevelRequired = offerVO.getMinimalLevelRequired();
 		this.language = offerVO.getLanguage();
 		this.approved = offerVO.isApproved();
+		this.closed = false;
 	}
 
 	@Column(name="created_at", updatable = false)
@@ -349,5 +365,13 @@ public class Offer implements Serializable {
 
 	public void setInternships(List<Internship> internships) {
 		this.internships = internships;
+	}
+
+	public boolean isClosed() {
+		return closed;
+	}
+
+	public void setClosed(boolean closed) {
+		this.closed = closed;
 	}
 }

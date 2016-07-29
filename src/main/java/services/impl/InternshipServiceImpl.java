@@ -5,6 +5,7 @@ import com.google.inject.persist.Transactional;
 import dao.InternshipDao;
 import dao.OfferDao;
 import dao.UserDao;
+import etc.ApplicationStatus;
 import models.*;
 import ninja.jpa.UnitOfWork;
 import org.hibernate.Hibernate;
@@ -40,6 +41,24 @@ public class InternshipServiceImpl implements InternshipService{
 		internship.setEndDate(offer.getEndDateInternship());
 		internship.setOffer(offer);
 
+		internshipDao.saveInternship(internship);
+	}
+
+	@Transactional
+	public void assignInternship(int applicationId) {
+
+		Application application = offerDao.findApplicationByIdWithOfferAndUser(applicationId);
+		Internship internship = new Internship();
+		internship.setTitle(application.getOffer().getTitle());
+		internship.setStartDate(application.getOffer().getStartDateInternship());
+		internship.setEndDate(application.getOffer().getEndDateInternship());
+		internship.setOffer(application.getOffer());
+		internship.setStudent(application.getStudent());
+		application.getOffer().setClosed(true);
+		application.setStatus(ApplicationStatus.ACEPTADA);
+
+		offerDao.updateOffer(application.getOffer());
+		offerDao.updateApplication(application);
 		internshipDao.saveInternship(internship);
 	}
 

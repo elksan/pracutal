@@ -24,7 +24,7 @@
 					<div class="row">	
 						<div class="input-field col s12">
 							<textarea id="description" name="description" placeholder="${i18n('offer.description.placeholder')}"
-									  class="validate" required="" aria-required="true" value="<#if selectedOffer??>${(selectedOffer.description)!}</#if>"></textarea>
+									  class="validate" required="" aria-required="true"></textarea>
 							<label for="description">${i18n("offer.description")}</label>
 						</div>
 					</div>
@@ -184,9 +184,14 @@
 	$(document).ready(function() {
 		$('select').material_select();
 //		$('label').addClass('active');
-		$('#description').materialnote();
-		var noescapedDescription = <#noescape>'${selectedOffer.description}';</#noescape>
-		$('#description').code(noescapedDescription);
+		tinymce.init({
+			selector: '#description',
+			init_instance_callback : function(editor) {
+				var noescapedDescription = <#noescape>'${selectedOffer.description?js_string}';</#noescape>
+				editor.setContent(noescapedDescription);
+			}
+		});
+		console.log(noescapedDescription);
 
 		var pickerStart = $startDatePicker.pickadate('picker');
 		pickerStart.set('select', "${(selectedOffer.startDateInternshipEdit)!}", { format: 'dd-mm-yyyy' });

@@ -86,6 +86,19 @@ public class MailServiceImpl implements MailService {
 		mail.setFrom("donotreply@utalca.cl");
 		mail.setCharset("utf-8");
 		mail.addTo(admin.getEmail());
+
+		Map<String, Object> params = new HashMap<>();
+		params.put("offer", offer);
+
+		mail.setBodyHtml(setBodyHtmlFromTemplate("newOfferNotification.ftl.html", params));
+
+		try {
+			postoffice.send(mail);
+		} catch (EmailException | AddressException e) {
+			// ...
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	/*public sendMailForNewStudents(List<Student> studentList){

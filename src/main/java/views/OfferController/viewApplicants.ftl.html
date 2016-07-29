@@ -16,11 +16,12 @@
                         <th data-field="year">N° Matricula</th>
                         <th data-field="date">Fecha postulacion</th>
                         <th>Seleccionar como candidato</th>
+                        <th>Aprobado por empresa</th>
                     </tr>
                     </thead>
                     <tbody>
                     <#items as application>
-                        <tr>
+                        <tr class="">
                             <td> <a href="#!">${application.student.name}</a> </td>
                             <td> <a href="#!">${application.student.lastName}</a> </td>
                             <td>${application.student.career.careerName}</td>
@@ -29,11 +30,14 @@
                             <td>
                                 <div class="switch">
                                     <label>
-                                        <input data-id="${application.id}" data-candidate="${application.candidate?c}" type="checkbox" value="true" <#if application.candidate> checked </#if> />
+                                        <input data-id="${application.id}" data-candidate="${application.candidate?c}"
+                                               data-isApproved="${application.approved?c}" type="checkbox" value="true"
+                                                <#if application.candidate> checked </#if> <#if offerIsClosed> disabled</#if> />
                                         <span class="lever"></span>
                                     </label>
                                 </div>
                             </td>
+                            <td><#if application.approved><i class="material-icons">thumb_up</i></#if></td>
                         </tr>
                     </#items>
                     </tbody>
@@ -48,9 +52,13 @@
     </div>
     <div class="row">
         <div class="col s12">
-            <a class="waves-effect waves-light btn btn-large"
-                   href="/saveCandidates"> <i class="material-icons left">save</i>${i18n("button.save")}</a>
-            <a class="waves-effect waves-light btn btn-large grey"
+            <#if isSomeCandidateApproved>
+                <a class="waves-effect waves-light btn btn-large <#if offerIsClosed> disabled</#if>"
+                   onclick="endProcessAction()"> <i class="material-icons left">gavel</i>${i18n("offer.endProcess")}</a>
+            </#if>
+            <a class="waves-effect waves-light btn btn-large <#if offerIsClosed> disabled</#if>"
+                   href="/saveCandidates"> <i class="material-icons left">save</i>${i18n("offer.modifySelection")}</a>
+            <a class="waves-effect waves-light btn btn-large grey "
                href="/offerDetails/${offerId}"> <i class="material-icons left">cancel</i>${i18n("button.cancel")}</a>
         </div>
     </div>
@@ -78,10 +86,15 @@
                         }
                     }
                 });
-
-
             });
+
+
         });
+
+        function endProcessAction(){
+            var approvedCandidateId = $('td input[data-isApproved="true"]').attr('data-id');
+            window.location.href = "/endProcess/"+approvedCandidateId;
+        }
 
     </script>
 	

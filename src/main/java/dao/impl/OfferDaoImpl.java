@@ -1,10 +1,13 @@
 package dao.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.*;
 
+import com.google.inject.multibindings.StringMapKey;
 import models.*;
 import org.hibernate.Hibernate;
 import org.slf4j.Logger;
@@ -74,6 +77,18 @@ public class OfferDaoImpl implements OfferDao{
         logger.debug("OFFER: " + offer.toString());
 		Hibernate.initialize(offer.getOfferType());
         Hibernate.initialize(offer.getCareers());
+
+		return offer;
+	}
+
+	public Offer findOfferByIdWithApplications(int offerId){
+
+		EntityManager entityManager = entityManagerProvider.get();
+		EntityGraph graph = entityManager.getEntityGraph("offer.applications");
+		Map<String, Object> hints = new HashMap<>();
+		hints.put("javax.persistence.loadgraph",graph);
+
+		Offer offer = entityManager.find(Offer.class, offerId, hints);
 
 		return offer;
 	}
@@ -171,7 +186,7 @@ public class OfferDaoImpl implements OfferDao{
 		EntityManager entityManager = entityManagerProvider.get();
 		EntityGraph graph = entityManager.getEntityGraph("offer.organization+offertype");
 
-		Query q = entityManager.createQuery("SELECT X FROM Offer X where disabled = false and approved = true");
+		Query q = entityManager.createQuery("SELECT X FROM Offer X where disabled = false and approved = true order by closed");
 		q.setHint("javax.persistence.loadgraph", graph);
 		try{
 			approvedOffers = q.getResultList();
@@ -236,6 +251,46 @@ public class OfferDaoImpl implements OfferDao{
 		studentList = q.getResultList();
 
 		return studentList;
+	}
+
+	@Override
+	public Offer findOfferByIdWithOrganization(int offerId) {
+		EntityManager entityManager = entityManagerProvider.get();
+		EntityGraph graph = entityManager.getEntityGraph("offer.organization");
+
+		Map<String, Object> hints = new HashMap<>();
+		hints.put("javax.persistence.loadgraph", graph);
+
+		Offer offer = entityManager.find(Offer.class, offerId, hints);
+		logger.debug("OFFER: " + offer.toString());
+		return offer;
+	}
+
+	@Override
+	public Application findApplicationById(int applicationId) {
+
+		EntityManager em = entityManagerProvider.get();
+		return em.find(Application.class, applicationId);
+
+	}
+
+	public Application findApplicationByIdWithOfferAndUser(int applicationId) {
+
+		EntityManager em = entityManagerProvider.get();
+		EntityGraph graph = em.getEntityGraph("applicationWithOfferAndStudent");
+
+		Map<String, Object> hints = new HashMap<>();
+		hints.put("javax.persistence.loadgraph", graph);
+
+		return em.find(Application.class, applicationId, hints);
+
+	}
+
+	@Override
+	public void updateApplication(Application application) {
+
+		EntityManager em = entityManagerProvider.get();
+		em.merge(application);
 	}
 
 	public List<Career> getCareers(List<Integer> careerIds) {

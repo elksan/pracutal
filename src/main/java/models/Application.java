@@ -6,7 +6,14 @@ import java.util.Date;
 
 import javax.persistence.*;
 
+
 @Entity
+@NamedEntityGraph(name = "applicationWithOfferAndStudent",
+		attributeNodes = {
+				@NamedAttributeNode(value = "student"),
+				@NamedAttributeNode(value = "offer")
+		}
+)
 public class Application {
 
 

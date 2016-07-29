@@ -39,7 +39,7 @@
                 <ul class="collection">
                     <li class="collection-item dismissable">
                         <div id="summernote">
-
+                            <#noescape>${selectedOffer.description}</#noescape>
                         </div>
                     </li>
                 </ul>
@@ -89,9 +89,9 @@
 
     <script type="text/javascript">
         $(document).ready(function() {
-            var texto = <#noescape>'${selectedOffer.description}';</#noescape>
-            console.log(texto);
-            $('#summernote').append(texto);
+            //var texto = <#noescape>'${selectedOffer.description}'</#noescape>;
+            //console.log(texto);
+           // $('#summernote').append(texto);
         });
 
 

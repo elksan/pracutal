@@ -26,4 +26,13 @@ public interface OfferDao {
 	List<Application> getApplicationsByOfferId(int offerId);
 
 	List<Student> getCandidatesByOfferId(int offerId);
+
+	Offer findOfferByIdWithOrganization(int offerId);
+
+	Application findApplicationById(int applicationId);
+	Application findApplicationByIdWithOfferAndUser(int applicationId);
+
+	void updateApplication(Application application);
+
+	Offer findOfferByIdWithApplications(int offerId);
 }

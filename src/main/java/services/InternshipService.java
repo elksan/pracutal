@@ -12,6 +12,7 @@ import java.util.List;
 public interface InternshipService {
 
 	void assignInternship(int studentId, int offerId);
+	void assignInternship(int applicationId);
 	List<Internship> getInternships(int userId, int roleId);
 
 	Internship findInternshipById(int internshipId);
@@ -21,4 +22,6 @@ public interface InternshipService {
 	void addEvaluation(Integer internshipId, String evaluationName) throws Exception;
 
 	List<Evaluation> getInternshipEvaluations(Integer internshipId);
+
+
 }

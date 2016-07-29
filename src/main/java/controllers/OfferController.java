@@ -5,11 +5,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.google.common.base.Optional;
 import com.google.inject.Singleton;
+import etc.ApplicationStatus;
 import etc.LoggedInRole;
+import etc.LoggedInUser;
 import etc.LoggedInUserId;
 import models.*;
 import ninja.*;
+import ninja.i18n.Messages;
+import ninja.session.FlashScope;
 import ninja.validation.FieldViolation;
 import ninja.validation.JSR303Validation;
 import ninja.validation.Validation;
@@ -20,7 +25,9 @@ import com.google.inject.Inject;
 
 import ninja.params.PathParam;
 import ninja.session.Session;
+import services.MailService;
 import services.OfferService;
+import services.UserService;
 import vo.OfferVO;
 
 @Singleton
@@ -29,6 +36,17 @@ public class OfferController {
 
 	@Inject
 	OfferService offerService;
+	@Inject
+	MailService mailService;
+	@Inject
+	UserService userService;
+
+	Messages messages;
+
+	@Inject
+	OfferController(Messages msg) {
+		this.messages = msg;
+	}
 
 	Logger logger = LoggerFactory.getLogger(OfferController.class);
 	int offerId;
@@ -163,8 +181,9 @@ public class OfferController {
 	public Result approveOffer(Session session){
 
 		logger.info("approving offer, id: " + offerId);
+		Offer offer = offerService.approveOffer(offerId);
 
-		offerService.approveOffer(offerId);
+
 
 		return Results.redirect("/offers");
 	}
@@ -189,16 +208,22 @@ public class OfferController {
 
 	public Result viewApplicants(){
 
-		List<Application> applicationList = offerService.getApplicationsByOfferId(offerId);
+		Offer offer = offerService.getApplicationsByOfferId(offerId);
 		applicationMap = new HashMap<>();
 
+		List<Application> applicationList = offer.getApplications();
+		boolean isSomeCandidateApproved = false;
 		for(Application application : applicationList){
 
 			applicationMap.put(application.getId(), application);
+			if(application.isApproved())
+				isSomeCandidateApproved = true;
 		}
 		Result result = Results.html();
 		result.render("applicationList", applicationList);
 		result.render("offerId", offerId);
+		result.render("isSomeCandidateApproved", isSomeCandidateApproved);
+		result.render("offerIsClosed", offer.isClosed());
 
 		return result;
 	}
@@ -224,7 +249,7 @@ public class OfferController {
 
 	public Result candidates(){
 
-		List<Student> studentList = offerService.getCandidatesByOfferId(offerId);
+		List<Application> applications = offerService.getCandidatesByOfferId(offerId);
 		applicationMap = new HashMap<>();
 
 	/*	for(Application application : applicationList){
@@ -232,8 +257,21 @@ public class OfferController {
 			applicationMap.put(application.getId(), application);
 		}*/
 		Result result = Results.html();
-		result.render("studentList", studentList);
+		result.render("applications", applications);
 		result.render("offerId", offerId);
+
+		return result;
+	}
+
+	public Result chooseFinalCandidate(@PathParam("applicationId") int applicationId, Context context){
+
+		Result result = Results.redirect("/offers");
+		FlashScope flashScope = context.getFlashScope();
+		offerService.setFinalCandidate(applicationId);
+		Optional<String> flashMessage = messages.get("offer.finalCandidate.success", context, Optional.of(result));
+
+		if(flashMessage.isPresent())
+			flashScope.success(flashMessage.get());
 
 		return result;
 	}

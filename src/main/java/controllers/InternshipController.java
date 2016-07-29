@@ -1,5 +1,6 @@
 package controllers;
 
+import com.google.common.base.Optional;
 import com.google.common.io.Files;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -9,8 +10,10 @@ import models.Evaluation;
 import models.Internship;
 import models.LogbookEntry;
 import ninja.*;
+import ninja.i18n.Messages;
 import ninja.params.Param;
 import ninja.params.PathParam;
+import ninja.session.FlashScope;
 import ninja.uploads.DiskFileItemProvider;
 import ninja.uploads.FileItem;
 import ninja.uploads.FileProvider;
@@ -29,12 +32,30 @@ public class InternshipController {
 	@Inject
 	InternshipService internshipService;
 	private Integer internshipId;
+	Messages messages;
+
+	@Inject
+	InternshipController(Messages msg) {
+		this.messages = msg;
+	}
 
 	public Result assignInternship(@PathParam("studentId") int studentId, @PathParam("offerId") int offerId){
 
 		internshipService.assignInternship(studentId, offerId);
 
 		return Results.redirect("/offers");
+	}
+
+	public Result assignInternshipp(@PathParam("applicationId") int applicationId, Context context){
+
+		Result result = Results.redirect("/offers");
+		internshipService.assignInternship(applicationId);
+		FlashScope flashScope = context.getFlashScope();
+		Optional<String> flashMessage = messages.get("offer.processEnded", context, Optional.of(result));
+		if(flashMessage.isPresent())
+			flashScope.success(flashMessage.get());
+
+		return result;
 	}
 
 	public Result internships(@LoggedInUserId int userId, @LoggedInRole int roleId){

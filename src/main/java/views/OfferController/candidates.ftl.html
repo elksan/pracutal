@@ -3,14 +3,14 @@
 
     <div class="container">
         <div class="row">
-            <#list studentList as student>
+            <#list applications as application>
 
 
                 <div class="col s12 m6 l4">
                     <div class="card">
                         <div class="card-image">
                             <img src="/assets/images/user.png">
-                            <span class="card-title">${student.firstName} ${student.lastName}</span>
+                            <span class="card-title">${application.student.name} ${application.student.lastName}</span>
                         </div>
                         <div class="card-content">
                             <p>I am a very simple card. I am good at containing small bits of information.
@@ -18,7 +18,7 @@
                         </div>
                         <div class="card-action">
                             <a href="#">Ver Perfil</a>
-                            <a href="/assignInternship/${student.user.id}/${offerId}">Asignar a practica</a>
+                            <a href="/chooseFinalCandidate/${application.id}">Asignar a practica</a>
                         </div>
                     </div>
                 </div>
