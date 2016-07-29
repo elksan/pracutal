@@ -13,12 +13,11 @@
                             <span class="card-title">${application.student.name} ${application.student.lastName}</span>
                         </div>
                         <div class="card-content">
-                            <p>I am a very simple card. I am good at containing small bits of information.
-                                I am convenient because I require little markup to use effectively.</p>
+                            <p>${application.student.jobObjective}</p>
                         </div>
                         <div class="card-action">
                             <a href="#">Ver Perfil</a>
-                            <a href="/chooseFinalCandidate/${application.id}">Asignar a practica</a>
+                            <a class="<#if application.offer.closed>disabled</#if>" href="/chooseFinalCandidate/${application.id}">Asignar a practica</a>
                         </div>
                     </div>
                 </div>
