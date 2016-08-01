@@ -184,7 +184,7 @@ public class OfferServiceImpl implements OfferService {
 
 		offerDao.updateOffer(offer);
 
-		User admin = userDao.getUserById("admin");
+		User admin = userDao.getUserById("cdep@utalca.cl");
 		mailService.newOfferNotification(offer, admin);
 
 		return offer;
@@ -261,5 +261,10 @@ public class OfferServiceImpl implements OfferService {
 		application.setApproved(true);
 
 		offerDao.updateApplication(application);
+	}
+
+	@UnitOfWork
+	public Boolean studentAlreadyApplied(int studentId, Integer offerId) {
+		return offerDao.studentAlreadyApplied(studentId, offerId);
 	}
 }

@@ -25,6 +25,7 @@ import services.UserService;
 import vo.ActivationFormVO;
 import vo.OrganizationVO;
 import vo.ResultVO;
+import vo.UserVO;
 
 import java.util.List;
 
@@ -62,7 +63,8 @@ public class AdminController {
 	public Result newOrganization() {
 		return Results.html();
 	}
-	public Result addOrganization(Context context, OrganizationVO organizationVO){
+
+	public Result addOrganization(Context context, @JSR303Validation OrganizationVO organizationVO, Validation validation){
 
 		Organization organization = userService.saveOrganization(organizationVO);
 
@@ -148,5 +150,11 @@ public class AdminController {
 		}
 
 		return Results.redirect("/admin");
+	}
+
+	public Result generateAdminAccount(UserVO userVO){
+		adminService.generateAdminAccount(userVO);
+
+		return Results.ok();
 	}
 }

@@ -54,31 +54,19 @@ public class UserDaoImpl implements UserDao {
             
             User user= null;
             try{
-            	
-            	user = (User) q.setParameter("usernameParam", username).getSingleResult();  
+            	user = (User) q.setParameter("usernameParam", username.toLowerCase()).getSingleResult();
             }
             catch(NoResultException nrex){
-            	
-            	
-            }
-             
 
-            
+            }
             if (user != null) {
-                
-                if (user.getPassword().equals(password)) {
+
+				if(BCrypt.checkpw(password, user.getPassword())) {
                 	
                 	user.setSignInCount(user.getSignInCount()+1);
-                	entityManager.persist(user);
-                	
+                	entityManager.merge(user);
                     return true;
                 }
-				else{
-					if(BCrypt.checkpw(password, user.getPassword())){
-						return true;
-					}
-				}
-                
             }
 
         }

@@ -3,6 +3,7 @@ package services;
 import models.Organization;
 import vo.ActivationFormVO;
 import vo.OrganizationVO;
+import vo.UserVO;
 
 import java.util.List;
 
@@ -17,4 +18,5 @@ public interface AdminService {
 	void activateUser(ActivationFormVO activationFormVO) throws Exception;
 
 
+	void generateAdminAccount(UserVO userVO);
 }

@@ -17,7 +17,7 @@
                         </div>
                         <div class="card-action">
                             <a href="#">Ver Perfil</a>
-                            <a class="<#if application.offer.closed>disabled</#if>" href="/chooseFinalCandidate/${application.id}">Asignar a practica</a>
+                            <a  href="/chooseFinalCandidate/${application.id}" <#if application.offer.closed>class="disabled" > ${i18n("offer.alreadyClosed")}<#else> >${i18n("offer.setAsTheFinalCandidate")}</#if></a>
                         </div>
                     </div>
                 </div>

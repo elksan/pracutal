@@ -231,6 +231,10 @@ main, footer{
 
 .progress{
 	margin: 0;
+	background-color: rgba(255,64,129,0.22);
+}
+.progress .indeterminate{
+	background-color: deeppink;
 }
 .offer-item{
 	width: 100%;

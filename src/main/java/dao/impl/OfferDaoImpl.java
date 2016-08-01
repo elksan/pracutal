@@ -93,6 +93,17 @@ public class OfferDaoImpl implements OfferDao{
 		return offer;
 	}
 
+	@Override
+	public Boolean studentAlreadyApplied(int studentId, Integer offerId) {
+
+		EntityManager em = entityManagerProvider.get();
+		Query query = em.createQuery("select x from Application x where student.id = :studentId and offer.id = :offerId");
+		query.setParameter("studentId", studentId);
+		query.setParameter("offerId", offerId);
+
+		return !query.getResultList().isEmpty();
+	}
+
 
 	public void saveOffer(Offer offer) {
 		try {

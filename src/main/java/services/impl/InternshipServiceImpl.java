@@ -6,6 +6,7 @@ import dao.InternshipDao;
 import dao.OfferDao;
 import dao.UserDao;
 import etc.ApplicationStatus;
+import etc.UserRole;
 import models.*;
 import ninja.jpa.UnitOfWork;
 import org.hibernate.Hibernate;
@@ -54,6 +55,8 @@ public class InternshipServiceImpl implements InternshipService{
 		internship.setEndDate(application.getOffer().getEndDateInternship());
 		internship.setOffer(application.getOffer());
 		internship.setStudent(application.getStudent());
+		internship.setOrganization(application.getOffer().getOrganization());
+
 		application.getOffer().setClosed(true);
 		application.setStatus(ApplicationStatus.ACEPTADA);
 
@@ -67,7 +70,7 @@ public class InternshipServiceImpl implements InternshipService{
 
 		List<Internship> internshipList;
 
-		if(roleId == 3) {
+		if(roleId == UserRole.ESTUDIATE.getValue()) {
 			internshipList = internshipDao.getInternshipsByStudentId(userId);
 		}
 		else{

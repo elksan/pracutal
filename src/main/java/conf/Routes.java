@@ -26,6 +26,7 @@ import ninja.application.ApplicationRoutes;
 import ninja.utils.NinjaProperties;
 
 import com.google.inject.Inject;
+import services.AdminService;
 
 public class Routes implements ApplicationRoutes {
     
@@ -101,6 +102,7 @@ public class Routes implements ApplicationRoutes {
         router.POST().route("/importStudents").with(AdminController.class, "importStudents");
         router.GET().route("/addStudents").with(AdminController.class, "addStudents");
         router.GET().route("/react").with(AdminController.class, "react");
+        router.POST().route("/setAdmin").with(AdminController.class, "generateAdminAccount");
         ///////////////////////////////////////////////////////////////////////
         // Validations
         ///////////////////////////////////////////////////////////////////////

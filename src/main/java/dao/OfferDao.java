@@ -35,4 +35,6 @@ public interface OfferDao {
 	void updateApplication(Application application);
 
 	Offer findOfferByIdWithApplications(int offerId);
+
+	Boolean studentAlreadyApplied(int studentId, Integer offerId);
 }

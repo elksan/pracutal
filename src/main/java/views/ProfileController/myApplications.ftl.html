@@ -18,7 +18,7 @@
 							<#items as application>
 								<tr>
 									<td> <a href="/offerDetails/${application.offer.id}">${application.offer.title}</a> </td>
-									<td> <a href="#!">${application.offer.organization.firstName}</a></td>
+									<td> <a href="#!">${application.offer.organization.name}</a></td>
 									<td> ${(application.status!"N/A")}</td>
 									<td> ${(application.createdAt!)}</td>
 								</tr>

@@ -39,7 +39,7 @@ public class InternshipDaoImpl implements InternshipDao {
 		Query query = entityManager.createQuery(" SELECT x FROM Internship x WHERE student.id = :userId ");
 
 		query.setParameter("userId", userId);
-		query.setHint("javax.persistence.fetchgraph", graph);
+		query.setHint("javax.persistence.loadgraph", graph);
 
 		internshipList = query.getResultList();
 

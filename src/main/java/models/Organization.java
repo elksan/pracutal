@@ -34,7 +34,7 @@ public class Organization extends User{
 		this.webpage = organizationVO.getWebpage();
 		this.phoneNumber = organizationVO.getPhoneNumber();
 		this.name = organizationVO.getName();
-		this.email = organizationVO.getEmail();
+		this.email = organizationVO.getEmail().toLowerCase();
 		this.roles = new ArrayList<>();
 	}
 

@@ -5,6 +5,7 @@ import com.google.inject.persist.Transactional;
 import dao.AdminDao;
 import dao.UserDao;
 import etc.SessionIdentifierGenerator;
+import etc.UserRole;
 import models.Organization;
 import models.Role;
 import models.User;
@@ -14,6 +15,7 @@ import org.mindrot.jbcrypt.BCrypt;
 import services.AdminService;
 import vo.ActivationFormVO;
 import vo.OrganizationVO;
+import vo.UserVO;
 import vo.VerificationToken;
 
 import java.util.ArrayList;
@@ -55,7 +57,7 @@ public class AdminServiceImpl implements AdminService {
 		verificationToken.setVerified(true);
 		verificationToken.getUser().setDisabled(false);
 
-		String hashedPassword = BCrypt.hashpw(activationFormVO.getNewPassword(), BCrypt.gensalt());
+		String hashedPassword = BCrypt.hashpw(activationFormVO.getNewPassword(), BCrypt.gensalt(16));
 		User user = verificationToken.getUser();
 		user.setPassword(hashedPassword);
 		adminDao.updateOrganization(user);
@@ -70,6 +72,20 @@ public class AdminServiceImpl implements AdminService {
 
 
 	}*/
+	@Transactional
+	public void generateAdminAccount(UserVO userVO){
 
+		String hashedPassword = BCrypt.hashpw(userVO.getPassword(), BCrypt.gensalt(16));
+		User user = new User();
+		user.setName(userVO.getName());
+		user.setEmail(userVO.getEmail());
+		user.setDisabled(false);
+		user.setPassword(hashedPassword);
+		Role role = userDao.findRoleById(UserRole.ADMINISTRADOR.getValue());
+		user.setRoles(new ArrayList<Role>());
+		user.getRoles().add(role);
 
+		userDao.saveUser(user);
+
+	}
 }

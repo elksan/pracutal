@@ -22,7 +22,7 @@
 	                    </div>
 	                </div>
 				
-					<button type="submit" class="btn waves-effect waves-light">${i18n("login.loginNowButton")}</button>
+					<button type="submit" class="btn waves-effect waves-light" onclick="loading()">${i18n("login.loginNowButton")}</button>
 					<a class="waves-effect waves-light btn right" onclick="displayTip()">Tip!</a>
 				</form>
 			<div>
@@ -43,6 +43,11 @@
 		function displayTip(){
 			Materialize.toast('Pssst. Default user is "bob@gmail.com" / password is "secret"', 3000);			
 		}
-		
+		function loading(){
+			$('.progress').show();
+			var submitButton = $('button[type=submit]');
+			submitButton.text("cargando...");
+			submitButton.addClass("disabled");
+		}
 	</script>
 </@layout.myLayout>

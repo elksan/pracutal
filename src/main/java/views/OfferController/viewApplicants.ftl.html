@@ -37,7 +37,12 @@
                                     </label>
                                 </div>
                             </td>
-                            <td><#if application.approved><i class="material-icons">thumb_up</i></#if></td>
+
+                            <#if application.approved>
+                                <td><i class="material-icons">thumb_up</i></td>
+                            <#elseif application.candidate>
+                                <td><a href="/chooseFinalCandidate/${application.id}">${i18n("offer.setAsTheFinalCandidate")}</a></td>
+                            </#if>
                         </tr>
                     </#items>
                     </tbody>

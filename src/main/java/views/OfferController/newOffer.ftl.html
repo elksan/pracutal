@@ -136,25 +136,6 @@
 		</div>
 	</div>
 </div>
-
-	<!-- Modal Structure -->
-	<div id="loadingModal"  class="modal ">
-		<div class="modal-content">
-			<div class="preloader-wrapper small active">
-				<div class="spinner-layer spinner-blue">
-					<div class="circle-clipper left">
-						<div class="circle"></div>
-					</div><div class="gap-patch">
-					<div class="circle"></div>
-				</div><div class="circle-clipper right">
-					<div class="circle"></div>
-				</div>
-				</div>
-			</div>
-		</div>
-	</div>
-
-
 	<script type="text/javascript">
 	
 	/*$('.datepicker').pickadate({
@@ -217,12 +198,11 @@
 		// stop the form from submitting the normal way and refreshing the page
 		event.preventDefault();
 		e.returnValue = false;
-
+		$('.progress').show();
 
 		var $toastContent = $(' ');
 
 		tinyMCE.triggerSave();
-		$('#loadingModal').openModal();
 
 		$.ajax({
 			url: "/validateOffer",
@@ -261,7 +241,7 @@
 
 		})
 		.always(function (){
-			$('#loadingModal').closeModal();
+			$('.progress').hide();
 		});
 
 		$(document).on('click', '#toast-container .toast', function() {

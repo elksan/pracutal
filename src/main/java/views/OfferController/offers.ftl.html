@@ -54,16 +54,19 @@
 
                                     </div>
 
-                                        <div class="fixed-action-btn horizontal click-to-toggle" >
+                                        <div class="fixed-action-btn horizontal" >
                                             <a class="btn-floating btn-large red">
                                                 <i class="material-icons">menu</i>
                                             </a>
                                             <ul>
-                                                <li><a href="/offerDetails/${offer.id}" class="btn-floating green"><i class="material-icons right">details</i></a></li>
+                                                <li><a href="/offerDetails/${offer.id}" class="btn-floating green tooltipped"
+                                                       data-position="bottom" data-delay="50" data-tooltip="${i18n("offer.seeDetails")}"><i class="material-icons right">details</i></a></li>
                                                 <#if session.role == "1" || (session.role == "2" && session.userId == offer.organization.id?c)>
 
-                                                    <li><a href="/deleteOffer/${offer.id}" class="btn-floating yellow <#if session.role == "2" && offer.approved>disabled</#if>" ><i class="material-icons right">delete</i></a></li>
-                                                    <li><a href="/editOffer/${offer.id}" class="btn-floating blue <#if session.role == "2" && offer.approved>disabled</#if>"><i class="material-icons right">edit</i></a></li>
+                                                    <li><a href="/deleteOffer/${offer.id}" class="btn-floating yellow tooltipped <#if session.role == "2" && offer.approved>disabled</#if>"
+                                                            data-position="bottom" data-delay="50" data-tooltip="${i18n("offer.delete")}"><i class="material-icons right">delete</i></a></li>
+                                                    <li><a href="/editOffer/${offer.id}" class="btn-floating blue tooltipped <#if session.role == "2" && offer.approved>disabled</#if>"
+                                                            data-position="bottom" data-delay="50" data-tooltip="${i18n("offer.edit")}"><i class="material-icons right">edit</i></a></li>
 
                                                 </#if>
 

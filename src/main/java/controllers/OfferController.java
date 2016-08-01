@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.google.common.base.Optional;
+import com.google.common.primitives.Booleans;
 import com.google.inject.Singleton;
 import etc.ApplicationStatus;
 import etc.LoggedInRole;
@@ -100,12 +101,14 @@ public class OfferController {
 		return result;
 	}
 
-	public Result offerDetails(Session session, @PathParam("offerId") int offerId){
+	public Result offerDetails(@PathParam("offerId") int offerId, @LoggedInUserId int studentId){
 
 		this.offerId = offerId;
 		Offer selectedOffer = offerService.findOfferById(offerId);
         OfferVO offerVO = new OfferVO(selectedOffer);
-		return Results.html().render("selectedOffer", offerVO);
+
+		Boolean studentAlreadyApplied = offerService.studentAlreadyApplied(studentId, selectedOffer.getId());
+		return Results.html().render("selectedOffer", offerVO).render("studentAlreadyApplied", studentAlreadyApplied);
 	}
 
 	public Result newOffer(Session session){

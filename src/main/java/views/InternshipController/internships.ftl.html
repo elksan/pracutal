@@ -13,7 +13,8 @@
                         <p><#if session.role == '3'>${internship.organization.name} <#else>Practicante: <span> ${internship.student.name}</span></#if><br>
                            <#if !internship.closed> ${i18n("internship.inprogress")} <#else> ${i18n("internship.closed")} </#if><br>
                         </p>
-                        <a href="/logbook/${internship.id}" class="secondary-content"><i class="material-icons ">details</i></a>
+                        <a href="/logbook/${internship.id}" class="secondary-content tooltipped"
+                           data-position="bottom" data-delay="50" data-tooltip="${i18n("internship.seeDetails")}"><i class="material-icons">details</i></a>
                     </li>
                 </#items>
             </ul>

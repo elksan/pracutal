@@ -89,11 +89,12 @@
 
     <script type="text/javascript">
         $(document).ready(function() {
-            //var texto = <#noescape>'${selectedOffer.description}'</#noescape>;
-            //console.log(texto);
-           // $('#summernote').append(texto);
+
+            <#if studentAlreadyApplied>
+                var applyBtn = $('#applicateForOfferBtn');
+                applyBtn.addClass('disabled');
+                applyBtn.text('Ya postulaste a esta oferta');
+            </#if>
         });
-
-
     </script>
 </@layout.myLayout>
