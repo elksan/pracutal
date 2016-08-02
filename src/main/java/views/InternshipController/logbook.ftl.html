@@ -1,0 +1,56 @@
+<#import "../layout/defaultLayout.ftl.html" as layout> <@layout.myLayout i18n("logbook")>
+
+    <div class="container">
+
+        <#if internship??>
+
+            <div class="row">
+                <div class="col s12">
+                    <h1 class="center-align">${internship.title}</h1>
+
+                    <a class="btn indigo"><i class="small material-icons left">event_available</i>${internship.startDate?date}</a>
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s12">
+                    <h3>${i18n("internship.logbook")}</h3>
+                </div>
+            </div>
+            <#if session.role == "3">
+                <a href="/newLogbookEntry" class="btn "><i class="small material-icons left">add</i>${i18n("internship.newEntry")}</a>
+            <#else>
+                <a href="/evaluate" class="btn "><i class="small material-icons left">add</i>${i18n("internship.evaluate")}</a>
+            </#if>
+
+            <#if internship.logbookEntries??>
+
+                <#list internship.logbookEntries as entry>
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="row">
+                                <div class="col s12">
+                                    <h3></h3>
+                                    <span class="right"></span>
+                                    <p><#noescape>${entry.content}</#noescape></p>
+                                    <p class="right">Agregado el <span>${entry.createdAt?date}</span></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </#list>
+
+            </#if>
+
+
+        </#if>
+
+    </div>
+
+
+
+
+
+
+
+</@layout.myLayout>

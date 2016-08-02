@@ -1,0 +1,31 @@
+<#import "../layout/defaultLayout.ftl.html" as layout> 
+<@layout.myLayout "Nuevo Usuario">  
+
+
+<div class="container">
+
+	<div class="row">
+		<div class="col s12">
+            <form method="post" enctype="multipart/form-data" action="/importStudents">
+                <h3>${i18n("admin.addStudents")}</h3>
+                <h5>${i18n("admin.addStudents.description")}</h5>
+                <div class="file-field input-field">
+                    <div class="btn">
+                        <span>${i18n("internship.browse")}</span>
+                        <input type="file" name="upfile"><br />
+                    </div>
+                    <div class="file-path-wrapper">
+                        <input class="file-path validate" type="text">
+                    </div>
+                </div>
+                <button type="submit" class="btn waves-effect waves-light">${i18n("internship.upload")}<i class="material-icons right">file_upload</i></button>
+            </form>
+
+		</div>
+
+	</div>
+</div>
+
+
+
+</@layout.myLayout>

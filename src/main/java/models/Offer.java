@@ -10,6 +10,39 @@ import vo.OfferVO;
 
 @Entity
 @Table(name = "offer")
+@NamedEntityGraphs({
+		@NamedEntityGraph(name = "offer.organization+offertype", attributeNodes = {
+				@NamedAttributeNode(value = "organization"),
+				@NamedAttributeNode(value = "offerType")
+		}),
+
+		@NamedEntityGraph(
+				name = "graph.offer.internships",
+				attributeNodes = {
+						@NamedAttributeNode(value = "internships", subgraph = "student")
+				},
+				subgraphs = {
+						@NamedSubgraph(
+								name = "student",
+								attributeNodes = @NamedAttributeNode(value = "student")
+						)
+				}
+		),
+		@NamedEntityGraph(name = "offer.organization", attributeNodes = {
+				@NamedAttributeNode(value = "organization")
+		}),
+		@NamedEntityGraph(name = "offer.applications",
+				attributeNodes = {
+					@NamedAttributeNode(value = "applications", subgraph = "student"),
+				},
+				subgraphs = {
+						@NamedSubgraph(
+								name = "student",
+								attributeNodes = @NamedAttributeNode(value = "student")
+						)
+				}
+		)
+})
 public class Offer implements Serializable {
 
 	//private Integer organizationId;
@@ -39,11 +72,13 @@ public class Offer implements Serializable {
 	private Integer minimalLevelRequired;
 	private String language;
 	private boolean approved;
+	private boolean closed;
 
 	private OfferType offerType;
 	private List<Career> careers;
 	private Organization organization;
 	private List<Application> applications;
+	private List<Internship> internships;
 	
 	public Offer() {
 		
@@ -73,6 +108,7 @@ public class Offer implements Serializable {
 		this.minimalLevelRequired = offerVO.getMinimalLevelRequired();
 		this.language = offerVO.getLanguage();
 		this.approved = offerVO.isApproved();
+		this.closed = false;
 	}
 
 	@Column(name="created_at", updatable = false)
@@ -313,12 +349,29 @@ public class Offer implements Serializable {
 		this.approved = approved;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "offer")
+	@OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL, mappedBy = "offer")
 	public List<Application> getApplications() {
 		return applications;
 	}
 
 	public void setApplications(List<Application> applications) {
 		this.applications = applications;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "offer")
+	public List<Internship> getInternships() {
+		return internships;
+	}
+
+	public void setInternships(List<Internship> internships) {
+		this.internships = internships;
+	}
+
+	public boolean isClosed() {
+		return closed;
+	}
+
+	public void setClosed(boolean closed) {
+		this.closed = closed;
 	}
 }

@@ -1,217 +1,246 @@
-<#import "../layout/defaultLayout.ftl.html" as layout> 
-<@layout.myLayout "Home page">  
+	<#import "../layout/defaultLayout.ftl.html" as layout>
+	<@layout.myLayout "Home page">
 
-<div id="profile" class="container container-general">
-	<div class="row">
-		
-		<aside class="col l4 s12 m12 profile-sidebar z-depth-1">
-		
-		 <div class="row">
-		 	
-		 	<div class="heading">
-		 		<div>
-		 			<img class="responsive-img" src="/assets/images/user.png">
-		 		</div>
+	<div id="profile" class="container container-general">
+		<div class="row">
 
-		 		<div class="col s12 m12 l9 name">   
-		            <h5>${(user.firstName)!} ${user.lastName!} ${user.motherLastName!}</h5>		            
-	        	</div>
-		 	</div>
-			
-			
+			<aside class="col l4 s12 m12 profile-sidebar z-depth-1">
 
-		 	<div class="col l12 m12 s12 ">
-                <div class="row">                               
-                    <div class="col m12 s12 l3 center">
-                       <i class="material-icons icon">person</i>
-                    </div>                                
-                    <div class="col m12 s12 l9"> 
-					  <div class="section">
-					    <h6>${i18n("profile.presentation")}</h6>
-					    <p>${(user.student.jobObjective)!"..."}</p>
-					  </div>
+				<div class="row">
 
-					  <div class="divider"></div>
-					          
-                    </div>
-                </div>         
-            </div>
+					<div class="heading">
+						<div>
+							<a href="#modal1" class="modal-trigger"><img class="responsive-img" src="/assets/images/user.png"></a>
+						</div>
 
-            <div class="col l12 m12 s12 ">
-                <div class="row">                               
-                    <div class="col m12 s12 l3 center"> 
-                       <i class="material-icons icon">phone</i>
-                    </div>                                
-                    <div class="col m12 s12 l9"> 
-					    <div class="section">
-					    	<h6>${(user.student.phoneNumber)!}</h6>
-							<span>${i18n("profile.phone")}</span>
-					    </div> 
-
-					  	<div class="divider"></div>
-
-					           
-                    </div>
-                </div>         
-            </div>
-
-            <div class="col l12 m12 s12 ">
-                <div class="row">                               
-                    <div class="col m12 s12 l3 center"> 
-                       <i class="material-icons icon">mail</i>
-                    </div>                                
-                    <div class="col m12 s12 l9"> 
-					    <div class="section">
-					    	<h6>${(user.email)!}</h6>
-							<span>${i18n("profile.info")}</span>
-					    </div> 
-
-					  	<div class="divider"></div>
-
-					           
-                    </div>
-                </div>         
-            </div>
-
-            <div class="col l12 m12 s12 ">
-                <div class="row">                               
-                    <div class="col m12 s12 l3 center"> 
-                       <i class="material-icons icon">home</i>
-                    </div>                                
-                    <div class="col m12 s12 l9"> 
-					    <div class="section">
-					    	<h6>${(user.student.address)!}</h6>
-							<span>${i18n("profile.address")}</span>
-					    </div> 
-						<div class="section">
-					    	<h6>${(user.student.city)!}</h6>
-							<span>${i18n("profile.city")}</span>
-					    </div>
-					  	<div class="divider"></div>
-
-					           
-                    </div>
-                </div>         
-            </div>
-
-            <div class="col l12 m12 s12 ">
-                <div class="row">                               
-                    <div class="col m12 s12 l3 center">
-                       <i class="material-icons icon">cake</i>
-                    </div>                                
-                    <div class="col m12 s12 l9"> 
-                        
-					    <div class="section">
-					    	<h6>${(user.student.birthdate)!}</h6>
-							<span>${i18n("profile.birthdate")}</span>
-					    </div>						
-					  	<div class="divider"></div>
-                    </div>
-                </div>         
-            </div>
-
-            <div class="col l12 m12 s12 ">
-                <div class="row">                               
-                    <div class="col m12 s12 l3 center"> 
-                       <i class="material-icons icon">public</i>
-                    </div>                                
-                    <div class="col m12 s12 l9"> 
-                        
-					    <div class="section">
-					    	<h6>${(user.student.citizenship)!}</h6>
-							<span>${i18n("profile.citizenship")}</span>
-					    </div>						
-					  	<div class="divider"></div>
-                    </div>
-                </div>         
-            </div>
-
-            <div class="col l12 m12 s12 ">
-                <div class="row">                               
-                    <div class="col m12 s12 l3 center"> 
-                       <i class="material-icons icon">wc</i>
-                    </div>                                
-                    <div class="col m12 s12 l9"> 
-                        
-					    <div class="section">
-					    	<h6>${(user.student.gender)!}</h6>
-							<span>${i18n("profile.gender")}</span>
-					    </div>						
-					  	<div class="divider"></div>
-                    </div>
-                </div>         
-            </div>
-
-		 </div>
-							
-		</aside>
-
-		<section  class="col l8 s12 m12 info">
-			<div class="row">
-
-				<div class="section-wrapper z-depth-1">
-					<div class="section-icon col s12 m12 l2 center">
-						<i class="material-icons medium">school</i>
+						<div class="col s12 m12 l9 name">
+							<h5>${(user.name)!} ${user.lastName!} ${user.motherLastName!}</h5>
+						</div>
 					</div>
 
-					<div class="col s12 m12 l10">
-						
-						<h2>${i18n("profile.education")}</h2>
-						
-						<div class="section">
-					    	<h5>${(user.student.registrationNumber)!}</h5>
-							<span>${i18n("profile.registration.number")}</span>
-					    </div>
-						<div class="section">
-					    	<h5>${(user.student.career.careerName)!}</h5>
-							<span>${i18n("profile.career")}</span>
-					    </div>
 
-					    <div class="section">
-					    	<h5>${(user.student.entryYear)!}</h5>
-							<span>${i18n("profile.entry.year")}</span>
-					    </div>			
-						
+
+					<div class="col l12 m12 s12 ">
+						<div class="row">
+							<div class="col m12 s12 l3 center">
+							   <i class="material-icons icon">person</i>
+							</div>
+							<div class="col m12 s12 l9">
+							  <div class="section">
+								<h6>${i18n("profile.presentation")}</h6>
+								<p>${(user.student.jobObjective)!"..."}</p>
+							  </div>
+
+							  <div class="divider"></div>
+
+							</div>
+						</div>
 					</div>
-			
+
+					<div class="col l12 m12 s12 ">
+						<div class="row">
+							<div class="col m12 s12 l3 center">
+							   <i class="material-icons icon">phone</i>
+							</div>
+							<div class="col m12 s12 l9">
+								<div class="section">
+									<h6>${(user.student.phoneNumber)!}</h6>
+									<span>${i18n("profile.phone")}</span>
+								</div>
+
+								<div class="divider"></div>
+
+
+							</div>
+						</div>
+					</div>
+
+					<div class="col l12 m12 s12 ">
+						<div class="row">
+							<div class="col m12 s12 l3 center">
+							   <i class="material-icons icon">mail</i>
+							</div>
+							<div class="col m12 s12 l9">
+								<div class="section">
+									<h6>${(user.email)!}</h6>
+									<span>${i18n("profile.info")}</span>
+								</div>
+
+								<div class="divider"></div>
+
+
+							</div>
+						</div>
+					</div>
+
+					<div class="col l12 m12 s12 ">
+						<div class="row">
+							<div class="col m12 s12 l3 center">
+							   <i class="material-icons icon">home</i>
+							</div>
+							<div class="col m12 s12 l9">
+								<div class="section">
+									<h6>${(user.student.address)!}</h6>
+									<span>${i18n("profile.address")}</span>
+								</div>
+								<div class="section">
+									<h6>${(user.student.city)!}</h6>
+									<span>${i18n("profile.city")}</span>
+								</div>
+								<div class="divider"></div>
+
+
+							</div>
+						</div>
+					</div>
+
+					<div class="col l12 m12 s12 ">
+						<div class="row">
+							<div class="col m12 s12 l3 center">
+							   <i class="material-icons icon">cake</i>
+							</div>
+							<div class="col m12 s12 l9">
+
+								<div class="section">
+									<h6>${(user.student.birthdate)!}</h6>
+									<span>${i18n("profile.birthdate")}</span>
+								</div>
+								<div class="divider"></div>
+							</div>
+						</div>
+					</div>
+
+					<div class="col l12 m12 s12 ">
+						<div class="row">
+							<div class="col m12 s12 l3 center">
+							   <i class="material-icons icon">public</i>
+							</div>
+							<div class="col m12 s12 l9">
+
+								<div class="section">
+									<h6>${(user.student.citizenship)!}</h6>
+									<span>${i18n("profile.citizenship")}</span>
+								</div>
+								<div class="divider"></div>
+							</div>
+						</div>
+					</div>
+
+					<div class="col l12 m12 s12 ">
+						<div class="row">
+							<div class="col m12 s12 l3 center">
+							   <i class="material-icons icon">wc</i>
+							</div>
+							<div class="col m12 s12 l9">
+
+								<div class="section">
+									<h6>${(user.student.gender)!}</h6>
+									<span>${i18n("profile.gender")}</span>
+								</div>
+								<div class="divider"></div>
+							</div>
+						</div>
+					</div>
+
+				 </div>
+
+			</aside>
+
+			<section  class="col l8 s12 m12 info">
+				<div class="row">
+
+					<div class="section-wrapper z-depth-1">
+						<div class="section-icon col s12 m12 l2 center">
+							<i class="material-icons medium">school</i>
+						</div>
+
+						<div class="col s12 m12 l10">
+
+							<h2>${i18n("profile.education")}</h2>
+
+							<div class="section">
+								<h5>${(user.student.registrationNumber)!}</h5>
+								<span>${i18n("profile.registration.number")}</span>
+							</div>
+							<div class="section">
+								<h5>${(user.student.career.careerName)!}</h5>
+								<span>${i18n("profile.career")}</span>
+							</div>
+
+							<div class="section">
+								<h5>${(user.student.entryYear)!}</h5>
+								<span>${i18n("profile.entry.year")}</span>
+							</div>
+
+						</div>
+
+					</div>
+
+
+					<div class="section-wrapper z-depth-1">
+
+						<div class="section-icon col s12 m12 l2 center">
+							<i class="material-icons medium">work</i>
+						</div>
+
+						<div class="col s12 m12 l10">
+
+							<div class="section">
+								<h5>Section 1</h5>
+								<p>Stuff</p>
+							</div>
+							<div class="divider"></div>
+							<div class="section">
+								<h5>Section 2</h5>
+								<p>Stuff</p>
+							</div>
+							<div class="divider"></div>
+							<div class="section">
+								<h5>Section 3</h5>
+								<p>Stuff</p>
+							</div>
+						<div>
+					</div>
 				</div>
-				
-				
-				<div class="section-wrapper z-depth-1">
-
-					<div class="section-icon col s12 m12 l2 center">
-						<i class="material-icons medium">work</i>
-					</div>
-
-					<div class="col s12 m12 l10">
-
-						<div class="section">
-							<h5>Section 1</h5>
-							<p>Stuff</p>
-						</div>
-						<div class="divider"></div>
-						<div class="section">
-							<h5>Section 2</h5>
-							<p>Stuff</p>
-						</div>
-						<div class="divider"></div>
-						<div class="section">
-							<h5>Section 3</h5>
-							<p>Stuff</p>
-						</div>
-					<div>
-				</div>
-			</div>
-		</section> 
+			</section>
+		</div>
 	</div>
-</div>
 
-<script type="text/javascript">
-	$(document).ready(function(){
 
-		$('.navbar li.active').removeClass('active');
-		$('#menus #profile-btn').addClass('active');			
 
-	});	
-</script>
-</@layout.myLayout>
+		<!-- Modal Structure -->
+		<div id="modal1" class="modal">
+
+			<form method="post" enctype="multipart/form-data" action="/uploadProfilePictureFinish">
+			<div class="modal-content">
+
+				<h5>${i18n("profile.uploadMessage")}</h5>
+				<br>
+
+				<div class="file-field input-field">
+					<div class="btn">
+						<span>File</span>
+						<input type="file" name="upfile" accept=".png,.jpg, .jpeg"><br />
+					</div>
+					<div class="file-path-wrapper">
+						<input class="file-path validate" type="text">
+					</div>
+				</div>
+
+			</div>
+			<div class="modal-footer">
+				<button type="submit" class="btn waves-effect waves-light">${i18n("offer.submit")}<i class="material-icons right">send</i></button>
+			</div>
+			</form>
+		</div>
+
+	<script type="text/javascript">
+		$(document).ready(function(){
+
+			$('.navbar li.active').removeClass('active');
+			$('#menus #profile-btn').addClass('active');
+
+			$('.modal-trigger').leanModal();
+		});
+	</script>
+	</@layout.myLayout>

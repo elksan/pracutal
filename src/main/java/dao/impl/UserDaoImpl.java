@@ -20,12 +20,11 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
-import models.Application;
-import models.Organization;
+import models.*;
+import org.mindrot.jbcrypt.BCrypt;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import models.User;
 import ninja.jpa.UnitOfWork;
 
 import com.google.inject.Inject;
@@ -55,26 +54,19 @@ public class UserDaoImpl implements UserDao {
             
             User user= null;
             try{
-            	
-            	user = (User) q.setParameter("usernameParam", username).getSingleResult();  
+            	user = (User) q.setParameter("usernameParam", username.toLowerCase()).getSingleResult();
             }
             catch(NoResultException nrex){
-            	
-            	
-            }
-             
 
-            
+            }
             if (user != null) {
-                
-                if (user.getPassword().equals(password)) {
+
+				if(BCrypt.checkpw(password, user.getPassword())) {
                 	
                 	user.setSignInCount(user.getSignInCount()+1);
-                	entityManager.persist(user);
-                	
+                	entityManager.merge(user);
                     return true;
                 }
-                
             }
 
         }
@@ -101,8 +93,8 @@ public class UserDaoImpl implements UserDao {
     		user = (User) query.setParameter("userId", userId).getSingleResult();
     		
     		logger.debug("user logged = " + user.getEmail());
-    		if(user.getStudent() != null && user.getStudent().getCareer() != null)
-    			logger.debug("careerName = " + user.getStudent().getCareer().getCareerName());
+    		/*if(user.getStudent() != null && user.getStudent().getCareer() != null)
+    			logger.debug("careerName = " + user.getStudent().getCareer().getCareerName());*/
 
 			logger.debug("user role = " + user.getRoles().get(0));
     		
@@ -164,6 +156,26 @@ public class UserDaoImpl implements UserDao {
 
 	}
 
+	public Organization getOrganizationWithInternshipsById(int organizationId) {
+
+		EntityManager entityManager = entityManagerProvider.get();
+		Organization organization = null;
+		try{
+
+			organization = entityManager.find(Organization.class, organizationId);
+
+
+		}catch(NoResultException nre){
+
+
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+
+		return organization;
+
+	}
+
 	public List<Application> getApplicationsByUserId(int userId) {
 
 		EntityManager entityManager = entityManagerProvider.get();
@@ -183,5 +195,46 @@ public class UserDaoImpl implements UserDao {
 
 	}
 
+	public Role findRoleById(int roleId){
 
+		EntityManager entityManager = entityManagerProvider.get();
+		return entityManager.find(Role.class, roleId);
+	}
+
+	@Override
+	public void saveStudentList(List<Student> studentList) {
+		EntityManager entityManager = entityManagerProvider.get();
+
+		entityManager.persist(studentList);
+	}
+
+	@Override
+	public void saveUser(User user) {
+
+		EntityManager em = entityManagerProvider.get();
+
+		em.persist(user);
+	}
+
+	@Override
+	public Career findCareerById(Integer careerId) {
+		EntityManager em = entityManagerProvider.get();
+		return em.find(Career.class, careerId);
+	}
+
+	public Organization saveOrganization(Organization organization) {
+		EntityManager entityManager = entityManagerProvider.get();
+
+		entityManager.persist(organization);
+		return organization;
+	}
+
+	@Override
+	public List<Organization> getOrganizations() {
+
+		EntityManager entityManager = entityManagerProvider.get();
+		Query query = entityManager.createQuery("SELECT x FROM  Organization x ");
+
+		return query.getResultList();
+	}
 }

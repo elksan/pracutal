@@ -1,59 +1,43 @@
 package models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import org.hibernate.annotations.*;
+import vo.VerificationToken;
+
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.*;
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.JoinTable;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.OrderBy;
 
 @Entity
+@Inheritance(strategy=InheritanceType.JOINED)
 public class User {
-      
-    private Integer id;
-    
-    private String password;
-    
-    private String firstName;
-    
-    private String lastName;
-    
-    private String motherLastName;
-    
-    private Date createdAt;
-    
-    private Date currentSignInAt;
-    
-    private String currentSignInIp;
-    
-    private String email;
-    
-    private Date lastSignInAt;
-    
-    private String lastSignInIp;
-    
-    private Date rememberCreatedAt;
-    
-    private Date resetPasswordSentAt;
-    
-    private String resetPasswordToken;
-    
-    private int signInCount;
-    
-    private Date updatedAt;
-    
-    private Student student;
 
-	private Organization organization;
-    
-    private List<Role> roles;
+    protected Integer id;
+	protected String password;
+	protected String name;
+	protected Date createdAt;
+	protected Date currentSignInAt;
+	protected String currentSignInIp;
+	protected String email;
+	protected Date lastSignInAt;
+	protected String lastSignInIp;
+	protected Date rememberCreatedAt;
+	protected Date resetPasswordSentAt;
+	protected String resetPasswordToken;
+	protected int signInCount;
+	protected Date updatedAt;
+	protected Boolean disabled;
+	protected List<Role> roles;
+
+	protected List<VerificationToken> tokens;
 
     
     
@@ -62,19 +46,18 @@ public class User {
     public User() {
     	
     	this.signInCount = 0;
+		this.disabled = true;
     }
     
                                                                                                 
     
 
-    public User(int id, String password, String firstName, String lastName, Date createdAt, Date currentSignInAt,
+    public User(int id, String password, Date createdAt, Date currentSignInAt,
 			String currentSignInIp, String email, Date lastSignInAt, String lastSignInIp, Date rememberCreatedAt,
 			Date resetPasswordSentAt, String resetPasswordToken, int signInCount, Date updatedAt) {
 		super();
 		this.id = id;
 		this.password = password;
-		this.firstName = firstName;
-		this.lastName = lastName;
 		this.createdAt = createdAt;
 		this.currentSignInAt = currentSignInAt;
 		this.currentSignInIp = currentSignInIp;
@@ -89,6 +72,8 @@ public class User {
 	}
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(columnDefinition = "serial")
 	public Integer getId() {
 		return id;
 	}
@@ -105,23 +90,6 @@ public class User {
 		this.password = password;
 	}
 
-	@Column(name="first_name")
-	public String getFirstName() {
-		return firstName;
-	}
-
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	@Column(name="last_name")
-	public String getLastName() {
-		return lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
 
 	@Column(name="created_at")
 	public Date getCreatedAt() {
@@ -221,31 +189,14 @@ public class User {
 		this.updatedAt = updatedAt;
 	}
 
-	@Column(name="mother_last_name")
-	public String getMotherLastName() {
-		return motherLastName;
+	public Boolean getDisabled() {
+		return disabled;
 	}
 
-	public void setMotherLastName(String motherLastName) {
-		this.motherLastName = motherLastName;
+	public void setDisabled(Boolean disabled) {
+		this.disabled = disabled;
 	}
 
-	@OneToOne(fetch=FetchType.LAZY, mappedBy="user")
-	public Student getStudent() {
-		return student;
-	}
-	public void setStudent(Student student) {
-		this.student = student;
-	}
-
-	@OneToOne(fetch=FetchType.LAZY, mappedBy="user")
-	public Organization getOrganization() {
-		return organization;
-	}
-
-	public void setOrganization(Organization organization) {
-		this.organization = organization;
-	}
 
 	@ManyToMany(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
 	@JoinTable(name = "role_user", joinColumns = {
@@ -258,6 +209,31 @@ public class User {
 		this.roles = roles;
 	}
 
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
+	public List<VerificationToken> getTokens() {
+		return tokens;
+	}
 
+	@OrderBy(value = "id DESC ")
+	public void setTokens(List<VerificationToken> tokens) {
+		this.tokens = tokens;
+	}
 
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	@PrePersist
+	protected void onCreate() {
+		createdAt = new Date();
+	}
+
+	@PreUpdate
+	protected void onUpdate() {
+		updatedAt = new Date();
+	}
 }

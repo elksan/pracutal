@@ -4,32 +4,38 @@ package models;
  * Created by Diego on 22-04-2016.
  */
 
+import vo.OrganizationVO;
+import vo.VerificationToken;
+
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 @Entity
-public class Organization {
+public class Organization extends User{
 
-	private Integer id;
 	private String activity;
 	private String area;
-	private Date createdAt;
-	private Boolean disabled;
 	private String description;
-	private Date updatedAt;
 	private String webpage;
 	private Integer phoneNumber;
 	private List<Offer> offers;
-	private User user;
+	private List<Internship> internships;
 
-	@Id
-	public Integer getId() {
-		return id;
+	public Organization() {
 	}
 
-	public void setId(Integer id) {
-		this.id = id;
+	public Organization(OrganizationVO organizationVO) {
+
+		this.activity = organizationVO.getActivity();
+		this.area = organizationVO.getArea();
+		this.description = organizationVO.getDescription();
+		this.webpage = organizationVO.getWebpage();
+		this.phoneNumber = organizationVO.getPhoneNumber();
+		this.name = organizationVO.getName();
+		this.email = organizationVO.getEmail().toLowerCase();
+		this.roles = new ArrayList<>();
 	}
 
 	public String getActivity() {
@@ -48,38 +54,12 @@ public class Organization {
 		this.area = area;
 	}
 
-	@Column(name="created_at")
-	public Date getCreatedAt() {
-		return createdAt;
-	}
-
-	public void setCreatedAt(Date createdAt) {
-		this.createdAt = createdAt;
-	}
-
-	public Boolean getDisabled() {
-		return disabled;
-	}
-
-	public void setDisabled(Boolean disabled) {
-		this.disabled = disabled;
-	}
-
 	public String getDescription() {
 		return description;
 	}
 
 	public void setDescription(String description) {
 		this.description = description;
-	}
-
-	@Column(name="updated_at")
-	public Date getUpdatedAt() {
-		return updatedAt;
-	}
-
-	public void setUpdatedAt(Date updatedAt) {
-		this.updatedAt = updatedAt;
 	}
 
 	public String getWebpage() {
@@ -108,13 +88,23 @@ public class Organization {
 		this.offers = offers;
 	}
 
-	@OneToOne(fetch=FetchType.LAZY)
-	@PrimaryKeyJoinColumn
-	public User getUser() {
-		return user;
+	@PrePersist
+	protected void onCreate() {
+		createdAt = new Date();
+		disabled = true;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	@PreUpdate
+	protected void onUpdate() {
+		updatedAt = new Date();
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "organization")
+	public List<Internship> getInternships() {
+		return internships;
+	}
+
+	public void setInternships(List<Internship> internships) {
+		this.internships = internships;
 	}
 }

@@ -1,0 +1,12 @@
+<#import "mailLayout.ftl.html" as layout>
+<@layout.mailLayout>
+
+    <h2>Aviso de nueva oferta creada </h2>
+    <p>
+        Una nueva oferta ha sido creada por la empresa ${offer.organization.name}:
+    </p>
+    <h1>
+        T&iacute;tulo: ${offer.title}
+    </h1>
+
+</@layout.mailLayout>

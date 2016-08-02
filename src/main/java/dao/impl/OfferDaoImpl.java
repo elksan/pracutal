@@ -1,12 +1,13 @@
 package dao.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.Query;
+import javax.persistence.*;
 
+import com.google.inject.multibindings.StringMapKey;
 import models.*;
 import org.hibernate.Hibernate;
 import org.slf4j.Logger;
@@ -50,9 +51,11 @@ public class OfferDaoImpl implements OfferDao{
 		List<Offer> offers = new ArrayList<>();
 
 		EntityManager entityManager = entityManagerProvider.get();
+		EntityGraph graph = entityManager.getEntityGraph("offer.organization+offertype");
 
 		Query q = entityManager.createQuery("SELECT X FROM Offer X where X.organization.id = :organizationId");
 		q.setParameter("organizationId", organizationId);
+		q.setHint("javax.persistence.loadgraph", graph);
 
 		try{
 			offers = q.getResultList();
@@ -76,6 +79,29 @@ public class OfferDaoImpl implements OfferDao{
         Hibernate.initialize(offer.getCareers());
 
 		return offer;
+	}
+
+	public Offer findOfferByIdWithApplications(int offerId){
+
+		EntityManager entityManager = entityManagerProvider.get();
+		EntityGraph graph = entityManager.getEntityGraph("offer.applications");
+		Map<String, Object> hints = new HashMap<>();
+		hints.put("javax.persistence.loadgraph",graph);
+
+		Offer offer = entityManager.find(Offer.class, offerId, hints);
+
+		return offer;
+	}
+
+	@Override
+	public Boolean studentAlreadyApplied(int studentId, Integer offerId) {
+
+		EntityManager em = entityManagerProvider.get();
+		Query query = em.createQuery("select x from Application x where student.id = :studentId and offer.id = :offerId");
+		query.setParameter("studentId", studentId);
+		query.setParameter("offerId", offerId);
+
+		return !query.getResultList().isEmpty();
 	}
 
 
@@ -105,7 +131,7 @@ public class OfferDaoImpl implements OfferDao{
 		}
 		catch(NoResultException nrex){
 
-			logger.warn("No careers were found");
+			logger.warn ("No careers were found");
 		}
 		return careers;
 
@@ -115,11 +141,11 @@ public class OfferDaoImpl implements OfferDao{
 	public List<OfferType> getOfferTypes() {
 
 		EntityManager entityManager = entityManagerProvider.get();
+		EntityGraph graph = entityManager.getEntityGraph("offerType.offers");
 
 		List<OfferType> offerTypes = new ArrayList<OfferType>();
-
-		Query q = entityManager.createQuery("SELECT x FROM OfferType x");
-
+		Query q = entityManager.createQuery("SELECT distinct x FROM OfferType x");
+		q.setHint("javax.persistence.loadgraph", graph);
 		try{
 
 			offerTypes = q.getResultList();
@@ -128,10 +154,10 @@ public class OfferDaoImpl implements OfferDao{
 
 			logger.warn("No offer types were found");
 		}
-		for(OfferType offerType : offerTypes){
+		/*for(OfferType offerType : offerTypes){
 
 			Hibernate.initialize(offerType.getOffers());
-		}
+		}*/
 		return offerTypes;
 
 	}
@@ -169,9 +195,10 @@ public class OfferDaoImpl implements OfferDao{
 		List<Offer> approvedOffers = new ArrayList<Offer>();
 
 		EntityManager entityManager = entityManagerProvider.get();
+		EntityGraph graph = entityManager.getEntityGraph("offer.organization+offertype");
 
-		Query q = entityManager.createQuery("SELECT X FROM Offer X where disabled = false and approved = true");
-
+		Query q = entityManager.createQuery("SELECT X FROM Offer X where disabled = false and approved = true order by closed");
+		q.setHint("javax.persistence.loadgraph", graph);
 		try{
 			approvedOffers = q.getResultList();
 
@@ -189,8 +216,10 @@ public class OfferDaoImpl implements OfferDao{
 		List<Offer> offers = new ArrayList<Offer>();
 
 		EntityManager entityManager = entityManagerProvider.get();
+		EntityGraph graph = entityManager.getEntityGraph("offer.organization+offertype");
 
 		Query q = entityManager.createQuery("SELECT X FROM Offer X where disabled = false and approved = true and available = true");
+		q.setHint("javax.persistence.loadgraph", graph);
 
 		try{
 			offers = q.getResultList();
@@ -221,6 +250,58 @@ public class OfferDaoImpl implements OfferDao{
 		applicationList = q.getResultList();
 
 		return applicationList;
+	}
+
+	public List<Student> getCandidatesByOfferId(int offerId) {
+		List<Student> studentList = new ArrayList<>();
+
+		EntityManager entityManager = entityManagerProvider.get();
+		Query q = entityManager.createQuery("SELECT s FROM Application a INNER JOIN a.student s WHERE a.offer.id = :offerId");
+		q.setParameter("offerId", offerId);
+
+		studentList = q.getResultList();
+
+		return studentList;
+	}
+
+	@Override
+	public Offer findOfferByIdWithOrganization(int offerId) {
+		EntityManager entityManager = entityManagerProvider.get();
+		EntityGraph graph = entityManager.getEntityGraph("offer.organization");
+
+		Map<String, Object> hints = new HashMap<>();
+		hints.put("javax.persistence.loadgraph", graph);
+
+		Offer offer = entityManager.find(Offer.class, offerId, hints);
+		logger.debug("OFFER: " + offer.toString());
+		return offer;
+	}
+
+	@Override
+	public Application findApplicationById(int applicationId) {
+
+		EntityManager em = entityManagerProvider.get();
+		return em.find(Application.class, applicationId);
+
+	}
+
+	public Application findApplicationByIdWithOfferAndUser(int applicationId) {
+
+		EntityManager em = entityManagerProvider.get();
+		EntityGraph graph = em.getEntityGraph("applicationWithOfferAndStudent");
+
+		Map<String, Object> hints = new HashMap<>();
+		hints.put("javax.persistence.loadgraph", graph);
+
+		return em.find(Application.class, applicationId, hints);
+
+	}
+
+	@Override
+	public void updateApplication(Application application) {
+
+		EntityManager em = entityManagerProvider.get();
+		em.merge(application);
 	}
 
 	public List<Career> getCareers(List<Integer> careerIds) {

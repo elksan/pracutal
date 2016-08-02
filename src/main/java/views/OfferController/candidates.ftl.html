@@ -1,0 +1,36 @@
+<#import "../layout/defaultLayout.ftl.html" as layout>
+<@layout.myLayout "Ver Postulantes">
+
+    <div class="container">
+        <div class="row">
+            <#list applications as application>
+
+
+                <div class="col s12 m6 l4">
+                    <div class="card">
+                        <div class="card-image">
+                            <img src="/assets/images/user.png">
+                            <span class="card-title">${application.student.name} ${application.student.lastName}</span>
+                        </div>
+                        <div class="card-content">
+                            <p>${application.student.jobObjective}</p>
+                        </div>
+                        <div class="card-action">
+                            <a href="#">Ver Perfil</a>
+                            <a  href="/chooseFinalCandidate/${application.id}" <#if application.offer.closed>class="disabled" > ${i18n("offer.alreadyClosed")}<#else> >${i18n("offer.setAsTheFinalCandidate")}</#if></a>
+                        </div>
+                    </div>
+                </div>
+
+            <#else>
+                <div class="col s12 ">
+                    <h3 class="center-align">${i18n("candidates.empty")}</h3>
+                </div>
+
+            </#list>
+
+        </div>
+    </div>
+
+
+</@layout.myLayout>

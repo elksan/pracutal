@@ -3,9 +3,14 @@ package vo;
 import models.Career;
 import models.Offer;
 import models.OfferType;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.persistence.Enumerated;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
+import javax.validation.constraints.Size;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -44,6 +49,7 @@ public class OfferVO {
 	private Integer minimalLevelRequired;
 	private String language;
 	private boolean approved;
+	private String endDateAvailable;
 
 	public OfferVO() {
 	}
@@ -80,6 +86,7 @@ public class OfferVO {
 		this.minimalLevelRequired = offer.getMinimalLevelRequired();
 		this.language = offer.getLanguage();
 		this.approved = offer.isApproved();
+		this.endDateAvailable = isValid(offer.getEndDateAvailable()) ? parseDate(offer.getEndDateAvailable()) : "";
 	}
 
 	public String parseDate(Date fecha) {
@@ -132,6 +139,7 @@ public class OfferVO {
 	public void setCreatedAt(Date createdAt) {
 		this.createdAt = createdAt;
 	}
+	@Size(min = 10)
 	public String getDescription() {
 		return description;
 	}
@@ -156,12 +164,14 @@ public class OfferVO {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+	@NotEmpty
 	public String getEndDate() {
 		return endDate;
 	}
 	public void setEndDate(String endDate) {
 		this.endDate = endDate;
 	}
+
 	public boolean isHasIncome() {
 		return hasIncome;
 	}
@@ -210,12 +220,14 @@ public class OfferVO {
 	public void setRequirements(String requirements) {
 		this.requirements = requirements;
 	}
+	@NotEmpty
 	public String getStartDateAvailable() {
 		return startDateAvailable;
 	}
 	public void setStartDateAvailable(String startDateAvailable) {
 		this.startDateAvailable = startDateAvailable;
 	}
+	@NotEmpty
 	public String getStartDateInternship() {
 		return startDateInternship;
 	}
@@ -234,7 +246,7 @@ public class OfferVO {
 	public void setAvailable(boolean available) {
 		this.available = available;
 	}
-
+	@NotEmpty
 	public String getLocation() {
 		return location;
 	}
@@ -242,7 +254,7 @@ public class OfferVO {
 	public void setLocation(String location) {
 		this.location = location;
 	}
-
+	@NotEmpty
 	public String getTitle() {
 		return title;
 	}
@@ -314,4 +326,12 @@ public class OfferVO {
 	public void setApproved(boolean approved) {
 		this.approved = approved;
 	}
+
+    public String getEndDateAvailable() {
+        return endDateAvailable;
+    }
+
+    public void setEndDateAvailable(String endDateAvailable) {
+        this.endDateAvailable = endDateAvailable;
+    }
 }

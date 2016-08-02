@@ -16,6 +16,9 @@
 
 package conf;
 
+import com.google.inject.internal.InternalFlags;
+import controllers.*;
+import models.Internship;
 import models.Offer;
 import ninja.AssetsController;
 import ninja.Router;
@@ -23,12 +26,7 @@ import ninja.application.ApplicationRoutes;
 import ninja.utils.NinjaProperties;
 
 import com.google.inject.Inject;
-
-import controllers.AdminController;
-import controllers.ApplicationController;
-import controllers.LoginLogoutController;
-import controllers.OfferController;
-import controllers.ProfileController;
+import services.AdminService;
 
 public class Routes implements ApplicationRoutes {
     
@@ -65,7 +63,7 @@ public class Routes implements ApplicationRoutes {
         router.GET().route("/profile").with(ProfileController.class, "profile");
         router.GET().route("/offers").with(OfferController.class, "offers");
         router.GET().route("/offerDetails/{offerId}").with(OfferController.class, "offerDetails");
-        router.GET().route("/newoffer").with(OfferController.class, "newOffer");
+        router.GET().route("/newOffer").with(OfferController.class, "newOffer");
         router.POST().route("/saveOffer").with(OfferController.class, "saveOffer");
         router.GET().route("/deleteOffer/{offerId}").with(OfferController.class, "deleteOffer");
         router.GET().route("/editOffer/{offerId}").with(OfferController.class, "editOffer");
@@ -76,7 +74,39 @@ public class Routes implements ApplicationRoutes {
         router.GET().route("/myApplications").with(ProfileController.class, "myApplications");
         router.GET().route("/viewApplicants").with(OfferController.class, "viewApplicants");
         router.POST().route("/selectCandidate").with(OfferController.class, "selectCandidate");
+        router.GET().route("/saveCandidates").with(OfferController.class, "saveCandidates");
+        router.GET().route("/viewCandidates").with(OfferController.class, "candidates");
+        router.GET().route("/chooseFinalCandidate/{applicationId}").with(OfferController.class, "chooseFinalCandidate");
+        router.GET().route("/endProcess/{applicationId}").with(InternshipController.class, "assignInternshipp");
+
+        ///////////////////////////////////////////////////////////////////////
+        // INTERNSHIP
+        ///////////////////////////////////////////////////////////////////////
+        router.GET().route("/assignInternship/{studentId}/{offerId}").with(InternshipController.class, "assignInternship");
+        router.GET().route("/internships").with(InternshipController.class, "internships");
+        router.GET().route("/logbook/{internshipId}").with(InternshipController.class, "logbook");
+        router.GET().route("/newLogbookEntry").with(InternshipController.class, "logbookNewEntry");
+        router.POST().route("/addLogbookEntry").with(InternshipController.class, "logbookSaveEntry");
+        router.POST().route("/evaluationUploadFinish").with(InternshipController.class, "evaluationUploadFinish");
+        router.GET().route("/evaluate").with(InternshipController.class, "evaluate");
+        ///////////////////////////////////////////////////////////////////////
+        // ADMINISTRATION
+        ///////////////////////////////////////////////////////////////////////
         router.GET().route("/admin").with(AdminController.class, "menu");
+        router.GET().route("/newStudent").with(AdminController.class, "newStudent");
+        router.GET().route("/newOrganization").with(AdminController.class, "newOrganization");
+        router.POST().route("/addOrganization").with(AdminController.class, "addOrganization");
+        router.GET().route("/registerUser/{token}").with(AdminController.class, "accountRegistration");
+        router.POST().route("/activateUser").with(AdminController.class, "activateUser");
+        router.GET().route("/organizations").with(AdminController.class, "organizations");
+        router.POST().route("/importStudents").with(AdminController.class, "importStudents");
+        router.GET().route("/addStudents").with(AdminController.class, "addStudents");
+        router.GET().route("/react").with(AdminController.class, "react");
+        router.POST().route("/setAdmin").with(AdminController.class, "generateAdminAccount");
+        ///////////////////////////////////////////////////////////////////////
+        // Validations
+        ///////////////////////////////////////////////////////////////////////
+        router.POST().route("/validateOffer").with(ValidationController.class, "validateOffer");
  
         ///////////////////////////////////////////////////////////////////////
         // Assets (pictures / javascript)

@@ -4,7 +4,7 @@
 
 
 	<div class="navbar-fixed">
-		<nav class="indigo" role="navigation">
+		<nav class="pink" role="navigation">
 			<div class="nav-wrapper container">
 				<a class="brand-logo" href="/">PRACUTAL</a></li>
 				<a data-activates="mobile-nav" class="button-collapse"><i class="material-icons">menu</i></a>				
@@ -19,6 +19,9 @@
 							<li id="profile-btn"><a href="/profile">${i18n("header.profile")}</a></li>
 		                </#if>
 
+						<#if session.role = "3" || session.role = "2">
+							<li id="internship-btn" ><a href="/internships">${i18n("header.internships")}</a></li>
+						</#if>
 
 	                	<li id="offers-btn"><a href="/offers">${i18n("header.offers")}</a></li>
 
@@ -49,55 +52,14 @@
 			</div>
 		</nav>
 	</div>
-
+	<div class="progress">
+		<div class="indeterminate" ></div>
+	</div>
 	<script type="text/javascript">
 		           
 		$(document).ready(function(){
     		
     		 $(".button-collapse").sideNav();
-    		
+    		$('.progress').hide();
     	});
 	</script>
-
-
-<!--<div class="navbar navbar-default navbar-fixed-top">
-	<div class="container">
-		<div class="navbar-header">
-			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-				<span class="icon-bar"></span> 
-				<span class="icon-bar"></span> 
-				<span class="icon-bar"></span>
-			</button>
-			<a class="navbar-brand" href="/">${i18n("header.title")}</a>
-		</div>
-		<div class="navbar-collapse collapse">
-			<ul id="menus" class="nav navbar-nav">
-				
-				<#if (session.username)??>
-					<#if (session.isAdmin)??>
-	                	<li id="admin-btn" ><a href="/admin">${i18n("header.admin")}</a></li>
-	                </#if>
-	                <li id="profile-btn"><a href="/profile">${i18n("header.profile")}</a></li>
-	                <li id="offers-btn"><a href="/offers">${i18n("header.offers")}</a></li>
-                
-                <#else>
-                
-                	<li id="home-btn" class="active"><a href="/">${i18n("header.home")}</a></li>
-                </#if>
-			</ul>
-			<ul class="navbar-right nav navbar-nav">	
-			<#if (session.username)??>
-                <li><a href="#">${session.username}</a></li>
-                <li><a href="/logout">${i18n("header.logout")}</a></li>                
-            <#else>                
-                <li><a href="/login" id="login">${i18n("header.login")}</a></li>
-            </#if>
-				
-			</ul>
-		</div>
-	
-	</div>
-	
-	
-</div>
--->

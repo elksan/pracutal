@@ -1,14 +1,55 @@
-<#import "../layout/defaultLayout.ftl.html" as layout> <@layout.myLayout i18n("articleNew.pageTitle")>
+<#import "../layout/defaultLayout.ftl.html" as layout> <@layout.myLayout i18n("admin.adminitration")>
 
 
 
-	<div class="container">
-			
-		<div class="list-group">
+
+		<nav class="side-nav fixed admin-menu">
+			<ul class="">
+				<li class="collection-item"><a href="/react" style="width: 100%"><i class="material-icons left">local_library</i>${i18n("admin.students")}</a></li>
+				<li class="collection-item"><a id="organizationsBtn"><i class="material-icons left">business_center</i>${i18n("admin.organizations")}</a></li>
+				<li class="collection-item"><a><i class="material-icons left">insert_chart</i>${i18n("admin.reports")}</a></li>
+				<li class="collection-item"><a><i class="material-icons left">insert_chart</i>${i18n("admin.reports")}</a></li>
+			</ul>
+
+		</nav>
+
+
+			<div class="container" id="content">
+
+				<h2> ${i18n("admin.administation")}</h2>
+
+			</div>
+
+		<div class="fixed-action-btn" >
+			<a class="btn-floating btn-large red">
+				<i class="material-icons">menu</i>
+			</a>
 			<ul>
-				<li class="list-group-item active">usuarios</li>
-				<li class="list-group-item">organizaciones</li>
+				<li><a href="/addStudents" class="btn-floating green tooltipped"
+					   data-position="left" data-delay="50" data-tooltip="Nuevo estudiante"><i class="material-icons right">school</i></a></li>
+				<li><a  href="/newOrganization" class="btn-floating blue tooltipped"
+					   data-position="left" data-delay="50" data-tooltip="Nueva empresa"><i class="material-icons right">business_center</i></a></li>
+
 			</ul>
 		</div>
-	</div>
+
+	<script type="text/javascript">
+		$(document).ready(function () {
+			$('#organizationsBtn').click(function () {
+
+				$('.progress').show();
+				$.ajax({
+					url: "/organizations",
+					type: "get"
+				})
+					.done(function (data) {
+						console.log("success");
+						$('#content').html(data);
+						$('.progress').hide();
+					})
+			});
+		});
+
+	</script>
+
 </@layout.myLayout>

@@ -6,32 +6,27 @@ import java.util.List;
 import javax.persistence.*;
 
 @Entity
-public class Student {
+public class Student extends User {
 
-	private Integer id;
+
 	private Date birthdate;
-	private Date createdAt;
 	private Integer entryYear;
 	private Integer rut;
 	private Integer phoneNumber;
 	private Integer internshipsApproved;
 	private Integer priorityScore;
 	private String gender;
-	private Date updateAt;	
 	private String jobObjective;
 	private Integer registrationNumber;
-	
-	private User user;
+	private String lastName;
+	private String motherLastName;
 	private Career career;
 	private List<Application> applications;
+	private List<Internship> internships;
 
-	@Id
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
+	public Student(){
+		this.internshipsApproved = 0;
+		this.priorityScore = 0;
 	}
 
 	@Temporal(TemporalType.DATE)
@@ -42,14 +37,6 @@ public class Student {
 		this.birthdate = birthdate;
 	}
 
-	@Column(name="created_at")
-	public Date getCreatedAt() {
-		return createdAt;
-	}
-	public void setCreatedAt(Date createdAt) {
-		this.createdAt = createdAt;
-	}
-	
 	@Column(name="entry_year")
 	public Integer getEntryYear() {
 		return entryYear;
@@ -65,7 +52,23 @@ public class Student {
 	public void setRut(Integer rut) {
 		this.rut = rut;
 	}
-	
+
+	@Column(name="last_name")
+	public String getLastName() {
+		return lastName;
+	}
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	@Column(name="mother_last_name")
+	public String getMotherLastName() {
+		return motherLastName;
+	}
+	public void setMotherLastName(String motherLastName) {
+		this.motherLastName = motherLastName;
+	}
+
 	@Column(name="phone_number")
 	public Integer getPhoneNumber() {
 		return phoneNumber;
@@ -88,14 +91,6 @@ public class Student {
 	}
 	public void setPriorityScore(Integer priorityScore) {
 		this.priorityScore = priorityScore;
-	}
-
-	@Column(name="updated_at")
-	public Date getUpdateAt() {
-		return updateAt;
-	}	
-	public void setUpdateAt(Date updateAt) {
-		this.updateAt = updateAt;
 	}
 
 	public String getGender() {
@@ -121,15 +116,6 @@ public class Student {
 		this.registrationNumber = registrationNumber;
 	}
 
-	@OneToOne(fetch=FetchType.LAZY)
-	@PrimaryKeyJoinColumn
-	public User getUser() {
-		return user;
-	}
-	public void setUser(User user) {
-		this.user = user;
-	}
-	
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="career_id", unique=true, nullable=false)
 	public Career getCareer() {
@@ -147,4 +133,14 @@ public class Student {
 	public void setApplications(List<Application> applications) {
 		this.applications = applications;
 	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "student")
+	public List<Internship> getInternships() {
+		return internships;
+	}
+
+	public void setInternships(List<Internship> internships) {
+		this.internships = internships;
+	}
+
 }

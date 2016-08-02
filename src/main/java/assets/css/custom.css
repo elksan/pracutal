@@ -53,7 +53,7 @@
 	position:relative;
 }
 
-.title{
+.index-title{
 	top: 50%;
 	left: 50%;
 	position: absolute;
@@ -167,11 +167,13 @@ body{
 	color: #ffffff;
 }
 
+/*
 .collection .collection-item.active{
 
 	background-color: #ffffff;
 	color: rgba(0,0,0,0.87);
 }
+*/
 
 #offerBlock .fixed-action-btn{
 	position: static !important;
@@ -183,27 +185,59 @@ a.disabled {
 	cursor: default;
 }
 
-/*!** FIXES for error messages https://github.com/Dogfalo/materialize/issues/1562*!
+/*JQUERY VALIDATION PLUGIN FIXES for error messages https://github.com/Dogfalo/materialize/issues/1562*!*/
 label {
-
-}*/
+width: 100%;
+}
 .input-field label {
-	/*width: 100%;*/
-/*	font-size: 0.8rem;
+
+	font-size: 0.8rem;
 	-webkit-transform: translateY(-140%);
 	-moz-transform: translateY(-140%);
 	-ms-transform: translateY(-140%);
 	-o-transform: translateY(-140%);
-	transform: translateY(-140%);*/
+	transform: translateY(-140%);
 }
+/*END JQUeRY VALIDATION */
 
-label:after {
+/*label:after {
 	transition-property: all !important;
 	font-size: 0.8rem;
 	transform: none;
 }
 label:not(.active):after {
 	transform: translateY(-140%);
+}*/
+
+.loader{
+
+	height: 50px;
+	width: 60px;
+}
+#toast-container .toast {
+	cursor: pointer;
+}
+
+.admin-menu{
+	z-index: inherit;
+	margin-top: 64px;
+	color: #000;
+}
+main, footer{
+
+	padding-left: 240px;
+
+}
+
+.progress{
+	margin: 0;
+	background-color: rgba(255,64,129,0.22);
+}
+.progress .indeterminate{
+	background-color: deeppink;
+}
+.offer-item{
+	width: 100%;
 }
 
 @media only screen and (max-width: 992px){

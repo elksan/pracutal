@@ -8,20 +8,22 @@
             <div id="aside">
                 <br/>
                 <#if session.role == "2"|| session.role == "1">
-                    <a href="/newoffer" class="waves-effect waves-light btn-large">Nueva Oferta</a>
+                    <a href="/newOffer" class="waves-effect waves-light btn-large">Nueva Oferta</a>
 
                 <#elseif session.role == "3">
                     <a href="/myApplications" class="waves-effect waves-light btn-large">Mis Postulaciones</a>
                 </#if>
 
                 <div id="filters" class="collection z-depth-1">
+                    <a id="showAll" class="collection-item active" data-filter="*">${i18n("offers.showAll")}<span class="badge">${offers?size}</span></a>
+
                     <#list offerTypes as offerType>
                         <a href="#!" class="collection-item" data-filter="${offerType.id}">${offerType.name}<span class="badge">${offerType.offers?size}</span></a>
                         <#else>
                     </#list>
 
                     <#if session.role == "2">
-                        <a href="#!" id="misOfertas" class="collection-item" data-filter="${session.userId}">${i18n("offers.myOffers")}<span class="badge">${userLoggedOffers?size}</span></a>
+                        <a id="misOfertas" class="collection-item" data-filter="${session.userId}">${i18n("offers.myOffers")}<span class="badge">${userLoggedOffers?size}</span></a>
                     </#if>
                 </div>
 
@@ -33,18 +35,16 @@
                 <#list offers>
                     <ul id="offerList" class="collection z-depth-1">
                         <#items  as offer>
-                            <li id="offerBlock" class="collection-item avatar" data-type="${offer.offerType.id}" data-id="${offer.organization.id}">
+                            <li id="offerBlock" class="collection-item offer-item avatar" data-type="${offer.offerType.id}" data-id="${offer.organization.id}">
                                 <div class="row">
                                     <div class="col s1">
                                         <img src="https://www.google.com.pg/images/branding/googleg/1x/googleg_standard_color_128dp.png" alt="" class="circle">
-
                                     </div>
                                     <div class="col s7">
                                         <h5>${offer.title}</h5>
                                         <p>
-                                            <strong>${(offer.organization.user.firstName)!"N/A"}</strong> en ${offer.location}
+                                            <strong>${(offer.organization.name)!"N/A"}</strong> en ${offer.location}
                                         </p>
-
                                     </div>
                                     <div class="col s4">
 
@@ -54,16 +54,19 @@
 
                                     </div>
 
-                                        <div class="fixed-action-btn horizontal click-to-toggle" >
+                                        <div class="fixed-action-btn horizontal" >
                                             <a class="btn-floating btn-large red">
                                                 <i class="material-icons">menu</i>
                                             </a>
                                             <ul>
-                                                <li><a href="/offerDetails/${offer.id}" class="btn-floating green"><i class="material-icons right">details</i></a></li>
+                                                <li><a href="/offerDetails/${offer.id}" class="btn-floating green tooltipped"
+                                                       data-position="bottom" data-delay="50" data-tooltip="${i18n("offer.seeDetails")}"><i class="material-icons right">details</i></a></li>
                                                 <#if session.role == "1" || (session.role == "2" && session.userId == offer.organization.id?c)>
 
-                                                    <li><a href="/deleteOffer/${offer.id}" class="btn-floating yellow <#if session.role == "2" && offer.approved>disabled</#if>" ><i class="material-icons right">delete</i></a></li>
-                                                    <li><a href="/editOffer/${offer.id}" class="btn-floating blue <#if session.role == "2" && offer.approved>disabled</#if>"><i class="material-icons right">edit</i></a></li>
+                                                    <li><a href="/deleteOffer/${offer.id}" class="btn-floating yellow tooltipped <#if session.role == "2" && offer.approved>disabled</#if>"
+                                                            data-position="bottom" data-delay="50" data-tooltip="${i18n("offer.delete")}"><i class="material-icons right">delete</i></a></li>
+                                                    <li><a href="/editOffer/${offer.id}" class="btn-floating blue tooltipped <#if session.role == "2" && offer.approved>disabled</#if>"
+                                                            data-position="bottom" data-delay="50" data-tooltip="${i18n("offer.edit")}"><i class="material-icons right">edit</i></a></li>
 
                                                 </#if>
 
@@ -96,43 +99,60 @@
 
 </div>
 <script type="text/javascript">
-    $(document).ready(function(){
+    $(document).ready(function() {
 
         $('.navbar li.active').removeClass('active');
         $('#menus #offers-btn').addClass('active');
 
-        var $grid = $('.grid').isotope({
-            itemSelector: '.grid-item',
-            masonry: {
-                columnWidth: 50
-            }
-        });
-
-        $grid.imagesLoaded().progress( function() {
-            $grid.isotope('layout');
-        });
 
     });
-
-    $('#filters').on('click', function() {
-        var keywords = $(this).children('a.active').map(function () {
-            return $(this).attr("data-filter");
-        }).get();
-        $('#offerList > li').each( function() {
-            if($('#misOfertas').hasClass('active')) {
-                $(this).toggle($('#misOfertas.active').attr('data-filter').indexOf($(this).attr('data-id')) > -1);
-            }else{
-                $(this).toggle(keywords.length < 1 || $.inArray($(this).attr('data-type'), keywords) != -1)
-            }
-        });
-
+       // init Isotope
+    var $grid = $('#offerList').isotope({
+        itemSelector: '.offer-item',
+        layoutMode: 'vertical'
     });
 
-    $('#filters a').on('click', function() {
-        $(this).toggleClass("active");
+    /*$('#filters a').on('click', function() {
+     $(this).toggleClass(
+     "active");
+     });*/
+
+    // filter functions
+    var filterFns = {
+
+        1: function() {
+            var type = $(this).data('type');
+            return type == '1';
+        },
+        2: function() {
+            var type = $(this).data('type');
+            return type == '2';
+        },
+        3: function() {
+            var type = $(this).data('type');
+            return type == '3';
+        },
+        4: function() {
+            var type = $(this).data('type');
+            return type == '4';
+        },
+        5: function() {
+            var type = $(this).data('type');
+            return type == '5';
+        },
+    };
+
+    // bind filter button click
+    $('#filters').on( 'click', 'a', function() {
+        var filterValue = $( this ).data('filter');
+        // use filterFn if matches value
+        filterValue = filterFns[ filterValue ] || filterValue;
+        $grid.isotope({ filter: filterValue });
+
+        $('#filters a').removeClass('active');
+        $(this).addClass('active');
     });
+
 
 </script>
-	
-	
 </@layout.myLayout>

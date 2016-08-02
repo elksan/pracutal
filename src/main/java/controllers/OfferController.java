@@ -1,13 +1,24 @@
 package controllers;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import com.google.common.base.Optional;
+import com.google.common.primitives.Booleans;
 import com.google.inject.Singleton;
+import etc.ApplicationStatus;
 import etc.LoggedInRole;
+import etc.LoggedInUser;
 import etc.LoggedInUserId;
 import models.*;
 import ninja.*;
+import ninja.i18n.Messages;
+import ninja.session.FlashScope;
+import ninja.validation.FieldViolation;
+import ninja.validation.JSR303Validation;
+import ninja.validation.Validation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,7 +26,9 @@ import com.google.inject.Inject;
 
 import ninja.params.PathParam;
 import ninja.session.Session;
+import services.MailService;
 import services.OfferService;
+import services.UserService;
 import vo.OfferVO;
 
 @Singleton
@@ -24,10 +37,21 @@ public class OfferController {
 
 	@Inject
 	OfferService offerService;
+	@Inject
+	MailService mailService;
+	@Inject
+	UserService userService;
+
+	Messages messages;
+
+	@Inject
+	OfferController(Messages msg) {
+		this.messages = msg;
+	}
 
 	Logger logger = LoggerFactory.getLogger(OfferController.class);
 	int offerId;
-	List<Application> applicationList;
+	Map<Integer, Application> applicationMap;
 	
 	public Result offers(@LoggedInUserId int userId, @LoggedInRole int userRoleId){
 
@@ -35,16 +59,37 @@ public class OfferController {
 
 		logger.debug(String.valueOf(offers.size()));
 
-		if(!offers.isEmpty()) {
-			logger.debug(String.valueOf(offers.get(0).getDescription()));
-
-		}
 		List<OfferType> offerTypes = offerService.getOfferTypes();
 		List<Integer> userLoggedOffers = new ArrayList<>();
+
+		int practices =0;
+		int freelance = 0;
+		int partTime = 0;
+		int fullTime = 0;
+		int thesis = 0;
 
 		for (Offer offer : offers){
 			if(offer.getOrganization().getId() == userId)
 				userLoggedOffers.add(offer.getId());
+
+			switch (offer.getOfferType().getId()){
+
+				case 1:
+					practices++;
+					break;
+				case 2:
+					thesis++;
+					break;
+				case 3:
+					fullTime++;
+					break;
+				case 4:
+					partTime++;
+					break;
+				case 5:
+					freelance++;
+					break;
+			}
 		}
 
 
@@ -56,12 +101,14 @@ public class OfferController {
 		return result;
 	}
 
-	public Result offerDetails(Session session, @PathParam("offerId") int offerId){
+	public Result offerDetails(@PathParam("offerId") int offerId, @LoggedInUserId int studentId){
 
 		this.offerId = offerId;
 		Offer selectedOffer = offerService.findOfferById(offerId);
         OfferVO offerVO = new OfferVO(selectedOffer);
-		return Results.html().render("selectedOffer", offerVO);
+
+		Boolean studentAlreadyApplied = offerService.studentAlreadyApplied(studentId, selectedOffer.getId());
+		return Results.html().render("selectedOffer", offerVO).render("studentAlreadyApplied", studentAlreadyApplied);
 	}
 
 	public Result newOffer(Session session){
@@ -76,15 +123,22 @@ public class OfferController {
 		return  result;
 	}
 
-	public Result saveOffer(Session session, OfferVO offer){
+	public Result saveOffer(@LoggedInUserId int userId, OfferVO offer){
 
-        logger.debug("OFERTYPE>>>>>> " + offer.getOfferType());
+        try {
 
-		offer.setOrganizationId(Integer.parseInt(session.get("userId")));
+            logger.debug("OFERTYPE>>>>>> " + offer.getOfferType());
 
-		offerService.saveOffer(offer);
+            offer.setOrganizationId(userId);
+            offerService.saveOffer(offer);
 
-		return Results.redirect("/offers");
+            return Results.redirect("/offers");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error(e.getMessage());
+            return Results.redirect("/404notFound");
+        }
 	}
 
 	public Result editOffer(Session session, @PathParam("offerId") int offerId){
@@ -130,8 +184,9 @@ public class OfferController {
 	public Result approveOffer(Session session){
 
 		logger.info("approving offer, id: " + offerId);
+		Offer offer = offerService.approveOffer(offerId);
 
-		offerService.approveOffer(offerId);
+
 
 		return Results.redirect("/offers");
 	}
@@ -156,25 +211,72 @@ public class OfferController {
 
 	public Result viewApplicants(){
 
-		applicationList = offerService.getApplicationsByOfferId(offerId);
+		Offer offer = offerService.getApplicationsByOfferId(offerId);
+		applicationMap = new HashMap<>();
 
+		List<Application> applicationList = offer.getApplications();
+		boolean isSomeCandidateApproved = false;
+		for(Application application : applicationList){
+
+			applicationMap.put(application.getId(), application);
+			if(application.isApproved())
+				isSomeCandidateApproved = true;
+		}
 		Result result = Results.html();
 		result.render("applicationList", applicationList);
 		result.render("offerId", offerId);
+		result.render("isSomeCandidateApproved", isSomeCandidateApproved);
+		result.render("offerIsClosed", offer.isClosed());
 
 		return result;
 	}
 
 	public Result selectCandidate(Application selectedApplication){
 
-		for(Application application : applicationList){
+		Application appToModify = applicationMap.get(selectedApplication.getId());
+		appToModify.setCandidate(selectedApplication.isCandidate());
 
-			if(application.getId() == selectedApplication.getId()){
-
-				application.setCandidate(selectedApplication.isCandidate());
-			}
-		}
 		return Results.ok();
+	}
+
+	public Result saveCandidates(){
+
+		Offer offer = offerService.findOfferById(offerId);
+		offer.setApplications(new ArrayList<>(applicationMap.values()));
+
+		offerService.updateOffer(offer);
+
+		return Results.redirect("/offers");
+	}
+
+
+	public Result candidates(){
+
+		List<Application> applications = offerService.getCandidatesByOfferId(offerId);
+		applicationMap = new HashMap<>();
+
+	/*	for(Application application : applicationList){
+
+			applicationMap.put(application.getId(), application);
+		}*/
+		Result result = Results.html();
+		result.render("applications", applications);
+		result.render("offerId", offerId);
+
+		return result;
+	}
+
+	public Result chooseFinalCandidate(@PathParam("applicationId") int applicationId, Context context){
+
+		Result result = Results.redirect("/offers");
+		FlashScope flashScope = context.getFlashScope();
+		offerService.setFinalCandidate(applicationId);
+		Optional<String> flashMessage = messages.get("offer.finalCandidate.success", context, Optional.of(result));
+
+		if(flashMessage.isPresent())
+			flashScope.success(flashMessage.get());
+
+		return result;
 	}
 
 }
