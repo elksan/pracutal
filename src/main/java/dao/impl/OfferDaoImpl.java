@@ -218,7 +218,7 @@ public class OfferDaoImpl implements OfferDao{
 		EntityManager entityManager = entityManagerProvider.get();
 		EntityGraph graph = entityManager.getEntityGraph("offer.organization+offertype");
 
-		Query q = entityManager.createQuery("SELECT X FROM Offer X where disabled = false and approved = true and available = true");
+		Query q = entityManager.createQuery("SELECT X FROM Offer X where disabled = false and approved = true and available = true and closed = false");
 		q.setHint("javax.persistence.loadgraph", graph);
 
 		try{

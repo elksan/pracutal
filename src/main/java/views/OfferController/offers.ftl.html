@@ -22,9 +22,6 @@
                         <#else>
                     </#list>
 
-                    <#if session.role == "2">
-                        <a id="misOfertas" class="collection-item" data-filter="${session.userId}">${i18n("offers.myOffers")}<span class="badge">${userLoggedOffers?size}</span></a>
-                    </#if>
                 </div>
 
 

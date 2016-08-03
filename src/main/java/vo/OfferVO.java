@@ -15,6 +15,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class OfferVO {
 
@@ -91,7 +92,7 @@ public class OfferVO {
 
 	public String parseDate(Date fecha) {
 		try {
-			SimpleDateFormat sdf = new SimpleDateFormat("d MMMM, yyyy");
+			SimpleDateFormat sdf = new SimpleDateFormat("d MMMM, yyyy", Locale.forLanguageTag("es"));
 			return sdf.format(fecha);
 		}
 		catch (Exception e){
