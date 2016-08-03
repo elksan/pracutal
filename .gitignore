@@ -8,3 +8,4 @@ dependency-reduced-pom.xml
 *idea
 *.tmp
 *.iml
+src/main/java/conf/application.conf
