@@ -81,7 +81,7 @@ public class AdminServiceImpl implements AdminService {
 		user.setEmail(userVO.getEmail());
 		user.setDisabled(false);
 		user.setPassword(hashedPassword);
-		Role role = userDao.findRoleById(UserRole.ADMINISTRADOR.getValue());
+		Role role = userDao.findRoleById(UserRole.valueOf(userVO.getRole().toUpperCase()).getValue());
 		user.setRoles(new ArrayList<Role>());
 		user.getRoles().add(role);
 
