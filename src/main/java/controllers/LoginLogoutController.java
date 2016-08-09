@@ -71,10 +71,8 @@ public class LoginLogoutController {
             else
                 session.setExpiryTime(60 * 60 * 1000L);
 
-            if(username.equalsIgnoreCase("admin"))
-                return Results.redirect("/admin");
-            else
-                return Results.redirect("/profile");
+
+            return Results.redirect("/profile");
             
         }
         else {

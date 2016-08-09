@@ -44,6 +44,7 @@ public class OfferServiceImpl implements OfferService {
 		switch (userRoleId){
 
 			case 1:
+			case 4:
 				offers = offerDao.getApprovedOffers();
 				break;
 			case 2:
