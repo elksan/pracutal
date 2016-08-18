@@ -70,7 +70,7 @@ public class InternshipServiceImpl implements InternshipService{
 
 		List<Internship> internshipList;
 
-		if(roleId == UserRole.ESTUDIATE.getValue()) {
+		if(roleId == UserRole.ESTUDIANTE.getValue()) {
 			internshipList = internshipDao.getInternshipsByStudentId(userId);
 		}
 		else{

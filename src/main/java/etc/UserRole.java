@@ -7,7 +7,7 @@ public enum UserRole {
 
 	ADMINISTRADOR(1),
 	EMPRESA(2),
-	ESTUDIATE(3),
+	ESTUDIANTE(3),
 	DIRECTOR(4);
 
 	private final int value;

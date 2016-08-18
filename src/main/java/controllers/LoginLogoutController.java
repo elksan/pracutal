@@ -16,6 +16,8 @@
 
 package controllers;
 
+import com.sun.org.apache.xerces.internal.impl.dv.xs.BooleanDV;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import models.User;
 import ninja.Context;
 import ninja.Result;
@@ -46,6 +48,7 @@ public class LoginLogoutController {
 
     public Result loginPost(@Param("username") String username,
                             @Param("password") String password,
+                            @Param("rememberMe") Boolean rememberMe,
                             Context context) {
 
         boolean isUserNameAndPasswordValid = userService.isUserAndPasswordValid(username, password);
@@ -63,11 +66,13 @@ public class LoginLogoutController {
             session.put("role", user.getRoles().get(0).getId().toString());
             session.put("userId", user.getId().toString());
 
-
-            if(username.equalsIgnoreCase("admin"))
-                return Results.redirect("/admin");
+            if(rememberMe != null && rememberMe)
+                session.setExpiryTime(30 * 24 * 60 * 60 * 1000L);
             else
-                return Results.redirect("/profile");
+                session.setExpiryTime(60 * 60 * 1000L);
+
+
+            return Results.redirect("/profile");
             
         }
         else {

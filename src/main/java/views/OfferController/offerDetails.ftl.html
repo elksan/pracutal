@@ -37,7 +37,7 @@
         <div class="row">
             <div class="col s12">
                 <ul class="collection">
-                    <li class="collection-item dismissable">
+                    <li class="collection-item">
                         <div id="summernote">
                             <#noescape>${selectedOffer.description}</#noescape>
                         </div>
@@ -45,7 +45,7 @@
                 </ul>
             </div>
         </div>
-        <#if session.role == "1">
+        <#if session.role == "1" || session.role == "4">
             <div class="row">
                 <div class="col s12">
 

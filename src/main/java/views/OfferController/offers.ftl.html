@@ -22,9 +22,6 @@
                         <#else>
                     </#list>
 
-                    <#if session.role == "2">
-                        <a id="misOfertas" class="collection-item" data-filter="${session.userId}">${i18n("offers.myOffers")}<span class="badge">${userLoggedOffers?size}</span></a>
-                    </#if>
                 </div>
 
 
@@ -61,7 +58,7 @@
                                             <ul>
                                                 <li><a href="/offerDetails/${offer.id}" class="btn-floating green tooltipped"
                                                        data-position="bottom" data-delay="50" data-tooltip="${i18n("offer.seeDetails")}"><i class="material-icons right">details</i></a></li>
-                                                <#if session.role == "1" || (session.role == "2" && session.userId == offer.organization.id?c)>
+                                                <#if session.role == "1" || session.role == "4" || (session.role == "2" && session.userId == offer.organization.id?c)>
 
                                                     <li><a href="/deleteOffer/${offer.id}" class="btn-floating yellow tooltipped <#if session.role == "2" && offer.approved>disabled</#if>"
                                                             data-position="bottom" data-delay="50" data-tooltip="${i18n("offer.delete")}"><i class="material-icons right">delete</i></a></li>

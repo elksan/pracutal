@@ -41,6 +41,7 @@ public class UserVO {
 	protected Date updatedAt;
 	public String type;
 	protected List<Role> roles;
+	protected String role;
 
 	public Integer getId() {
 		return id;
@@ -168,5 +169,13 @@ public class UserVO {
 
 	public void setType(String type) {
 		this.type = type;
+	}
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
 	}
 }

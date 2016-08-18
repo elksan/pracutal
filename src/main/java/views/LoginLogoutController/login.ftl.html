@@ -5,7 +5,7 @@
 	<div class="row">
 		<div class="col s12">
 			<div class="card-panel white darken-1">
-				<form action="/login" method="post" class="form-horizontal" role="form">
+				<form action="/login" method="post" class="form-horizontal" role="form" onsubmit="loading()">
 			
 				    <div class="row">
 
@@ -21,9 +21,15 @@
 		                    <input type="password" class="validate" required="true" name="password" id="password" value="${(flash.password)!""}">	                 
 	                    </div>
 	                </div>
-				
-					<button type="submit" class="btn waves-effect waves-light" onclick="loading()">${i18n("login.loginNowButton")}</button>
-					<a class="waves-effect waves-light btn right" onclick="displayTip()">Tip!</a>
+
+					<input type="checkbox" name="rememberMe" id="rememberMe">
+					<label for="rememberMe">${i18n("login.rememberMe")}</label>
+
+					<div class="row">
+						<div class="input-field col s12">
+							<button type="submit" class="btn waves-effect waves-light">${i18n("login.loginNowButton")}</button>
+						</div>
+					</div>
 				</form>
 			<div>
 		</div>
@@ -39,10 +45,6 @@
 			$('#menus #login-btn').addClass('active');
 		});
 
-
-		function displayTip(){
-			Materialize.toast('Pssst. Default user is "bob@gmail.com" / password is "secret"', 3000);			
-		}
 		function loading(){
 			$('.progress').show();
 			var submitButton = $('button[type=submit]');
