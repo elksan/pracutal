@@ -16,10 +16,12 @@
 
 package dao.impl;
 
+import javax.persistence.EntityGraph;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
+import etc.ApplicationStatus;
 import models.*;
 import org.mindrot.jbcrypt.BCrypt;
 import org.slf4j.Logger;
@@ -237,4 +239,23 @@ public class UserDaoImpl implements UserDao {
 
 		return query.getResultList();
 	}
+
+	@Override
+	public List<Application> getStudentsWithInternshipAssigned() {
+		EntityManager em = entityManagerProvider.get();
+		EntityGraph graph = em.getEntityGraph("applicationWithStudentAndCareer");
+
+		Query query = em.createQuery("Select x from Application x where x.status = :status");
+		query.setParameter("status", ApplicationStatus.ACEPTADA);
+		query.setHint("javax.persistence.loadgraph", graph);
+
+
+		List<Application> applicationList = query.getResultList();
+		/*List<Student> studentList = new ArrayList<>();
+
+		for(Application application : applicationList){
+			studentList.add(application.getStudent());
+		}*/
+
+		return applicationList;	}
 }

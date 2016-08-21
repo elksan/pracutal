@@ -103,6 +103,8 @@ public class Routes implements ApplicationRoutes {
         router.GET().route("/addStudents").with(AdminController.class, "addStudents");
         router.GET().route("/react").with(AdminController.class, "react");
         router.POST().route("/setAdmin").with(AdminController.class, "generateAdminAccount");
+        router.GET().route("/reports").with(AdminController.class, "reports");
+        router.GET().route("/getStudentsWithInternshipAssigned").with(AdminController.class, "getStudentsWithInternshipAssigned");
         ///////////////////////////////////////////////////////////////////////
         // Validations
         ///////////////////////////////////////////////////////////////////////
