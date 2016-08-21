@@ -21,4 +21,6 @@ public interface UserService {
 
 	Organization saveOrganization(OrganizationVO organizationVO);
 	List<OrganizationVO> getOrganizations();
+
+	List<Application> getStudentsWithInternshipAssigned();
 }

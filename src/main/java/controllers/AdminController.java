@@ -3,6 +3,7 @@ package controllers;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import etc.ExcelReader;
+import models.Application;
 import models.Organization;
 import models.Student;
 import ninja.Context;
@@ -131,6 +132,12 @@ public class AdminController {
 		return result;
 	}
 
+	public Result reports(){
+
+		return Results.html();
+	}
+
+
 	public Result addStudents(){
 
 		return Results.html();
@@ -151,6 +158,17 @@ public class AdminController {
 
 		return Results.redirect("/admin");
 	}
+
+
+	public Result getStudentsWithInternshipAssigned(){
+
+		Result result = Results.html();
+		List<Application> applicationList = userService.getStudentsWithInternshipAssigned();
+
+		result.render("applicationList", applicationList);
+		return result;
+	}
+
 
 	public Result generateAdminAccount(UserVO userVO){
 		adminService.generateAdminAccount(userVO);

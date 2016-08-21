@@ -122,6 +122,12 @@ public class UserServiceImpl implements UserService {
 		return organizationVOs;
 	}
 
+	@UnitOfWork
+	public List<Application> getStudentsWithInternshipAssigned() {
+
+		return userDao.getStudentsWithInternshipAssigned();
+	}
+
 	private void createNewTokenForUser(User user){
 
 		SessionIdentifierGenerator sig = new SessionIdentifierGenerator();

@@ -8,18 +8,31 @@ import javax.persistence.*;
 
 
 @Entity
-@NamedEntityGraph(name = "applicationWithOfferAndStudent",
-		attributeNodes = {
-				@NamedAttributeNode(value = "student", subgraph = "career"),
-				@NamedAttributeNode(value = "offer"),
+@NamedEntityGraphs({
+		@NamedEntityGraph(name = "applicationWithOfferAndStudent",
+				attributeNodes = {
+						@NamedAttributeNode(value = "student", subgraph = "career"),
+						@NamedAttributeNode(value = "offer"),
 
-		},
-		subgraphs = {
-				@NamedSubgraph(name = "career", attributeNodes = {
-						@NamedAttributeNode(value = "career")
-				})
-		}
-)
+				},
+				subgraphs = {
+						@NamedSubgraph(name = "career", attributeNodes = {
+								@NamedAttributeNode(value = "career")
+						})
+				}
+		),
+		@NamedEntityGraph(name = "applicationWithStudentAndCareer",
+			attributeNodes = {
+					@NamedAttributeNode(value = "student", subgraph = "career")
+			},
+			subgraphs = {
+					@NamedSubgraph(name = "career", attributeNodes = {
+							@NamedAttributeNode(value = "career")
+					})
+			}
+		)
+})
+
 public class Application {
 
 

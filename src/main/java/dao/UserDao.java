@@ -21,4 +21,6 @@ public interface UserDao {
 	Organization saveOrganization(Organization organization);
 
 	List<Organization> getOrganizations();
+
+	List<Application> getStudentsWithInternshipAssigned();
 }
