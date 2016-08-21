@@ -11,6 +11,7 @@ import models.User;
 import ninja.Context;
 import ninja.postoffice.Mail;
 import ninja.postoffice.Postoffice;
+import ninja.utils.NinjaProperties;
 import org.apache.commons.mail.EmailException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,6 +40,9 @@ public class MailServiceImpl implements MailService {
 	@Inject
 	UserService userService;
 
+	@Inject
+	NinjaProperties ninjaProperties;
+
 	Logger logger = LoggerFactory.getLogger(MailServiceImpl.class);
 
 	public void sendMailForNewOrganization(Context context, User user) {
@@ -47,7 +51,7 @@ public class MailServiceImpl implements MailService {
 
 		// fill the mail with content:
 		mail.setSubject("Su cuenta en la Plataforma del Centro de Prácticas ha sido creada.");
-		mail.setFrom("donotreply@utalca.cl");
+		mail.setFrom(ninjaProperties.get("smtp.user"));
 		mail.setCharset("utf-8");
 		mail.addTo(user.getEmail());
 
@@ -83,7 +87,7 @@ public class MailServiceImpl implements MailService {
 
 		Mail mail = mailProvider.get();
 		mail.setSubject("Una nueva oferta ha sido creda por " + offer.getOrganization().getName());
-		mail.setFrom("donotreply@utalca.cl");
+		mail.setFrom(ninjaProperties.get("smtp.user"));
 		mail.setCharset("utf-8");
 		mail.addTo(admin.getEmail());
 
