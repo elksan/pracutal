@@ -4,10 +4,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
-import models.Offer;
-import models.Organization;
-import models.Student;
-import models.User;
+import models.*;
 import ninja.Context;
 import ninja.postoffice.Mail;
 import ninja.postoffice.Postoffice;
@@ -73,7 +70,7 @@ public class MailServiceImpl implements MailService {
 		try {
 			postoffice.send(mail);
 		} catch (EmailException | AddressException e) {
-			// ...
+			logger.error(e.getLocalizedMessage());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -99,7 +96,30 @@ public class MailServiceImpl implements MailService {
 		try {
 			postoffice.send(mail);
 		} catch (EmailException | AddressException e) {
-			// ...
+			logger.error(e.getLocalizedMessage());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void notifyFinalCandidate(Application application) {
+
+		Mail mail = mailProvider.get();
+		mail.setSubject("Has sido seleccionado para un trabajo práctico");
+		mail.setFrom(ninjaProperties.get("smtp.user"));
+		mail.setCharset("utf-8");
+		mail.addTo(application.getStudent().getEmail());
+
+		Map<String, Object> params = new HashMap<>();
+		params.put("application", application);
+
+		mail.setBodyHtml(setBodyHtmlFromTemplate("finalCandidate.ftl.html", params));
+
+		try {
+			postoffice.send(mail);
+		} catch (EmailException | AddressException e) {
+			logger.error(e.getLocalizedMessage());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

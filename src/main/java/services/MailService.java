@@ -1,8 +1,6 @@
 package services;
 
-import models.Offer;
-import models.Organization;
-import models.User;
+import models.*;
 import ninja.Context;
 
 /**
@@ -12,4 +10,5 @@ public interface MailService {
 
 	void sendMailForNewOrganization(Context context, User user);
 	void newOfferNotification(Offer offer, User admin);
+	void notifyFinalCandidate(Application application);
 }
