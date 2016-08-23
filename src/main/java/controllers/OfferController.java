@@ -8,10 +8,7 @@ import java.util.Map;
 import com.google.common.base.Optional;
 import com.google.common.primitives.Booleans;
 import com.google.inject.Singleton;
-import etc.ApplicationStatus;
-import etc.LoggedInRole;
-import etc.LoggedInUser;
-import etc.LoggedInUserId;
+import etc.*;
 import models.*;
 import ninja.*;
 import ninja.i18n.Messages;
@@ -30,6 +27,7 @@ import services.MailService;
 import services.OfferService;
 import services.UserService;
 import vo.OfferVO;
+import vo.OrganizationVO;
 
 @Singleton
 @FilterWith(SecureFilter.class)
@@ -111,14 +109,23 @@ public class OfferController {
 		return Results.html().render("selectedOffer", offerVO).render("studentAlreadyApplied", studentAlreadyApplied);
 	}
 
-	public Result newOffer(Session session){
+	public Result newOffer(@LoggedInUser String username){
 
 		List<Career> careers = offerService.getCareers();
 		List<OfferType> offerTypes = offerService.getOfferTypes();
+		User user = userService.getUserById(username);
+		List<OrganizationVO> organizations = null;
 
 		Result result = Results.html();
 		result.render("careers", careers);
 		result.render("offerTypes", offerTypes);
+
+		for(Role role : user.getRoles()){
+			if(role.getId() == UserRole.ADMINISTRADOR.getValue()){
+				organizations = userService.getOrganizations();
+				result.render("organizations", organizations);
+			}
+		}
 
 		return  result;
 	}
@@ -128,8 +135,11 @@ public class OfferController {
         try {
 
             logger.debug("OFERTYPE>>>>>> " + offer.getOfferType());
+			logger.info("organizationId = " + offer.getOrganizationId());
 
-            offer.setOrganizationId(userId);
+			if(offer.getOrganizationId() == null || offer.getOrganizationId() <= 0){
+				offer.setOrganizationId(userId);
+			}
             offerService.saveOffer(offer);
 
             return Results.redirect("/offers");
@@ -200,12 +210,13 @@ public class OfferController {
 		return Results.redirect("/offers");
 	}
 
-	public Result applyForOffer(@LoggedInUserId int userId){
+	public Result applyForOffer(@LoggedInUserId int userId, FlashScope flashScope){
 
 		logger.info("applying for offer, userId: " + userId + " offerId: " + offerId);
 
 		offerService.applyForOffer(offerId, userId);
 
+		flashScope.success("offerApplication.success");
 		return Results.redirect("/offers");
 	}
 
@@ -275,6 +286,16 @@ public class OfferController {
 
 		if(flashMessage.isPresent())
 			flashScope.success(flashMessage.get());
+
+//		mailService.notifyFinalCandidate();
+		return result;
+	}
+
+	public Result getOrganizationsJSON(){
+
+		List<OrganizationVO> organizations = userService.getOrganizations();
+		Result result = Results.json();
+		result.render(organizations);
 
 		return result;
 	}
