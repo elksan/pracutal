@@ -138,6 +138,16 @@ public class UserDaoImpl implements UserDao {
 
 	}
 
+	public User getAdminUser(){
+
+		EntityManager entityManager = entityManagerProvider.get();
+		Query query = entityManager.createQuery("Select x FROM Role x where id = 1");
+		Role role = (Role) query.getSingleResult();
+
+		return role.getUsers().get(0);
+
+	}
+
 
 	public Organization getOrganizationById(int organizationId) {
 

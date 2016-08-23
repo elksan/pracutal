@@ -185,7 +185,7 @@ public class OfferServiceImpl implements OfferService {
 
 		offerDao.updateOffer(offer);
 
-		User admin = userDao.getUserById("cdep@utalca.cl");
+		User admin = userDao.getAdminUser();
 		mailService.newOfferNotification(offer, admin);
 
 		return offer;
@@ -258,7 +258,8 @@ public class OfferServiceImpl implements OfferService {
 	@Transactional
 	public void setFinalCandidate(int applicationId) {
 
-		Application application = offerDao.findApplicationById(applicationId);
+		Application application = offerDao.findApplicationByIdWithOfferAndUser(applicationId);
+		mailService.notifyFinalCandidate(application);
 		application.setApproved(true);
 
 		offerDao.updateApplication(application);
