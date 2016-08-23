@@ -69,13 +69,22 @@ public class InternshipServiceImpl implements InternshipService{
 	public List<Internship> getInternships(int userId, int roleId) {
 
 		List<Internship> internshipList;
+		UserRole userRole = UserRole.valueOf(userDao.findRoleById(roleId).getName().toUpperCase());
 
-		if(roleId == UserRole.ESTUDIANTE.getValue()) {
-			internshipList = internshipDao.getInternshipsByStudentId(userId);
-		}
-		else{
-			//OuserDao.getOrganizationById(userId);
-			internshipList = internshipDao.getInternshipsByOrganizationId(userId);
+		switch (userRole){
+			case ESTUDIANTE:
+				internshipList = internshipDao.getInternshipsByStudentId(userId);
+				break;
+			case DIRECTOR:
+			case ADMINISTRADOR:
+				internshipList = internshipDao.getAllInternships();
+				break;
+			case EMPRESA:
+				internshipList = internshipDao.getInternshipsByOrganizationId(userId);
+				break;
+			default:
+				internshipList = internshipDao.getInternshipsByOrganizationId(userId);
+				break;
 		}
 		return internshipList;
 	}

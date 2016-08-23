@@ -20,4 +20,6 @@ public interface InternshipDao {
 	void createLogbookEntry(LogbookEntry logbookEntry);
 
 	Internship findInternshipWithEvaluationsById(int internshipId);
+
+	List<Internship> getAllInternships();
 }

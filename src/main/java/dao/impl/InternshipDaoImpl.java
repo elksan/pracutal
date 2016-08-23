@@ -91,6 +91,22 @@ public class InternshipDaoImpl implements InternshipDao {
 
 		return internship;
 	}
+
+	@Override
+	public List<Internship> getAllInternships() {
+		List<Internship> internshipList;
+
+		EntityManager entityManager = entityManagerProvider.get();
+		EntityGraph graph = entityManager.getEntityGraph("graph.Internship.student+organization");
+
+		Query query = entityManager.createQuery(" SELECT x FROM Internship x ");
+		query.setHint("javax.persistence.fetchgraph", graph);
+
+		internshipList = query.getResultList();
+
+		return internshipList;
+	}
+
 	public void updateinternship(Internship internship) {
 
 		EntityManager entityManager = entityManagerProvider.get();

@@ -8,7 +8,8 @@ public interface UserDao {
 
 	boolean isUserAndPasswordValid(String username, String password);
 	User getUserById(String userId);
-	public User getUserById(int userId);
+	User getUserById(int userId);
+	User getAdminUser();
 	Organization getOrganizationById(int organizationId);
 	List<Application> getApplicationsByUserId(int userId);
 	Role findRoleById(int roleId);
