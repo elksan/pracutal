@@ -4,6 +4,7 @@ package models;
  * Created by Diego on 22-04-2016.
  */
 
+import org.hibernate.annotations.DynamicUpdate;
 import vo.OrganizationVO;
 import vo.VerificationToken;
 
@@ -28,6 +29,7 @@ public class Organization extends User{
 
 	public Organization(OrganizationVO organizationVO) {
 
+		this.id = organizationVO.getId();
 		this.activity = organizationVO.getActivity();
 		this.area = organizationVO.getArea();
 		this.description = organizationVO.getDescription();

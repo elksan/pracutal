@@ -17,6 +17,7 @@ import javax.persistence.Entity;
 import javax.persistence.OrderBy;
 
 @Entity
+@DynamicUpdate(value = true)
 @Inheritance(strategy=InheritanceType.JOINED)
 public class User {
 
@@ -91,7 +92,8 @@ public class User {
 	}
 
 
-	@Column(name="created_at")
+	@Column(name="created_at", updatable = false)
+	@CreationTimestamp
 	public Date getCreatedAt() {
 		return createdAt;
 	}
@@ -181,6 +183,7 @@ public class User {
 	}
 
 	@Column(name="updated_at")
+	@UpdateTimestamp
 	public Date getUpdatedAt() {
 		return updatedAt;
 	}
@@ -227,7 +230,7 @@ public class User {
 		this.name = name;
 	}
 
-	@PrePersist
+	/*@PrePersist
 	protected void onCreate() {
 		createdAt = new Date();
 	}
@@ -235,5 +238,5 @@ public class User {
 	@PreUpdate
 	protected void onUpdate() {
 		updatedAt = new Date();
-	}
+	}*/
 }

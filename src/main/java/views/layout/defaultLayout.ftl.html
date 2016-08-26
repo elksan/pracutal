@@ -62,12 +62,12 @@
     	});
 
         <#if (flash.error)??>
-            Materialize.toast('${flash.error}', 4000);
+            Materialize.toast('${flash.error}', 10000);
                 
         </#if>
 
         <#if (flash.success)??>
-            Materialize.toast('${flash.success}', 4000);
+            Materialize.toast('${flash.success}', 10000);
         </#if>
 
     </script>

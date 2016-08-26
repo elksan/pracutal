@@ -128,6 +128,25 @@ public class UserServiceImpl implements UserService {
 		return userDao.getStudentsWithInternshipAssigned();
 	}
 
+	@UnitOfWork
+	public List<Student> getAllStudents() {
+		return userDao.getAllStudents();
+	}
+
+	@Transactional
+	public Organization updateOrganization(OrganizationVO organizationVO) {
+		Organization organization = userDao.getOrganizationById(organizationVO.getId());
+
+		organization.setName(organizationVO.getName());
+		organization.setArea(organizationVO.getArea());
+		organization.setDescription(organizationVO.getDescription());
+		organization.setEmail(organizationVO.getEmail());
+		organization.setWebpage(organizationVO.getWebpage());
+		organization.setPhoneNumber(organizationVO.getPhoneNumber());
+
+		return userDao.updateOrganization(organization);
+	}
+
 	private void createNewTokenForUser(User user){
 
 		SessionIdentifierGenerator sig = new SessionIdentifierGenerator();

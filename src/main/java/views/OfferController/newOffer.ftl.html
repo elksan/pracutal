@@ -67,18 +67,19 @@
 							<label for="offerId">${i18n("offer.type")}</label>
 						</div>
 					</div>
-					<div class="row">
-						<div class="input-field col s12">
-
-							<select id="organizationId" name="organizationId" class="validate" required>
-								<option value="" disabled selected>Seleccione</option>
-								<#list organizations as organization>
-									<option value="${organization.id}">${organization.name}</option>
-								</#list>
-							</select>
-							<label for="organizationId">Empresa</label>
+					<#if organizations??>
+						<div class="row">
+							<div class="input-field col s12">
+								<select id="organizationId" name="organizationId" class="validate" required>
+									<option value="" disabled selected>Seleccione</option>
+									<#list organizations as organization>
+										<option value="${organization.id}">${organization.name}</option>
+									</#list>
+								</select>
+								<label for="organizationId">Empresa</label>
+							</div>
 						</div>
-					</div>
+					</#if>
 					<div class="row">
 						<div class="input-field col s12">
 							<input type="text" id="offerLocation" name="location" required

@@ -12,6 +12,7 @@ import ninja.Results;
 import ninja.exceptions.BadRequestException;
 import ninja.params.Param;
 import ninja.params.PathParam;
+import ninja.session.FlashScope;
 import ninja.uploads.DiskFileItemProvider;
 import ninja.uploads.FileItem;
 import ninja.uploads.FileProvider;
@@ -48,6 +49,7 @@ public class AdminController {
 	Logger logger = LoggerFactory.getLogger(AdminController.class);
 
 	String tokenGlobal;
+	Integer organizationId;
 
 	public Result newStudent() {
 		return Results.html();
@@ -72,10 +74,37 @@ public class AdminController {
 		ResultVO resultVO = new ResultVO();
 		resultVO.setRedirect("/admin");
 
+		FlashScope flashScope = context.getFlashScope();
+		flashScope.success("organization.createSuccessful");
+
 		mailService.sendMailForNewOrganization(context, organization);
 
 		return Results.json().render(resultVO);
 
+	}
+
+	public Result editOrganization(@PathParam("organizationId") int organizationId) {
+
+		Organization organization = userService.getOrganizationById(organizationId);
+		Result result = Results.html().template("views/AdminController/newOrganization.ftl.html");
+		result.render("organization", organization);
+
+		this.organizationId = organization.getId();
+		return result;
+	}
+
+	public Result updateOrganization(Context context, @JSR303Validation OrganizationVO organizationVO, Validation validationd) {
+
+		organizationVO.setId(organizationId);
+		Organization organization = userService.updateOrganization(organizationVO);
+
+		ResultVO resultVO = new ResultVO();
+		resultVO.setRedirect("/admin");
+
+		FlashScope flashScope = context.getFlashScope();c
+		flashScope.success("organization.updateSuccessful");
+
+		return Results.json().render(resultVO);
 	}
 
 	public Result accountRegistration(@PathParam("token") String token){
@@ -122,6 +151,16 @@ public class AdminController {
 		return Results.json().render(resultVO);
 	}
 
+
+	public Result students(){
+
+		List<Student> students = userService.getAllStudents();
+
+		Result result = Results.html();
+		result.render("students", students);
+
+		return result;
+	}
 	public Result organizations(){
 
 		List<OrganizationVO> organizations = userService.getOrganizations();

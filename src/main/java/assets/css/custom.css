@@ -252,4 +252,9 @@ main, footer{
 
 		text-align: center;
 	}
+
+
+	main, footer {
+		padding-left: 0;
+	}
 }

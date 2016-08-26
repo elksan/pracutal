@@ -3,9 +3,9 @@
 
 
 
-		<nav class="side-nav fixed admin-menu">
+		<nav id="slide-out" class="side-nav fixed admin-menu">
 			<ul class="">
-				<li class="collection-item"><a href="/react" style="width: 100%"><i class="material-icons left">local_library</i>${i18n("admin.students")}</a></li>
+				<li class="collection-item"><a id="studentsBtn"><i class="material-icons left">local_library</i>${i18n("admin.students")}</a></li>
 				<li class="collection-item"><a id="organizationsBtn"><i class="material-icons left">business_center</i>${i18n("admin.organizations")}</a></li>
 				<li class="collection-item"><a id="reportsBtn"><i class="material-icons left">insert_chart</i>${i18n("admin.reports")}</a></li>
 <!--
@@ -14,7 +14,9 @@
 			</ul>
 
 		</nav>
+	<a href="#" data-activates="slide-out" class="button-collapse show-on-large"><i class="material-icons">menu</i></a>
 
+		<main>
 
 			<div class="container" id="content">
 
@@ -22,6 +24,7 @@
 
 			</div>
 
+		</main>
 		<div class="fixed-action-btn" >
 			<a class="btn-floating btn-large red">
 				<i class="material-icons">menu</i>
@@ -37,6 +40,23 @@
 
 	<script type="text/javascript">
 		$(document).ready(function () {
+			$('.navbar li.active').removeClass('active');
+			$('#menus #admin-btn').addClass('active');
+
+			$('#studentsBtn').click(function () {
+
+				$('.progress').show();
+				$.ajax({
+					url: "/students",
+					type: "get"
+				})
+						.done(function (data) {
+							console.log("success");
+							$('#content').html(data);
+							$('.progress').hide();
+						})
+			});
+
 			$('#organizationsBtn').click(function () {
 
 				$('.progress').show();

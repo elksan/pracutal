@@ -4,15 +4,15 @@
                 <div class="col s12 m4 l3">
                     <div class="card ">
                         <div class="card-image">
-                            <img class="responsive-img" src="/assets/images/user.png">
-                            <span class="card-title">${organization.name}</span>
+                            <img class="responsive-img" src="/assets/images/company-logo.jpg">
                         </div>
                         <div class="card-content">
+                            <span class="card-title">${organization.name}</span>
                             <#noescape>${organization.description}</#noescape>
                         </div>
                         <div class="card-action">
-                            <a href="#">Ver Perfil</a>
-                            <a  class="right" href="#">Editar</a>
+                            <a href="/viewOrganizationProfile/${organization.id}">Ver Perfil</a>
+                            <a href="/editOrganization/${organization.id}" class="right" href="#">Editar</a>
                         </div>
                     </div>
                 </div>

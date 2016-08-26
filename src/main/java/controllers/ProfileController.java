@@ -12,6 +12,7 @@ import ninja.Result;
 import ninja.Results;
 import ninja.SecureFilter;
 import ninja.i18n.Messages;
+import ninja.params.PathParam;
 import ninja.session.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,9 +30,9 @@ public class ProfileController {
 	Logger logger = LoggerFactory.getLogger(OfferController.class);
 	
 	public Result profile(Session session){
-		
+
 		Result result = null;
-		
+
 		try {
 			User user = userService.getUserById(session.get("username"));
 
@@ -52,7 +53,7 @@ public class ProfileController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		return result;
 	}
 
@@ -65,6 +66,23 @@ public class ProfileController {
 
 		Result result = Results.html();
 		result.render("applications", applicationList);
+
+		return result;
+	}
+
+	public Result viewOrganizationProfile(@PathParam("organizationId") int organizationId){
+
+		Result result = null;
+
+		try {
+			User user = userService.getOrganizationById(organizationId);
+
+				result = Results.html().template("views/ProfileController/profile.ftl.html");
+				result.render("user", user);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		return result;
 	}

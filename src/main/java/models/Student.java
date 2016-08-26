@@ -6,6 +6,11 @@ import java.util.List;
 import javax.persistence.*;
 
 @Entity
+@NamedEntityGraph(name = "studentWithCareer",
+		attributeNodes = {
+				@NamedAttributeNode(value = "career")
+		}
+)
 public class Student extends User {
 
 

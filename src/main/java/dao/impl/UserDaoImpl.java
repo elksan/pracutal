@@ -268,4 +268,25 @@ public class UserDaoImpl implements UserDao {
 		}*/
 
 		return applicationList;	}
+
+	@Override
+	public List<Student> getAllStudents() {
+
+		EntityManager em = entityManagerProvider.get();
+		EntityGraph graph = em.getEntityGraph("studentWithCareer");
+
+		Query query = em.createQuery("Select x from Student x");
+		query.setHint("javax.persistence.loadgraph", graph);
+
+		List<Student> studentList = query.getResultList();
+		return studentList;
+	}
+
+	@Override
+	public Organization updateOrganization(Organization organization) {
+		EntityManager em = entityManagerProvider.get();
+		em.merge(organization);
+
+		return organization;
+	}
 }
