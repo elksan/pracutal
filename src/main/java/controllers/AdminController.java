@@ -101,7 +101,7 @@ public class AdminController {
 		ResultVO resultVO = new ResultVO();
 		resultVO.setRedirect("/admin");
 
-		FlashScope flashScope = context.getFlashScope();c
+		FlashScope flashScope = context.getFlashScope();
 		flashScope.success("organization.updateSuccessful");
 
 		return Results.json().render(resultVO);
