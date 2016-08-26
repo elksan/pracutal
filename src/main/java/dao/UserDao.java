@@ -24,4 +24,8 @@ public interface UserDao {
 	List<Organization> getOrganizations();
 
 	List<Application> getStudentsWithInternshipAssigned();
+
+	List<Student> getAllStudents();
+
+	Organization updateOrganization(Organization organization);
 }

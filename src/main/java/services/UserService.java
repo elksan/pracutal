@@ -23,4 +23,8 @@ public interface UserService {
 	List<OrganizationVO> getOrganizations();
 
 	List<Application> getStudentsWithInternshipAssigned();
+
+	List<Student> getAllStudents();
+
+	Organization updateOrganization(OrganizationVO organizationVO);
 }

@@ -97,8 +97,11 @@ public class Routes implements ApplicationRoutes {
         router.GET().route("/newStudent").with(AdminController.class, "newStudent");
         router.GET().route("/newOrganization").with(AdminController.class, "newOrganization");
         router.POST().route("/addOrganization").with(AdminController.class, "addOrganization");
+		router.GET().route("/editOrganization/{organizationId}").with(AdminController.class, "editOrganization");
+		router.POST().route("/updateOrganization").with(AdminController.class, "updateOrganization");
         router.GET().route("/registerUser/{token}").with(AdminController.class, "accountRegistration");
         router.POST().route("/activateUser").with(AdminController.class, "activateUser");
+        router.GET().route("/students").with(AdminController.class, "students");
         router.GET().route("/organizations").with(AdminController.class, "organizations");
         router.POST().route("/importStudents").with(AdminController.class, "importStudents");
         router.GET().route("/addStudents").with(AdminController.class, "addStudents");
@@ -106,6 +109,8 @@ public class Routes implements ApplicationRoutes {
         router.POST().route("/setAdmin").with(AdminController.class, "generateAdminAccount");
         router.GET().route("/reports").with(AdminController.class, "reports");
         router.GET().route("/getStudentsWithInternshipAssigned").with(AdminController.class, "getStudentsWithInternshipAssigned");
+		router.GET().route("/viewOrganizationProfile/{organizationId}").with(ProfileController.class, "viewOrganizationProfile");
+
         ///////////////////////////////////////////////////////////////////////
         // Validations
         ///////////////////////////////////////////////////////////////////////
