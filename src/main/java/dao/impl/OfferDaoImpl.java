@@ -1,13 +1,9 @@
 package dao.impl;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import javax.persistence.*;
 
-import com.google.inject.multibindings.StringMapKey;
 import models.*;
 import org.hibernate.Hibernate;
 import org.slf4j.Logger;
@@ -24,7 +20,7 @@ public class OfferDaoImpl implements OfferDao{
     
     @Inject
     Provider<EntityManager> entityManagerProvider;
-    
+
 
 	public List<Offer> getAllOffers() {
 		
@@ -102,6 +98,26 @@ public class OfferDaoImpl implements OfferDao{
 		query.setParameter("offerId", offerId);
 
 		return !query.getResultList().isEmpty();
+	}
+
+	@Override
+	public List<Application> getUnselectedCandidates(int offerId, int studentId) {
+
+		EntityManager em = entityManagerProvider.get();
+		Query query = em.createQuery("select x from Application x where offer.id = :offerId");
+		query.setParameter("offerId", offerId);
+
+		List<Application> applicationList = query.getResultList();
+
+		Iterator<Application> applicationIterator = applicationList.iterator();
+		while (applicationIterator.hasNext()){
+			Application application = applicationIterator.next();
+			if(application.getOffer().getId() == offerId && application.getStudent().getId() == studentId){
+				applicationIterator.remove();
+				break;
+			}
+		}
+		return applicationList;
 	}
 
 

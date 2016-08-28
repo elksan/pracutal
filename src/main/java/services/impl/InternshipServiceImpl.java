@@ -11,6 +11,7 @@ import models.*;
 import ninja.jpa.UnitOfWork;
 import org.hibernate.Hibernate;
 import services.InternshipService;
+import services.MailService;
 
 import java.util.Date;
 import java.util.List;
@@ -29,6 +30,9 @@ public class InternshipServiceImpl implements InternshipService{
 	@Inject
 	OfferDao offerDao;
 
+	@Inject
+	MailService mailService;
+
 	@Transactional
 	public void assignInternship(int studentId, int offerId) {
 
@@ -41,6 +45,10 @@ public class InternshipServiceImpl implements InternshipService{
 		internship.setStartDate(offer.getStartDateInternship());
 		internship.setEndDate(offer.getEndDateInternship());
 		internship.setOffer(offer);
+
+
+		List<Application> unselectedCandidates = offerDao.getUnselectedCandidates(offerId, studentId);
+		mailService.notifyUnselectedStudents(unselectedCandidates);
 
 		internshipDao.saveInternship(internship);
 	}
@@ -63,6 +71,9 @@ public class InternshipServiceImpl implements InternshipService{
 		offerDao.updateOffer(application.getOffer());
 		offerDao.updateApplication(application);
 		internshipDao.saveInternship(internship);
+
+		List<Application> unselectedCandidates = offerDao.getUnselectedCandidates(application.getOffer().getId(), application.getStudent().getId());
+		mailService.notifyUnselectedStudents(unselectedCandidates);
 	}
 
 	@UnitOfWork

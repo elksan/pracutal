@@ -42,7 +42,7 @@ public class MailServiceImpl implements MailService {
 
 	Logger logger = LoggerFactory.getLogger(MailServiceImpl.class);
 
-	public void sendMailForNewOrganization(Context context, User user) {
+	public void sendMailForNewUser(Context context, User user) {
 
 		Mail mail = mailProvider.get();
 
@@ -125,6 +125,24 @@ public class MailServiceImpl implements MailService {
 		}
 	}
 
+	@Override
+	public void notifyUnselectedStudents(List<Application> applicationList) {
+
+		for (Application application : applicationList) {
+
+			Mail mail = mailProvider.get();
+			mail.setSubject("No has sido seleccionado para un trabajo práctico");
+			mail.addTo(application.getStudent().getEmail());
+
+			Map<String, Object> params = new HashMap<>();
+			params.put("application", application);
+
+			mail.setBodyHtml(setBodyHtmlFromTemplate("unselectedCandidate.ftl.html", params));
+
+			sendEmail(mail);
+		}
+	}
+
 	/*public sendMailForNewStudents(List<Student> studentList){
 		Mail mail = mailProvider.get();
 
@@ -148,5 +166,20 @@ public class MailServiceImpl implements MailService {
 		}
 
 		return writer.toString();
+	}
+
+	public void sendEmail(Mail mail){
+
+		mail.setFrom(ninjaProperties.get("smtp.user"));
+		mail.setCharset("utf-8");
+
+
+		try {
+			postoffice.send(mail);
+		} catch (EmailException | AddressException e) {
+			logger.error(e.getLocalizedMessage());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
