@@ -24,10 +24,7 @@ import org.slf4j.LoggerFactory;
 import services.AdminService;
 import services.MailService;
 import services.UserService;
-import vo.ActivationFormVO;
-import vo.OrganizationVO;
-import vo.ResultVO;
-import vo.UserVO;
+import vo.*;
 
 import java.util.List;
 
@@ -54,6 +51,29 @@ public class AdminController {
 	public Result newStudent() {
 		return Results.html();
 	}
+
+	public Result addStudent(Context context, @JSR303Validation StudentVO studentVO, Validation validation){
+
+		ResultVO resultVO = new ResultVO();
+		try {
+			Student student = userService.saveStudent(studentVO);
+			resultVO.setRedirect("/admin");
+
+			FlashScope flashScope = context.getFlashScope();
+			flashScope.success("student.createSuccessful");
+
+			mailService.sendMailForNewUser(context, student);
+
+			return Results.json().render(resultVO);
+
+		}
+		catch (Exception ex){
+			logger.error(ex.getLocalizedMessage());
+			ex.printStackTrace();
+		}
+
+		return Results.json().render(resultVO);
+	}
 	
 	public Result menu() {
 		return Results.html();
@@ -77,7 +97,7 @@ public class AdminController {
 		FlashScope flashScope = context.getFlashScope();
 		flashScope.success("organization.createSuccessful");
 
-		mailService.sendMailForNewOrganization(context, organization);
+		mailService.sendMailForNewUser(context, organization);
 
 		return Results.json().render(resultVO);
 
@@ -192,7 +212,7 @@ public class AdminController {
 		userService.saveStudentList(studentList);
 		for(Student student : studentList){
 
-			mailService.sendMailForNewOrganization(context, student);
+			mailService.sendMailForNewUser(context, student);
 		}
 
 		return Results.redirect("/admin");

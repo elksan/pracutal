@@ -1,10 +1,12 @@
 package services;
 
+import exceptions.UserAlreadyExistsException;
 import models.Application;
 import models.Organization;
 import models.Student;
 import models.User;
 import vo.OrganizationVO;
+import vo.StudentVO;
 
 import java.util.List;
 
@@ -27,4 +29,6 @@ public interface UserService {
 	List<Student> getAllStudents();
 
 	Organization updateOrganization(OrganizationVO organizationVO);
+
+	Student saveStudent(StudentVO studentVO) throws UserAlreadyExistsException;
 }

@@ -6,6 +6,8 @@ import com.google.inject.persist.Transactional;
 import controllers.OfferController;
 import dao.UserDao;
 import etc.SessionIdentifierGenerator;
+import etc.UserRole;
+import exceptions.UserAlreadyExistsException;
 import models.*;
 import ninja.jpa.UnitOfWork;
 import ninja.utils.NinjaProperties;
@@ -14,10 +16,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import services.UserService;
 import vo.OrganizationVO;
+import vo.StudentVO;
 import vo.VerificationToken;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class UserServiceImpl implements UserService {
 
@@ -33,12 +39,12 @@ public class UserServiceImpl implements UserService {
 	public boolean isUserAndPasswordValid(String username, String password) {
 
 		return userDao.isUserAndPasswordValid(username, password);
-		
+
 	}
 
 	@UnitOfWork
 	public User getUserById(String username) {
-		
+
 		return userDao.getUserById(username);
 	}
 
@@ -147,6 +153,25 @@ public class UserServiceImpl implements UserService {
 		return userDao.updateOrganization(organization);
 	}
 
+	@Transactional
+	public Student saveStudent(StudentVO studentVO) throws UserAlreadyExistsException {
+
+		Student student = new Student(studentVO);
+
+		if(userAlreadyExists(student.getEmail())) {
+			logger.warn("User " + student.getEmail() + " already exists in the DB");
+
+			throw new UserAlreadyExistsException();
+		}
+		createNewTokenForUser(student);
+		student.setCareer(userDao.findCareerById(Integer.parseInt(studentVO.getRegistrationNumber().toString().substring(4,8))));
+		student.setBirthdate(parseStringToDate(studentVO.getBirthDate()));
+		student.setRoles(new ArrayList<Role>());
+		student.getRoles().add(userDao.findRoleById(UserRole.ESTUDIANTE.getValue()));
+		userDao.saveUser(student);
+		return student;
+	}
+
 	private void createNewTokenForUser(User user){
 
 		SessionIdentifierGenerator sig = new SessionIdentifierGenerator();
@@ -159,4 +184,25 @@ public class UserServiceImpl implements UserService {
 		user.setTokens(tokens);
 	}
 
+	private String parseDateToString(Date fecha) {
+		try {
+			SimpleDateFormat sdf = new SimpleDateFormat("d MMMM, yyyy", Locale.forLanguageTag("es"));
+			return sdf.format(fecha);
+		}
+		catch (Exception e){
+			logger.debug("ERROR AL PARSEAR LA FECHA!");
+			return "";
+		}
+	}
+
+	private Date parseStringToDate(String fecha) {
+		try {
+			SimpleDateFormat sdf = new SimpleDateFormat("d MMMM, yyyy", Locale.forLanguageTag("es"));
+			return sdf.parse(fecha);
+		}
+		catch (Exception e){
+			logger.debug("ERROR AL PARSEAR LA FECHA!");
+			return null;
+		}
+	}
 }

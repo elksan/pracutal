@@ -1,5 +1,7 @@
 package models;
 
+import vo.StudentVO;
+
 import java.util.Date;
 import java.util.List;
 
@@ -32,6 +34,22 @@ public class Student extends User {
 	public Student(){
 		this.internshipsApproved = 0;
 		this.priorityScore = 0;
+	}
+
+	public Student(StudentVO studentVO) {
+
+		this.entryYear = Integer.parseInt(studentVO.getRegistrationNumber().toString().substring(0,4));
+		this.phoneNumber = studentVO.getPhoneNumber();
+		this.rut = studentVO.getRut();
+		this.internshipsApproved = 0;
+		this.priorityScore = 0;
+		this.gender = studentVO.getGender();
+		this.registrationNumber = studentVO.getRegistrationNumber();
+		this.name = studentVO.getName();
+		this.lastName = studentVO.getLastName();
+		this.motherLastName = studentVO.getMotherLastName();
+
+		this.email = studentVO.getEmail();
 	}
 
 	@Temporal(TemporalType.DATE)

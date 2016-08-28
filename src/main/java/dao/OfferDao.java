@@ -3,7 +3,6 @@ package dao;
 import java.util.List;
 
 import models.*;
-import vo.OfferVO;
 
 public interface OfferDao {
 
@@ -37,4 +36,6 @@ public interface OfferDao {
 	Offer findOfferByIdWithApplications(int offerId);
 
 	Boolean studentAlreadyApplied(int studentId, Integer offerId);
+
+	List<Application> getUnselectedCandidates(int offerId, int studentId);
 }
