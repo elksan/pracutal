@@ -2,6 +2,7 @@ package services.impl;
 
 import com.google.inject.Inject;
 import com.google.inject.persist.Transactional;
+import dao.InternshipDao;
 import dao.OfferDao;
 import dao.UserDao;
 import dao.impl.UserDaoImpl;
@@ -10,8 +11,10 @@ import models.*;
 import ninja.i18n.Lang;
 import ninja.jpa.UnitOfWork;
 import org.hibernate.Hibernate;
+import org.hibernate.metamodel.relational.Tuple;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import services.InternshipService;
 import services.MailService;
 import services.OfferService;
 import vo.OfferVO;
@@ -35,6 +38,9 @@ public class OfferServiceImpl implements OfferService {
     
     @Inject
     Lang lang;
+
+	@Inject
+	InternshipDao internshipDao;
 
 	@UnitOfWork
 	public List<Offer> getAllOffers(int userRoleId, int userId) {
@@ -195,6 +201,11 @@ public class OfferServiceImpl implements OfferService {
 	public void publishOffer(int offerId) {
 
 		Offer offer = offerDao.findOfferById(offerId);
+
+		if(offer.isCreatedByStudent()){
+
+			logger.info("Oferta creada por estudiante");
+		}
 		offer.setAvailable(true);
 
 		offerDao.updateOffer(offer);
@@ -268,5 +279,25 @@ public class OfferServiceImpl implements OfferService {
 	@UnitOfWork
 	public Boolean studentAlreadyApplied(int studentId, Integer offerId) {
 		return offerDao.studentAlreadyApplied(studentId, offerId);
+	}
+
+	@Transactional
+	public void approveStudentOffer(int offerId) {
+
+		Offer offer = offerDao.findOfferById(offerId);
+		User user = userDao.getUserById(offer.getCreatedBy());
+
+		Internship internship = new Internship();
+		internship.setStudent((Student) user);
+		internship.setTitle(offer.getTitle());
+		internship.setStartDate(offer.getStartDateInternship());
+		internship.setEndDate(offer.getEndDateInternship());
+		internship.setOffer(offer);
+		internship.setOrganization(offer.getOrganization());
+
+		internshipDao.saveInternship(internship);
+		mailService.notifyStudentOfOwnInternship(internship);
+		offer.setClosed(true);
+		offerDao.updateOffer(offer);
 	}
 }

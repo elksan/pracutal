@@ -13,5 +13,8 @@ public interface MailService {
 	void sendMailForNewUser(Context context, User user);
 	void newOfferNotification(Offer offer, User admin);
 	void notifyFinalCandidate(Application application);
+
+	void notifyStudentOfOwnInternship(Internship internship);
+
 	void notifyUnselectedStudents(List<Application> applicationList);
 }

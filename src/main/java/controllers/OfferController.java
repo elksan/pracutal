@@ -121,7 +121,7 @@ public class OfferController {
 		result.render("offerTypes", offerTypes);
 
 		for(Role role : user.getRoles()){
-			if(role.getId() == UserRole.ADMINISTRADOR.getValue()){
+			if(role.getId() == UserRole.ADMINISTRADOR.getValue() || role.getId() == UserRole.ESTUDIANTE.getValue()){
 				organizations = userService.getOrganizations();
 				result.render("organizations", organizations);
 			}
@@ -130,7 +130,7 @@ public class OfferController {
 		return  result;
 	}
 
-	public Result saveOffer(@LoggedInUserId int userId, OfferVO offer){
+	public Result saveOffer(@LoggedInUserId int userId, OfferVO offer, @LoggedInRole int roleId){
 
         try {
 
@@ -140,6 +140,11 @@ public class OfferController {
 			if(offer.getOrganizationId() == null || offer.getOrganizationId() <= 0){
 				offer.setOrganizationId(userId);
 			}
+
+			if(roleId == UserRole.ESTUDIANTE.getValue()){
+				offer.setCreatedByStudent(true);
+			}
+			offer.setCreatedBy(userId);
             offerService.saveOffer(offer);
 
             return Results.redirect("/offers");
@@ -300,4 +305,13 @@ public class OfferController {
 		return result;
 	}
 
+	public Result directApproveOffer(FlashScope flashScope){
+
+		Result result = Results.redirect("/offers");
+		offerService.approveStudentOffer(this.offerId);
+
+		flashScope.success("userOffer.approved");
+
+		return result;
+	}
 }

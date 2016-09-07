@@ -19,8 +19,10 @@
             </div>
             <#if session.role == "3">
                 <a href="/newLogbookEntry" class="btn "><i class="small material-icons left">add</i>${i18n("internship.newEntry")}</a>
+            <#elseif session.role == "2">
+                <a href="/evaluate" class="btn "><i class="small material-icons left">assignment_turned_in</i>${i18n("internship.evaluate")}</a>
             <#else>
-                <a href="/evaluate" class="btn "><i class="small material-icons left">add</i>${i18n("internship.evaluate")}</a>
+                <a href="/evaluate" class="btn "><i class="small material-icons left">assignment_turned_in</i>${i18n("internship.seeEvaluation")}</a>
             </#if>
 
             <#if internship.logbookEntries??>

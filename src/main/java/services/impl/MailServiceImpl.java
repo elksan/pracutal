@@ -103,6 +103,39 @@ public class MailServiceImpl implements MailService {
 	}
 
 	@Override
+	public void notifyStudentOfOwnInternship(Internship internship) {
+
+		Mail mail = mailProvider.get();
+		mail.setSubject("Tu trabajo práctico ha sido aprobado");
+		mail.setFrom(ninjaProperties.get("smtp.user"));
+		mail.setCharset("utf-8");
+		mail.addTo(internship.getStudent().getEmail());
+
+		Map<String, Object> params = new HashMap<>();
+		params.put("internship", internship);
+
+		mail.setBodyHtml(setBodyHtmlFromTemplate("internshipOfStudentApproved.ftl.html", params));
+		sendEmail(mail);
+	}
+
+	@Override
+	public void notifyUnselectedStudents(List<Application> applicationList) {
+
+		for (Application application : applicationList) {
+
+			Mail mail = mailProvider.get();
+			mail.setSubject("No has sido seleccionado para un trabajo práctico");
+			mail.addTo(application.getStudent().getEmail());
+
+			Map<String, Object> params = new HashMap<>();
+			params.put("application", application);
+
+			mail.setBodyHtml(setBodyHtmlFromTemplate("unselectedCandidate.ftl.html", params));
+
+			sendEmail(mail);
+		}
+	}
+	@Override
 	public void notifyFinalCandidate(Application application) {
 
 		Mail mail = mailProvider.get();
@@ -124,25 +157,6 @@ public class MailServiceImpl implements MailService {
 			e.printStackTrace();
 		}
 	}
-
-	@Override
-	public void notifyUnselectedStudents(List<Application> applicationList) {
-
-		for (Application application : applicationList) {
-
-			Mail mail = mailProvider.get();
-			mail.setSubject("No has sido seleccionado para un trabajo práctico");
-			mail.addTo(application.getStudent().getEmail());
-
-			Map<String, Object> params = new HashMap<>();
-			params.put("application", application);
-
-			mail.setBodyHtml(setBodyHtmlFromTemplate("unselectedCandidate.ftl.html", params));
-
-			sendEmail(mail);
-		}
-	}
-
 	/*public sendMailForNewStudents(List<Student> studentList){
 		Mail mail = mailProvider.get();
 
