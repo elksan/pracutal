@@ -40,7 +40,7 @@ public class InternshipServiceImpl implements InternshipService{
 		Offer offer = offerDao.findOfferById(offerId);
 
 		Internship internship = new Internship();
-		//internship.setStudent(user.getStudent());
+		internship.setStudent((Student) user);
 		internship.setTitle(offer.getTitle());
 		internship.setStartDate(offer.getStartDateInternship());
 		internship.setEndDate(offer.getEndDateInternship());

@@ -31,4 +31,6 @@ public interface OfferService {
 	void setFinalCandidate(int applicationId);
 
 	Boolean studentAlreadyApplied(int studentId, Integer offerId);
+
+	void approveStudentOffer(int offerId);
 }

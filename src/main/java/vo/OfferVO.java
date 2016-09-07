@@ -51,6 +51,9 @@ public class OfferVO {
 	private String language;
 	private boolean approved;
 	private String endDateAvailable;
+	private boolean createdByStudent;
+	private boolean studentOfferApproved;
+	private Integer createdBy;
 
 	public OfferVO() {
 	}
@@ -88,6 +91,9 @@ public class OfferVO {
 		this.language = offer.getLanguage();
 		this.approved = offer.isApproved();
 		this.endDateAvailable = isValid(offer.getEndDateAvailable()) ? parseDate(offer.getEndDateAvailable()) : "";
+		this.createdByStudent = offer.isCreatedByStudent();
+		this.studentOfferApproved = offer.isStudentOfferApproved();
+		this.createdBy = offer.getCreatedBy();
 	}
 
 	public String parseDate(Date fecha) {
@@ -335,4 +341,28 @@ public class OfferVO {
     public void setEndDateAvailable(String endDateAvailable) {
         this.endDateAvailable = endDateAvailable;
     }
+
+	public boolean isCreatedByStudent() {
+		return createdByStudent;
+	}
+
+	public void setCreatedByStudent(boolean createdByStudent) {
+		this.createdByStudent = createdByStudent;
+	}
+
+	public boolean isStudentOfferApproved() {
+		return studentOfferApproved;
+	}
+
+	public void setStudentOfferApproved(boolean studentOfferApproved) {
+		this.studentOfferApproved = studentOfferApproved;
+	}
+
+	public Integer getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(Integer createdBy) {
+		this.createdBy = createdBy;
+	}
 }

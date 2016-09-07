@@ -7,12 +7,7 @@
         <div class="col s12 m4 l3">
             <div id="aside">
                 <br/>
-                <#if session.role == "2"|| session.role == "1">
-                    <a href="/newOffer" class="waves-effect waves-light btn-large">Nueva Oferta</a>
 
-                <#elseif session.role == "3">
-                    <a href="/myApplications" class="waves-effect waves-light btn-large">Mis Postulaciones</a>
-                </#if>
 
                 <div id="filters" class="collection z-depth-1">
                     <a id="showAll" class="collection-item active" data-filter="*">${i18n("offers.showAll")}<span class="badge">${offers?size}</span></a>
@@ -28,6 +23,14 @@
             </div>
         </div>
             <div>
+                <br>
+
+                <a href="/newOffer" class="waves-effect waves-light btn-large">${i18n("offer.new")}</a>
+                <#if session.role == "2"|| session.role == "1">
+                    <#elseif session.role == "3">
+                        <a href="/myApplications" class="waves-effect waves-light btn-large">Mis Postulaciones</a>
+                </#if>
+
                 <#list offers>
                     <ul id="offerList" class="collection z-depth-1">
                         <#items  as offer>
@@ -58,22 +61,6 @@
                                             </div>
                                         </#if>
                                     </div>
-                                    <!--<a class='dropdown-button secondary-content' href='#' data-activates='dropdown1'>Drop Me!</a>
-                                    <ul id='dropdown1' class='dropdown-content'>
-                                        <li></li>
-                                        <#if session.role == "1" || session.role == "4" || (session.role == "2" && session.userId == offer.organization.id?c)>
-                                            <li></li>
-                                        <li></li>
-                                        </#if>
-                                    </ul>-->
-                                   <!-- <a href="/offerDetails/${offer.id}" class="secondary-content tooltipped"
-                                           data-position="bottom" data-delay="50" data-tooltip="${i18n("offer.seeDetails")}"><i class="material-icons right">details</i></a>
-                                    <#if session.role == "1" || session.role == "4" || (session.role == "2" && session.userId == offer.organization.id?c)>
-                                        <a href="/deleteOffer/${offer.id}" class="secondary-content tooltipped <#if session.role == "2" && offer.approved>disabled</#if>"
-                                                data-position="bottom" data-delay="50" data-tooltip="${i18n("offer.delete")}"><i class="material-icons right">delete</i></a>
-                                        <a href="/editOffer/${offer.id}" class="secondary-content tooltipped <#if session.role == "2" && offer.approved>disabled</#if>"
-                                                data-position="bottom" data-delay="50" data-tooltip="${i18n("offer.edit")}"><i class="material-icons right">edit</i></a>
-                                    </#if>-->
                                 </div>
                             </li>
                         </#items>

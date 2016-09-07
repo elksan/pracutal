@@ -73,6 +73,9 @@ public class Offer implements Serializable {
 	private String language;
 	private boolean approved;
 	private boolean closed;
+	private boolean createdByStudent;
+	private boolean studentOfferApproved;
+	private Integer createdBy;
 
 	private OfferType offerType;
 	private List<Career> careers;
@@ -109,6 +112,9 @@ public class Offer implements Serializable {
 		this.language = offerVO.getLanguage();
 		this.approved = offerVO.isApproved();
 		this.closed = false;
+		this.createdByStudent = offerVO.isCreatedByStudent();
+		this.createdBy = offerVO.getCreatedBy();
+		this.studentOfferApproved = offerVO.isStudentOfferApproved();
 	}
 
 	@Column(name="created_at", updatable = false)
@@ -373,5 +379,32 @@ public class Offer implements Serializable {
 
 	public void setClosed(boolean closed) {
 		this.closed = closed;
+	}
+
+	@Column(name = "created_by_student")
+	public boolean isCreatedByStudent() {
+		return createdByStudent;
+	}
+
+	public void setCreatedByStudent(boolean createdByStudent) {
+		this.createdByStudent = createdByStudent;
+	}
+
+	@Column(name = "student_offer_approved")
+	public boolean isStudentOfferApproved() {
+		return studentOfferApproved;
+	}
+
+	public void setStudentOfferApproved(boolean studentOfferApproved) {
+		this.studentOfferApproved = studentOfferApproved;
+	}
+
+	@Column(name = "created_by")
+	public Integer getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(Integer createdBy) {
+		this.createdBy = createdBy;
 	}
 }
