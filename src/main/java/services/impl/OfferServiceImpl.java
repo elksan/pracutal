@@ -295,9 +295,11 @@ public class OfferServiceImpl implements OfferService {
 		internship.setOffer(offer);
 		internship.setOrganization(offer.getOrganization());
 
+
 		internshipDao.saveInternship(internship);
 		mailService.notifyStudentOfOwnInternship(internship);
 		offer.setClosed(true);
+		offer.setStudentOfferApproved(true);
 		offerDao.updateOffer(offer);
 	}
 }
