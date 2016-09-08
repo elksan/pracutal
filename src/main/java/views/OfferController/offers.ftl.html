@@ -25,16 +25,19 @@
             <div>
                 <br>
 
-                <a href="/newOffer" class="waves-effect waves-light btn-large">${i18n("offer.new")}</a>
-                <#if session.role == "2"|| session.role == "1">
+                <div id="offerButtonList">
+                    <#if session.role == "4"|| session.role == "1">
+                        <a id="openOffersBtn" data-filter="open" class="waves-effect waves-light btn-large">Ofertas Vigentes</a>
+                        <a id="closedOffersBtn" data-filter="closed" class="waves-effect waves-light btn-large">Ofertas Cerradas</a>
                     <#elseif session.role == "3">
                         <a href="/myApplications" class="waves-effect waves-light btn-large">Mis Postulaciones</a>
-                </#if>
-
+                    </#if>
+                    <a href="/newOffer" class="waves-effect waves-light btn-large">${i18n("offer.new")}</a>
+                </div>
                 <#list offers>
                     <ul id="offerList" class="collection z-depth-1">
                         <#items  as offer>
-                            <li id="offerBlock" class="collection-item offer-item avatar" data-type="${offer.offerType.id}" data-id="${offer.organization.id}">
+                            <li id="offerBlock" class="collection-item offer-item avatar" data-type="${offer.offerType.id}" data-closed="${offer.closed?c}" data-id="${offer.organization.id}">
                                 <div class="row">
                                     <img src="/assets/images/company-logo.jpg" alt="" class="circle">
                                     <h5>${offer.title}</h5>
@@ -129,6 +132,14 @@
             var type = $(this).data('type');
             return type == '5';
         },
+        open: function() {
+            var closed = $(this).data('closed');
+            return !closed;
+        },
+        closed: function() {
+            var closed = $(this).data('closed');
+            return closed;
+        },
     };
 
     // bind filter button click
@@ -140,6 +151,13 @@
 
         $('#filters a').removeClass('active');
         $(this).addClass('active');
+    });
+
+    $('#offerButtonList').on( 'click', 'a[data-filter]', function() {
+        var filterValue = $( this ).data('filter');
+        // use filterFn if matches value
+        filterValue = filterFns[ filterValue ] || filterValue;
+        $grid.isotope({ filter: filterValue });
     });
 
 

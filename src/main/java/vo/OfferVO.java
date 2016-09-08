@@ -54,6 +54,7 @@ public class OfferVO {
 	private boolean createdByStudent;
 	private boolean studentOfferApproved;
 	private Integer createdBy;
+	private boolean closed;
 
 	public OfferVO() {
 	}
@@ -94,6 +95,7 @@ public class OfferVO {
 		this.createdByStudent = offer.isCreatedByStudent();
 		this.studentOfferApproved = offer.isStudentOfferApproved();
 		this.createdBy = offer.getCreatedBy();
+		this.closed = offer.isClosed();
 	}
 
 	public String parseDate(Date fecha) {
@@ -364,5 +366,13 @@ public class OfferVO {
 
 	public void setCreatedBy(Integer createdBy) {
 		this.createdBy = createdBy;
+	}
+
+	public boolean isClosed() {
+		return closed;
+	}
+
+	public void setClosed(boolean closed) {
+		this.closed = closed;
 	}
 }
