@@ -29,6 +29,8 @@ import services.UserService;
 import vo.OfferVO;
 import vo.OrganizationVO;
 
+import static etc.UserRole.ESTUDIANTE;
+
 @Singleton
 @FilterWith(SecureFilter.class)
 public class OfferController {
@@ -121,7 +123,7 @@ public class OfferController {
 		result.render("offerTypes", offerTypes);
 
 		for(Role role : user.getRoles()){
-			if(role.getId() == UserRole.ADMINISTRADOR.getValue() || role.getId() == UserRole.ESTUDIANTE.getValue()){
+			if(role.getId() == UserRole.ADMINISTRADOR.getValue() || role.getId() == ESTUDIANTE.getValue()){
 				organizations = userService.getOrganizations();
 				result.render("organizations", organizations);
 			}
@@ -130,7 +132,7 @@ public class OfferController {
 		return  result;
 	}
 
-	public Result saveOffer(@LoggedInUserId int userId, OfferVO offer, @LoggedInRole int roleId){
+	public Result saveOffer(@LoggedInUserId int userId, OfferVO offer, @LoggedInRole Integer roleId){
 
         try {
 
@@ -141,9 +143,16 @@ public class OfferController {
 				offer.setOrganizationId(userId);
 			}
 
-			if(roleId == UserRole.ESTUDIANTE.getValue()){
-				offer.setCreatedByStudent(true);
+			switch (UserRole.valueOf(roleId.toString())){
+
+				case ESTUDIANTE:
+					offer.setCreatedByStudent(true);
+					break;
+				case ADMINISTRADOR:
+				case DIRECTOR:
+					offer.setApproved(true);
 			}
+
 			offer.setCreatedBy(userId);
             offerService.saveOffer(offer);
 

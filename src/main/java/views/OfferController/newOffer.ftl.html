@@ -220,7 +220,53 @@
 
 			}
 		});*/
-		$('#newOfferForm').validate();
+		$('#newOfferForm').validate({
+			errorClass: 'invalid',
+			errorPlacement: function (error, element) {
+				element.next("label").attr("data-error", error.contents().text());
+			},
+			submitHandler: function (form) {
+				$.ajax({
+					url: "/validateOffer",
+					type: "post",
+					data: $('#newOfferForm').serializeObject(),
+					dataType: "json"
+				})
+				// using the done promise callback
+						.done(function(data) {
+
+							// log data to the console so we can see
+							console.log("success!");
+
+							//clearing handler
+							$('form').off('submit');
+
+							//actually submit the form
+							$('form').submit();
+
+						})
+						.fail(function (data) {
+							// here we will handle errors and validation messages
+							console.log("error");
+							console.log(data);
+
+							var errorInfo = "";
+							$.each(data.responseJSON.violations, function (key, value) {
+
+								if($("[name='" + value.field + "']").attr("id") == null){
+									Materialize.toast($("[name='" + value.field + "']:eq(1)").attr("id") + " " + value.constraintViolation.messageKey, 10000);
+								}else {
+									Materialize.toast($("[name='" + value.field + "']").attr("id") + " " + value.constraintViolation.messageKey, 10000);
+								}
+
+							});
+
+						})
+						.always(function (){
+							$('.progress').hide();
+						});
+			}
+		});
 	});
 
 
@@ -231,50 +277,14 @@
 		event.preventDefault();
 		e.returnValue = false;
 		$('.progress').show();
-
-		var $toastContent = $(' ');
-
 		tinyMCE.triggerSave();
 
-		$.ajax({
-			url: "/validateOffer",
-			type: "post",
-			data: $('#newOfferForm').serializeObject(),
-			dataType: "json"
-		})
-		// using the done promise callback
-		.done(function(data) {
+		$('form').valid();
 
-			// log data to the console so we can see
-			console.log("success!");
+		$('.progress').hide();
 
-			//clearing handler
-			$('form').off('submit');
 
-			//actually submit the form
-			$('form').submit();
 
-		})
-		.fail(function (data) {
-			// here we will handle errors and validation messages
-			console.log("error");
-			console.log(data);
-
-			var errorInfo = "";
-			$.each(data.responseJSON.violations, function (key, value) {
-
-				if($("[name='" + value.field + "']").attr("id") == null){
-					Materialize.toast($("[name='" + value.field + "']:eq(1)").attr("id") + " " + value.constraintViolation.messageKey, 10000);
-				}else {
-					Materialize.toast($("[name='" + value.field + "']").attr("id") + " " + value.constraintViolation.messageKey, 10000);
-				}
-
-			});
-
-		})
-		.always(function (){
-			$('.progress').hide();
-		});
 
 		$(document).on('click', '#toast-container .toast', function() {
 			$(this).fadeOut(function(){
