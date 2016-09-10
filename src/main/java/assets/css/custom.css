@@ -209,6 +209,34 @@ label:not(.active):after {
 	transform: translateY(-140%);
 }*/
 
+
+form label {
+	width: 100%;
+}
+
+li span label{
+	width: inherit;
+}
+label:after {
+	-moz-transition-property: all !important;
+	-o-transition-property: all !important;
+	-webkit-transition-property: all !important;
+	transition-property: all !important;
+	font-size: 0.8rem;
+	-moz-transform: none;
+	-ms-transform: none;
+	-o-transform: none;
+	-webkit-transform: none;
+	transform: none;
+}
+
+label:not(.active):after {
+	-moz-transform: translateY(-140%);
+	-ms-transform: translateY(-140%);
+	-o-transform: translateY(-140%);
+	-webkit-transform: translateY(-140%);
+	transform: translateY(-140%);
+}
 .loader{
 
 	height: 50px;

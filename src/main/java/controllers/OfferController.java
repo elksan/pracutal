@@ -29,6 +29,8 @@ import services.UserService;
 import vo.OfferVO;
 import vo.OrganizationVO;
 
+import static etc.UserRole.ESTUDIANTE;
+
 @Singleton
 @FilterWith(SecureFilter.class)
 public class OfferController {
@@ -49,6 +51,7 @@ public class OfferController {
 
 	Logger logger = LoggerFactory.getLogger(OfferController.class);
 	int offerId;
+	int organizationId;
 	Map<Integer, Application> applicationMap;
 	
 	public Result offers(@LoggedInUserId int userId, @LoggedInRole int userRoleId){
@@ -121,7 +124,7 @@ public class OfferController {
 		result.render("offerTypes", offerTypes);
 
 		for(Role role : user.getRoles()){
-			if(role.getId() == UserRole.ADMINISTRADOR.getValue() || role.getId() == UserRole.ESTUDIANTE.getValue()){
+			if(role.getId() == UserRole.ADMINISTRADOR.getValue() || role.getId() == ESTUDIANTE.getValue()){
 				organizations = userService.getOrganizations();
 				result.render("organizations", organizations);
 			}
@@ -130,7 +133,7 @@ public class OfferController {
 		return  result;
 	}
 
-	public Result saveOffer(@LoggedInUserId int userId, OfferVO offer, @LoggedInRole int roleId){
+	public Result saveOffer(@LoggedInUserId int userId, OfferVO offer, @LoggedInRole Integer roleId){
 
         try {
 
@@ -141,9 +144,16 @@ public class OfferController {
 				offer.setOrganizationId(userId);
 			}
 
-			if(roleId == UserRole.ESTUDIANTE.getValue()){
-				offer.setCreatedByStudent(true);
+			switch (UserRole.valueOf(roleId.toString())){
+
+				case ESTUDIANTE:
+					offer.setCreatedByStudent(true);
+					break;
+				case ADMINISTRADOR:
+				case DIRECTOR:
+					offer.setApproved(true);
 			}
+
 			offer.setCreatedBy(userId);
             offerService.saveOffer(offer);
 
@@ -164,8 +174,9 @@ public class OfferController {
 		Offer selectedOffer = offerService.findOfferById(offerId);
 		OfferVO offerVO = new OfferVO(selectedOffer);
 		this.offerId = offerId;
+		this.organizationId = offerVO.getOrganizationId();
 
-		Result result = Results.html();
+		Result result = Results.html().template("views/OfferController/newOffer.ftl.html");
 		result.render("selectedOffer", offerVO);
 		result.render("careers", careers);
 		result.render("offerTypes", offerTypes);
@@ -180,7 +191,7 @@ public class OfferController {
 		logger.debug("Updating offer id: " + offerId);
 		offer.setId(offerId);
 
-		offer.setOrganizationId(Integer.parseInt(session.get("userId")));
+		offer.setOrganizationId(this.organizationId);
 
 		offerService.updateOffer(offer);
 
