@@ -114,6 +114,9 @@ public class OfferServiceImpl implements OfferService {
 			offer.setStartDateInternship(formatter.parse(offerVo.getStartDateInternship()));
 			offer.setEndDateInternship(formatter.parse(offerVo.getEndDate()));
 
+			offer.setStartDateAvailable(formatter.parse(offerVo.getStartDateAvailable()));
+			offer.setEndDateAvailable(formatter.parse(offerVo.getEndDateAvailable()));
+
 			logger.debug("startDate: " + offer.getStartDateInternship() );
 			logger.debug("startDate: " + formatter.format(offer.getStartDateInternship()));
 
@@ -147,7 +150,7 @@ public class OfferServiceImpl implements OfferService {
 	@Transactional
 	public void updateOffer(OfferVO offerVo) {
 
-		Offer offer = new Offer(offerVo);
+		Offer offer = offerDao.findOfferByIdWithOrganization(offerVo.getId());
 
 		OfferType offerType = offerDao.getOfferType(offerVo.getOfferTypeId());
 		offer.setOfferType(offerType);
@@ -162,6 +165,9 @@ public class OfferServiceImpl implements OfferService {
 		try {
 			offer.setStartDateInternship(formatter.parse(offerVo.getStartDateInternship()));
 			offer.setEndDateInternship(formatter.parse(offerVo.getEndDate()));
+
+			offer.setStartDateAvailable(formatter.parse(offerVo.getStartDateAvailable()));
+			offer.setEndDateAvailable(formatter.parse(offerVo.getEndDateAvailable()));
 
 			logger.debug("startDate: " + offer.getStartDateInternship() );
 			logger.debug("startDate: " + formatter.format(offer.getStartDateInternship()));

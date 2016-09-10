@@ -6,7 +6,7 @@
 
 		<div class="col s12">
 			<div class="card-panel  white margined-top">
-				<form id="newOfferForm" action="/saveOffer" method="post" class="form-horizontal" novalidate>
+				<form id="newOfferForm" <#if selectedOffer??>action="/updateOffer"<#else>action="/saveOffer"</#if> method="post" class="form-horizontal" novalidate>
 
 
 					<div id="errors">
@@ -19,22 +19,22 @@
 					</div>
 					<div class="row">
 						<div class="input-field col s12">
-							<input id="${i18n('offer.title')}" name="title"  type="text"
+							<input id="${i18n('offer.title')}" name="title"  type="text" <#if selectedOffer??>value="${(selectedOffer.title)!}"</#if>
 								    required="" aria-required="true">
-							<label for="${i18n('offer.title')}">Nombre</label>
+							<label for="${i18n('offer.title')}" <#if selectedOffer??> class="active"</#if>>Nombre</label>
 						</div>
 					</div>
 					<div class="row">	
 						<div class="input-field col s12">
 							<textarea id="${i18n('offer.description')}" name="description" placeholder="${i18n('offer.description.placeholder')}"
-									  class="validate" value="<#if offer??>${(offer.description)!}</#if>"></textarea><br/>
-							<label for="${i18n('offer.description')}">${i18n("offer.description")}</label>
+									  class="validate"></textarea><br/>
+							<label for="${i18n('offer.description')}" <#if selectedOffer??> class="active"</#if>>${i18n("offer.description")}</label>
 						</div>
 					</div>
 					<div class="row">
 						<div class="input-field col s6">
-							<input id="${i18n('offer.startDate')}" name="startDateInternship" type="date" class="datepicker" readonly="false" required>
-							<label for="${i18n('offer.startDate')}">${i18n("offer.startDate")}</label>
+							<input id="startDate" name="startDateInternship" type="date" class="datepicker" readonly="false" required>
+							<label for="startDate">${i18n("offer.startDate")}</label>
 						</div>
 						<div class="input-field col s6">
 							<input id="endDate" name="endDate" type="date" class="datepicker" required>
@@ -43,15 +43,15 @@
 					</div>
 					<div class="row">
 						<div class="input-field col s12 m4 l4">
-							<input type="checkbox" id="locomotion" name="hasLocomotion" value="true"/>
+							<input type="checkbox" id="locomotion" name="hasLocomotion" value="true" <#if selectedOffer?? && selectedOffer.hasLocomotion> checked </#if>/>
 							<label for="locomotion">${i18n("offer.hasLocomotion")}</label>
 						</div>
 						<div class="input-field col s12 m4 l4">
-							<input type="checkbox" id="income" name="hasIncome" value="true"/>
+							<input type="checkbox" id="income" name="hasIncome" value="true" <#if selectedOffer?? && selectedOffer.hasIncome> checked </#if>/>
 							<label for="income">${i18n("offer.hasIncome")}</label>
 						</div>
 						<div class="input-field col s12 m4 l4">
-							<input type="checkbox" id="lunch" name="hasLunch" value="true"/>
+							<input type="checkbox" id="lunch" name="hasLunch" value="true" <#if selectedOffer?? && selectedOffer.hasLunch> checked </#if>/>
 							<label for="lunch">${i18n("offer.hasLunch")}</label>
 						</div>
 					</div>
@@ -59,9 +59,9 @@
 					<div class="row">
 						<div class="input-field col s12">
 							<select id="offerId" name="offerTypeId" class="validate" required>
-								<option value="" disabled selected>Seleccione</option>
+								<option value="" disabled <#if selectedOffer??> <#if !selectedOffer.offerTypeId??> selected </#if> <#else>selected</#if>>Seleccione</option>
 								<#list offerTypes as type>
-									<option value="${type.id}">${type.name}</option>
+									<option value="${type.id}" <#if selectedOffer?? && selectedOffer.offerTypeId == type.id> selected </#if>>${type.name}</option>
 								</#list>
 							</select>
 							<label for="offerId">${i18n("offer.type")}</label>
@@ -82,21 +82,21 @@
 					</#if>
 					<div class="row">
 						<div class="input-field col s12">
-							<input type="text" id="offerLocation" name="location" required
+							<input type="text" id="offerLocation" name="location" required value="${(selectedOffer.location)!}"
                                    class="validate" aria-required="true"/>
-							<label for="offerLocation">${i18n("offer.location")}</label>
+							<label for="offerLocation" <#if selectedOffer??> class="active"</#if>>${i18n("offer.location")}</label>
 						</div>
 					</div>
 					<div class="row">
 						<div class="input-field col s12">
-							<input type="text" id="offerArea" name="area"/>
-							<label for="offerArea">${i18n("offer.area")}</label>
+							<input type="text" id="offerArea" name="area" value="${(selectedOffer.area)!}"/>
+							<label for="offerArea" <#if selectedOffer??> class="active"</#if>>${i18n("offer.area")}</label>
 						</div>
 					</div>
 					<div class="row">
 						<div class="input-field col s12">
-							<input type="text" id="offerPosition" name="position"/>
-							<label for="offerPosition">${i18n("offer.position")}</label>
+							<input type="text" id="offerPosition" name="position" value="${(selectedOffer.position)!}"/>
+							<label for="offerPosition" <#if selectedOffer??> class="active"</#if>>${i18n("offer.position")}</label>
 						</div>
 					</div>
 
@@ -120,9 +120,9 @@
 					<div class="row">
 						<div class="input-field col s12">
 							<select name="careers" multiple required>
-								<option value="" disabled selected>Seleccione</option>
+								<option value="" disabled <#if selectedOffer?? && !selectedOffer.careers??> selected </#if>>Seleccione</option>
 								<#list careers as career>
-									<option value="${career.careerId}">${career.careerName}</option>
+									<option value="${career.careerId}" <#if selectedOffer?? && selectedOffer.careers?seq_contains(career.careerId)> selected </#if>>${career.careerName}</option>
 								</#list>
 							</select>
 							<label>${i18n("offer.career")}</label>
@@ -130,8 +130,8 @@
 					</div>
 					<div class="row valign-wrapper">
 						<div class="input-field col s6">
-							<input type="number" id="offerLevelRequired" name="minimalLevelRequired" min="1" max="12"/>
-							<label for="offerLevelRequired">${i18n("offer.levelRequired")}</label>
+							<input type="number" id="offerLevelRequired" name="minimalLevelRequired" min="1" max="12" value="${(selectedOffer.minimalLevelRequired)!}"/>
+							<label for="offerLevelRequired" <#if selectedOffer??> class="active"</#if>>${i18n("offer.levelRequired")}</label>
 						</div>
 						<div class="col s6">
 							<span class="valign">Semestre</span>
@@ -139,7 +139,7 @@
 					</div>
 					<div class="row">
 						<div class="input-field col s12">
-							<input type="text" id="language" name="language"/>
+							<input type="text" id="language" name="language" value="${(selectedOffer.language)!}"/>
 							<label for="language">${i18n("offer.language")}</label>
 						</div>
 					</div>
@@ -182,9 +182,9 @@
 		
 	});
 
-	$('#startDate').pickadate({
+	var $startDatePicker = $('#startDate').pickadate({
 		onSet: function(context) {
-		    console.log('Just set stuff:', context)
+			console.log('Just set stuff:', context)
 
 
 			var $input = $('#endDate').pickadate();
@@ -194,13 +194,30 @@
 		}
 	});
 
+	var $endDatePicker = $('#endDate').pickadate();
+	var startDateAvailable = $('#startDateAvailable').pickadate('picker');
+	var endDateAvailable = $('#endDateAvailable').pickadate('picker');
 
 	$(document).ready(function() {
 		$('select').material_select();
 		tinymce.init({
-			selector: '#${i18n("offer.description")}'
+			selector: '#${i18n("offer.description")}',
+			init_instance_callback : function(editor) {
+				var noescapedDescription = <#if selectedOffer??><#noescape>'${selectedOffer.description?js_string}';</#noescape></#if>
+				editor.setContent(noescapedDescription);
+			}
 		});
 
+		<#if selectedOffer??>
+			var pickerStart = $startDatePicker.pickadate('picker');
+			pickerStart.set('select', "${(selectedOffer.startDateInternshipEdit)!}", { format: 'dd-mm-yyyy' });
+
+			var pickerEnd = $endDatePicker.pickadate('picker');
+			pickerEnd.set('select', "${(selectedOffer.endDate)!}", { format: 'dd-mm-yyyy' });
+			startDateAvailable.set('select', "${(selectedOffer.endDate)!}", { format: 'dd-mm-yyyy' });
+			endDateAvailable.set('select', "${(selectedOffer.endDate)!}", { format: 'dd-mm-yyyy' });
+
+		</#if>
 		/*$.ajax({
 			url: "/getOrganizationsJSON",
 			type: "get",

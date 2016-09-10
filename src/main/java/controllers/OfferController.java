@@ -51,6 +51,7 @@ public class OfferController {
 
 	Logger logger = LoggerFactory.getLogger(OfferController.class);
 	int offerId;
+	int organizationId;
 	Map<Integer, Application> applicationMap;
 	
 	public Result offers(@LoggedInUserId int userId, @LoggedInRole int userRoleId){
@@ -173,8 +174,9 @@ public class OfferController {
 		Offer selectedOffer = offerService.findOfferById(offerId);
 		OfferVO offerVO = new OfferVO(selectedOffer);
 		this.offerId = offerId;
+		this.organizationId = offerVO.getOrganizationId();
 
-		Result result = Results.html();
+		Result result = Results.html().template("views/OfferController/newOffer.ftl.html");
 		result.render("selectedOffer", offerVO);
 		result.render("careers", careers);
 		result.render("offerTypes", offerTypes);
@@ -189,7 +191,7 @@ public class OfferController {
 		logger.debug("Updating offer id: " + offerId);
 		offer.setId(offerId);
 
-		offer.setOrganizationId(Integer.parseInt(session.get("userId")));
+		offer.setOrganizationId(this.organizationId);
 
 		offerService.updateOffer(offer);
 
