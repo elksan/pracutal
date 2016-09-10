@@ -5,22 +5,20 @@ import com.google.inject.persist.Transactional;
 import dao.InternshipDao;
 import dao.OfferDao;
 import dao.UserDao;
-import dao.impl.UserDaoImpl;
 import etc.ApplicationStatus;
 import models.*;
 import ninja.i18n.Lang;
 import ninja.jpa.UnitOfWork;
 import org.hibernate.Hibernate;
-import org.hibernate.metamodel.relational.Tuple;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import services.InternshipService;
 import services.MailService;
 import services.OfferService;
 import vo.OfferVO;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -137,8 +135,14 @@ public class OfferServiceImpl implements OfferService {
 	}
 
 	@UnitOfWork
-	public List<OfferType> getOfferTypes() {
-		return offerDao.getOfferTypes();
+	public List<OfferTypeVO> getOfferTypes() {
+
+		List<OfferTypeVO> offerTypeVOList = new ArrayList<>();
+		for(OfferType offerType : offerDao.getOfferTypes()){
+			OfferTypeVO offerTypeVO = new OfferTypeVO(offerType);
+			offerTypeVOList.add(offerTypeVO);
+		}
+		return offerTypeVOList;
 	}
 
 	@Transactional

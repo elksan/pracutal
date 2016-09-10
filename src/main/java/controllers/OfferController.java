@@ -60,7 +60,7 @@ public class OfferController {
 
 		logger.debug(String.valueOf(offers.size()));
 
-		List<OfferType> offerTypes = offerService.getOfferTypes();
+		List<OfferTypeVO> offerTypes = offerService.getOfferTypes();
 		List<Integer> userLoggedOffers = new ArrayList<>();
 
 		int practices =0;
@@ -93,11 +93,37 @@ public class OfferController {
 			}
 		}
 
+		for (OfferTypeVO offerTypeVO : offerTypes){
+			switch (offerTypeVO.getId()){
+				case 1:
+					offerTypeVO.setOffersAvailable(practices);
+					break;
+				case 2:
+					offerTypeVO.setOffersAvailable(thesis);
+					break;
+				case 3:
+					offerTypeVO.setOffersAvailable(fullTime);
+					break;
+				case 4:
+					offerTypeVO.setOffersAvailable(partTime);
+					break;
+				case 5:
+					offerTypeVO.setOffersAvailable(freelance);
+					break;
+
+			}
+		}
+
 
 		Result result = Results.html();
 		result.render("offers", offers);
 		result.render("offerTypes", offerTypes);
 		result.render("userLoggedOffers", userLoggedOffers);
+		result.render("practices", practices);
+		result.render("freelance", freelance);
+		result.render("partTime", partTime);
+		result.render("fullTime", fullTime);
+		result.render("thesis", thesis);
 
 		return result;
 	}
@@ -115,7 +141,7 @@ public class OfferController {
 	public Result newOffer(@LoggedInUser String username){
 
 		List<Career> careers = offerService.getCareers();
-		List<OfferType> offerTypes = offerService.getOfferTypes();
+		List<OfferTypeVO> offerTypes = offerService.getOfferTypes();
 		User user = userService.getUserById(username);
 		List<OrganizationVO> organizations = null;
 
@@ -169,7 +195,7 @@ public class OfferController {
 	public Result editOffer(Session session, @PathParam("offerId") int offerId){
 
 		List<Career> careers = offerService.getCareers();
-		List<OfferType> offerTypes = offerService.getOfferTypes();
+		List<OfferTypeVO> offerTypes = offerService.getOfferTypes();
 
 		Offer selectedOffer = offerService.findOfferById(offerId);
 		OfferVO offerVO = new OfferVO(selectedOffer);

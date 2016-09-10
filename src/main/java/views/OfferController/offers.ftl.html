@@ -13,7 +13,7 @@
                     <a id="showAll" class="collection-item active" data-filter="*">${i18n("offers.showAll")}<span class="badge">${offers?size}</span></a>
 
                     <#list offerTypes as offerType>
-                        <a href="#!" class="collection-item" data-filter="${offerType.id}">${offerType.name}<span class="badge">${offerType.offers?size}</span></a>
+                        <a href="#!" class="collection-item" data-filter="${offerType.id}">${offerType.name}<span class="badge">${offerType.offersAvailable}</span></a>
                         <#else>
                     </#list>
 

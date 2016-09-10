@@ -11,7 +11,7 @@ public interface OfferService {
 	Offer findOfferById(int offerId);
 	void saveOffer(OfferVO offerVo);
 	List<Career> getCareers();
-	List<OfferType> getOfferTypes();
+	List<OfferTypeVO> getOfferTypes();
 	void deleteOffer(int offerId);
 	void updateOffer(OfferVO offer);
 	void updateOffer(Offer offer);
