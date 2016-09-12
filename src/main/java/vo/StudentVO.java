@@ -25,6 +25,12 @@ public class StudentVO extends UserVO{
 	private String motherLastName;
 	private Integer careerId;
 
+	private String streetName;
+	private Integer streetNumber;
+	private Integer apartmentNumber;
+	private String commune;
+	private String city;
+
 	public String getBirthDate() {
 		return birthDate;
 	}
@@ -119,5 +125,45 @@ public class StudentVO extends UserVO{
 
 	public void setCareerId(Integer careerId) {
 		this.careerId = careerId;
+	}
+
+	public String getStreetName() {
+		return streetName;
+	}
+
+	public void setStreetName(String streetName) {
+		this.streetName = streetName;
+	}
+
+	public Integer getStreetNumber() {
+		return streetNumber;
+	}
+
+	public void setStreetNumber(Integer streetNumber) {
+		this.streetNumber = streetNumber;
+	}
+
+	public Integer getApartmentNumber() {
+		return apartmentNumber;
+	}
+
+	public void setApartmentNumber(Integer apartmentNumber) {
+		this.apartmentNumber = apartmentNumber;
+	}
+
+	public String getCommune() {
+		return commune;
+	}
+
+	public void setCommune(String commune) {
+		this.commune = commune;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
 	}
 }

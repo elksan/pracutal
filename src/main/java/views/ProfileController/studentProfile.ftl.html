@@ -10,7 +10,10 @@
 
 					<div class="heading">
 						<div>
-							<a href="#modal1" class="modal-trigger"><img class="responsive-img" src="/assets/images/user.png"></a>
+							<img class="responsive-img"
+							<#if user.profilePhotoPath??>src="/assets/uploadedContent/${user.profilePhotoPath}"
+							<#else>src="/assets/images/user.png"
+							</#if> >
 						</div>
 
 						<div class="col s12 m12 l9 name">
@@ -28,7 +31,7 @@
 							<div class="col m12 s12 l9">
 							  <div class="section">
 								<h6>${i18n("profile.presentation")}</h6>
-								<p>${(user.student.jobObjective)!"..."}</p>
+								<p>${(user.jobObjective)!"..."}</p>
 							  </div>
 
 							  <div class="divider"></div>
@@ -44,7 +47,7 @@
 							</div>
 							<div class="col m12 s12 l9">
 								<div class="section">
-									<h6>${(user.student.phoneNumber)!}</h6>
+									<h6>${(user.phoneNumber)!}</h6>
 									<span>${i18n("profile.phone")}</span>
 								</div>
 
@@ -80,7 +83,7 @@
 							</div>
 							<div class="col m12 s12 l9">
 								<div class="section">
-									<h6>${(user.student.address)!}</h6>
+									<h6>${(user.address)!}</h6>
 									<span>${i18n("profile.address")}</span>
 								</div>
 								<div class="section">

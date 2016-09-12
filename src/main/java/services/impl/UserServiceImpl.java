@@ -3,7 +3,6 @@ package services.impl;
 import com.google.inject.Inject;
 
 import com.google.inject.persist.Transactional;
-import controllers.OfferController;
 import dao.UserDao;
 import etc.SessionIdentifierGenerator;
 import etc.UserRole;
@@ -107,6 +106,11 @@ public class UserServiceImpl implements UserService {
 	public Organization saveOrganization(OrganizationVO organizationVO) {
 
 		Organization organization = new Organization(organizationVO);
+		if(!organizationVO.getStreetName().isEmpty()){
+			Address address = new Address(organizationVO);
+			organization.setAddress(address);
+		}
+
 		createNewTokenForUser(organization);
 		Role role = userDao.findRoleById(2);
 		organization.getRoles().add(role);
@@ -141,7 +145,7 @@ public class UserServiceImpl implements UserService {
 
 	@Transactional
 	public Organization updateOrganization(OrganizationVO organizationVO) {
-		Organization organization = userDao.getOrganizationById(organizationVO.getId());
+		Organization organization = (Organization) userDao.findUserWithAddress(organizationVO.getId());
 
 		organization.setName(organizationVO.getName());
 		organization.setArea(organizationVO.getArea());
@@ -149,7 +153,19 @@ public class UserServiceImpl implements UserService {
 		organization.setEmail(organizationVO.getEmail());
 		organization.setWebpage(organizationVO.getWebpage());
 		organization.setPhoneNumber(organizationVO.getPhoneNumber());
-
+		if(organization.getAddress() != null){
+			Address address = organization.getAddress();
+			address.setStreetName(organizationVO.getStreetName());
+			address.setStreetNumber(organizationVO.getStreetNumber());
+			address.setApartmentNumber(organizationVO.getApartmentNumber());
+			address.setCommune(organizationVO.getCommune());
+			address.setCity(organizationVO.getCity());
+			organization.setAddress(address);
+		}
+		else if (!organizationVO.getStreetName().isEmpty()){
+			Address address = new Address(organizationVO);
+			organization.setAddress(address);
+		}
 		return userDao.updateOrganization(organization);
 	}
 
@@ -204,5 +220,24 @@ public class UserServiceImpl implements UserService {
 			logger.debug("ERROR AL PARSEAR LA FECHA!");
 			return null;
 		}
+	}
+
+	@UnitOfWork
+	public User findUserWithAddress(Integer userId) {
+
+		return userDao.findUserWithAddress(userId);
+	}
+
+	/*@UnitOfWork
+	public Student findStudentWithAddress(Integer userId) {
+
+		return userDao.findStudentWithAddress(userId);
+	}*/
+
+	@Transactional
+	public void updateProfilePhoto(int userId, String filename) {
+		User user = userDao.findUserById(userId);
+		user.setProfilePhotoPath(filename);
+		userDao.updateUser(user);
 	}
 }

@@ -79,7 +79,7 @@ public class InternshipController {
 	}
 
 	@FileProvider(DiskFileItemProvider.class)
-	public Result evaluationUploadFinish(@LoggedInUserId int userId, Context context, @Param("upfile") FileItem upfile) throws Exception {
+	public Result evaluationUploadFinish(@LoggedInUserId int userId, @Param("upfile") FileItem upfile) throws Exception {
 
 		String evaluationName = userId + "_" + upfile.getFileName();
 		File destination = new File("src/main/java/assets/uploadedContent/"+ evaluationName);

@@ -13,6 +13,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 import dao.OfferDao;
+import vo.OfferVO;
 
 public class OfferDaoImpl implements OfferDao{
 
@@ -118,6 +119,29 @@ public class OfferDaoImpl implements OfferDao{
 			}
 		}
 		return applicationList;
+	}
+
+	@Override
+	public List<Offer> getAvailableOffersByOrganization(Integer organizationId) {
+		List<Offer> offers = new ArrayList<>();
+
+		EntityManager entityManager = entityManagerProvider.get();
+		EntityGraph graph = entityManager.getEntityGraph("offer.organization+offertype");
+
+		Query q = entityManager.createQuery("SELECT X FROM Offer X where X.organization.id = :organizationId and available = true and closed = false");
+		q.setParameter("organizationId", organizationId);
+		q.setHint("javax.persistence.loadgraph", graph);
+
+		try{
+			offers = q.getResultList();
+
+		}
+		catch(NoResultException nrex){
+			logger.warn("No result in getAvailableOffersByOrganization(organizationId)");
+			logger.warn(nrex.getMessage());
+		}
+
+		return offers;
 	}
 
 

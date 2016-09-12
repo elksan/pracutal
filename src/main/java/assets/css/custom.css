@@ -138,11 +138,13 @@ nav .brand-logo {
 
 .heading{
 	position: relative;
+	background-color: white;
 }
 .profile-sidebar .heading .name {
     position: absolute;
     right: 11px;
     bottom: 46px;
+	text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 }
 
 .container-general {

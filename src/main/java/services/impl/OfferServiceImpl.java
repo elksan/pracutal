@@ -312,4 +312,16 @@ public class OfferServiceImpl implements OfferService {
 		offer.setStudentOfferApproved(true);
 		offerDao.updateOffer(offer);
 	}
+
+	@UnitOfWork
+	public List<OfferVO> getAvailableOffersByOrganization(Integer organizationId) {
+		List<OfferVO> offerVOs = new ArrayList<>();
+		List<Offer> offers = offerDao.getAvailableOffersByOrganization(organizationId);
+		for (Offer offer : offers){
+
+			OfferVO offerVO = new OfferVO(offer);
+			offerVOs.add(offerVO);
+		}
+		return offerVOs;
+	}
 }

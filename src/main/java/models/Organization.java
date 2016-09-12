@@ -14,7 +14,15 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-public class Organization extends User{
+@NamedEntityGraphs({
+	@NamedEntityGraph(
+		name = "organizationWithAddress",
+		attributeNodes = {
+				@NamedAttributeNode(value = "address"),
+				@NamedAttributeNode(value = "roles")
+		})
+})
+public class Organization extends User {
 
 	private String activity;
 	private String area;
@@ -72,7 +80,7 @@ public class Organization extends User{
 		this.webpage = webpage;
 	}
 
-	@Column(name="phone_number")
+	@Column(name = "phone_number")
 	public Integer getPhoneNumber() {
 		return phoneNumber;
 	}
@@ -109,4 +117,5 @@ public class Organization extends User{
 	public void setInternships(List<Internship> internships) {
 		this.internships = internships;
 	}
+
 }

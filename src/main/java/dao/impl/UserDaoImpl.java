@@ -27,15 +27,15 @@ import org.mindrot.jbcrypt.BCrypt;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import ninja.jpa.UnitOfWork;
-
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 import dao.UserDao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class UserDaoImpl implements UserDao {
 	
@@ -288,5 +288,49 @@ public class UserDaoImpl implements UserDao {
 		em.merge(organization);
 
 		return organization;
+	}
+
+	public User findUserWithAddress(Integer userId){
+		EntityManager em = entityManagerProvider.get();
+		EntityGraph graph = em.getEntityGraph("organizationWithAddress");
+		User user = null;
+		try {
+			Map<String, Object> hints = new HashMap<>();
+			hints.put("javax.persistence.loadgraph", graph);
+			user = em.find(User.class, userId, hints);
+		}
+		catch (NoResultException ex){
+
+			logger.error(ex.getLocalizedMessage());
+		}
+		return user;
+	}
+
+	public Student findStudentWithAddress(Integer userId){
+		EntityManager em = entityManagerProvider.get();
+		EntityGraph graph = em.getEntityGraph("studentWithAddress");
+		Student user = null;
+		try {
+			Map<String, Object> hints = new HashMap<>();
+			hints.put("javax.persistence.loadgraph", graph);
+			user = em.find(Student.class, userId, hints);
+		}
+		catch (NoResultException ex){
+
+			logger.error(ex.getLocalizedMessage());
+		}
+		return user;
+	}
+
+	@Override
+	public User findUserById(int userId) {
+		EntityManager em = entityManagerProvider.get();
+		return em.find(User.class, userId);
+	}
+
+	@Override
+	public void updateUser(User user) {
+		EntityManager em = entityManagerProvider.get();
+		em.merge(user);
 	}
 }

@@ -60,7 +60,6 @@ public class Routes implements ApplicationRoutes {
         ///////////////////////////////////////////////////////////////////////
         //PRACUTAL
         ///////////////////////////////////////////////////////////////////////
-        router.GET().route("/profile").with(ProfileController.class, "profile");
         router.GET().route("/offers").with(OfferController.class, "offers");
         router.GET().route("/offerDetails/{offerId}").with(OfferController.class, "offerDetails");
         router.GET().route("/newOffer").with(OfferController.class, "newOffer");
@@ -71,7 +70,6 @@ public class Routes implements ApplicationRoutes {
         router.GET().route("/approveOffer").with(OfferController.class, "approveOffer");
         router.GET().route("/publishOffer").with(OfferController.class, "publishOffer");
         router.GET().route("/applyForOffer").with(OfferController.class, "applyForOffer");
-        router.GET().route("/myApplications").with(ProfileController.class, "myApplications");
         router.GET().route("/viewApplicants").with(OfferController.class, "viewApplicants");
         router.POST().route("/selectCandidate").with(OfferController.class, "selectCandidate");
         router.GET().route("/saveCandidates").with(OfferController.class, "saveCandidates");
@@ -81,6 +79,14 @@ public class Routes implements ApplicationRoutes {
         router.GET().route("/getOrganizationsJSON").with(OfferController.class, "getOrganizationsJSON");
         router.GET().route("/directApproveOffer").with(OfferController.class, "directApproveOffer");
 
+        ///////////////////////////////////////////////////////////////////////
+        //PROFILE
+        //////////////////////////////////////////////////////////////////////
+        router.GET().route("/profile").with(ProfileController.class, "profile");
+        router.GET().route("/myApplications").with(ProfileController.class, "myApplications");
+        router.GET().route("/editOrganizationProfile").with(ProfileController.class, "editOrganizationProfile");
+        router.POST().route("/updateOrganizationProfile").with(ProfileController.class, "updateOrganizationProfile");
+        router.POST().route("/uploadProfilePictureFinish").with(ProfileController.class, "uploadProfilePictureFinish");
         ///////////////////////////////////////////////////////////////////////
         // INTERNSHIP
         ///////////////////////////////////////////////////////////////////////

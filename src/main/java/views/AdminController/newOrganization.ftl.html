@@ -20,7 +20,7 @@
                         <div class="row">
                             <div class="input-field col s12">
                                 <input id="${i18n('organization.area')}" name="area"  type="text" required aria-required="true"
-                                       value="<#if organization??>${(organization.area)!}</#if>">
+                                <#if organization??> value="${(organization.area)!}"</#if> >
                                 <label for="${i18n('organization.area')}">${i18n('organization.area')}</label>
                             </div>
                         </div>
@@ -38,8 +38,36 @@
                                 <label for="${i18n('organization.email')}">${i18n('organization.email')}</label>
                             </div>
                         </div>
-
-
+                        <h5>${i18n('address.title')}</h5>
+                        <div class="row">
+                            <div class="input-field col s12 m6 l4">
+                                <input id="streetName" name="streetName"  type="text" class="validate"
+                                       value="<#if organization??>${(organization.address.streetName)!}</#if>">
+                                <label for="streetName">${i18n('address.streetName')}</label>
+                            </div>
+                            <div class="input-field col s12 m6 l4">
+                                <input id="streetNumber" name="streetNumber"  type="number" class="validate"
+                                       value="<#if organization??>${(organization.address.streetNumber)!}</#if>">
+                                <label for="streetNumber">${i18n('address.streetNumber')}</label>
+                            </div>
+                            <div class="input-field col s12 m6 l4">
+                                <input id="apartmentNumber" name="apartmentNumber"  type="number" class="validate"
+                                       value="<#if organization??>${(organization.address.apartmentNumber)!}</#if>">
+                                <label for="apartmentNumber">${i18n('address.apartmentNumber')}</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-field col s12 m6 l6">
+                                <input id="commune" name="commune"  type="text" class="validate"
+                                       value="<#if organization??>${(organization.address.commune)!}</#if>">
+                                <label for="commune">${i18n('address.commune')}</label>
+                            </div>
+                            <div class="input-field col s12 m6 l6">
+                                <input id="city" name="city"  type="text" class="validate"
+                                       value="<#if organization??>${(organization.address.city)!}</#if>">
+                                <label for="city">${i18n('address.city')}</label>
+                            </div>
+                        </div>
                         <div class="row">
                             <div class="input-field col s12">
                                 <input id="${i18n('organization.webpage')}" name="webpage"  type="text"
@@ -104,7 +132,11 @@
             var formData = JSON.stringify($('form').serializeObject());
             var url = "/addOrganization";
             <#if organization??>
-                url = "/updateOrganization";
+                <#if fromProfile?? && fromProfile>
+                    url = "/updateOrganizationProfile";
+                <#else>
+                    url = "/updateOrganization";
+                </#if>
             </#if>
             $.ajax({
                 type: "POST",

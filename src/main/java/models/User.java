@@ -36,15 +36,12 @@ public class User {
 	protected int signInCount;
 	protected Date updatedAt;
 	protected Boolean disabled;
+	protected String profilePhotoPath;
 	protected List<Role> roles;
-
 	protected List<VerificationToken> tokens;
+	protected Address address;
 
-    
-    
-    //private boolean isAdmin;
-    
-    public User() {
+	public User() {
     	
     	this.signInCount = 0;
 		this.disabled = true;
@@ -230,7 +227,26 @@ public class User {
 		this.name = name;
 	}
 
-	/*@PrePersist
+	@Column(name = "profile_photo_path")
+	public String getProfilePhotoPath() {
+		return profilePhotoPath;
+	}
+
+	public void setProfilePhotoPath(String profilePhotoPath) {
+		this.profilePhotoPath = profilePhotoPath;
+	}
+
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@PrimaryKeyJoinColumn
+	public Address getAddress() {
+		return address;
+	}
+
+	public void setAddress(Address address) {
+		this.address = address;
+	}
+
+/*@PrePersist
 	protected void onCreate() {
 		createdAt = new Date();
 	}

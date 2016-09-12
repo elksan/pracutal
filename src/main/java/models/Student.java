@@ -8,14 +8,21 @@ import java.util.List;
 import javax.persistence.*;
 
 @Entity
-@NamedEntityGraph(name = "studentWithCareer",
-		attributeNodes = {
-				@NamedAttributeNode(value = "career")
-		}
-)
+@NamedEntityGraphs({
+
+		@NamedEntityGraph(name = "studentWithCareer",
+				attributeNodes = {
+						@NamedAttributeNode(value = "career")
+				}
+		),
+		@NamedEntityGraph(name = "studentWithAddress",
+				attributeNodes = {
+						@NamedAttributeNode(value = "address")
+				}
+		)
+})
+
 public class Student extends User {
-
-
 	private Date birthdate;
 	private Integer entryYear;
 	private Integer rut;
@@ -48,7 +55,6 @@ public class Student extends User {
 		this.name = studentVO.getName();
 		this.lastName = studentVO.getLastName();
 		this.motherLastName = studentVO.getMotherLastName();
-
 		this.email = studentVO.getEmail();
 	}
 

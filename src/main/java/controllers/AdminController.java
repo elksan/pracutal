@@ -105,7 +105,7 @@ public class AdminController {
 
 	public Result editOrganization(@PathParam("organizationId") int organizationId) {
 
-		Organization organization = userService.getOrganizationById(organizationId);
+		Organization organization = (Organization) userService.findUserWithAddress(organizationId);
 		Result result = Results.html().template("views/AdminController/newOrganization.ftl.html");
 		result.render("organization", organization);
 
@@ -205,8 +205,6 @@ public class AdminController {
 
 	@FileProvider(DiskFileItemProvider.class)
 	public Result importStudents(@Param("upfile") FileItem upfile, Context context){
-
-		upfile.getFileName();
 
 		List<Student> studentList = excelReader.readStudentsFromExcel(upfile);
 		userService.saveStudentList(studentList);

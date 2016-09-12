@@ -20,6 +20,12 @@ public class OrganizationVO extends UserVO{
 	private String description;
 	private String webpage;
 	private Integer phoneNumber;
+	private String streetName;
+	private Integer streetNumber;
+	private Integer apartmentNumber;
+	private String commune;
+	private String city;
+	private String profilePhotoPath;
 
 	public OrganizationVO(){
 
@@ -34,6 +40,7 @@ public class OrganizationVO extends UserVO{
 		phoneNumber = organization.getPhoneNumber();
 		id = organization.getId();
 		name = organization.getName();
+		this. profilePhotoPath = organization.getProfilePhotoPath();
 	}
 	public String getActivity() {
 		return activity;
@@ -81,5 +88,53 @@ public class OrganizationVO extends UserVO{
 
 	public void setPhoneNumber(Integer phoneNumber) {
 		this.phoneNumber = phoneNumber;
+	}
+
+	public String getStreetName() {
+		return streetName;
+	}
+
+	public void setStreetName(String streetName) {
+		this.streetName = streetName;
+	}
+
+	public Integer getStreetNumber() {
+		return streetNumber;
+	}
+
+	public void setStreetNumber(Integer streetNumber) {
+		this.streetNumber = streetNumber;
+	}
+
+	public Integer getApartmentNumber() {
+		return apartmentNumber;
+	}
+
+	public void setApartmentNumber(Integer apartmentNumber) {
+		this.apartmentNumber = apartmentNumber;
+	}
+
+	public String getCommune() {
+		return commune;
+	}
+
+	public void setCommune(String commune) {
+		this.commune = commune;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public String getProfilePhotoPath() {
+		return profilePhotoPath;
+	}
+
+	public void setProfilePhotoPath(String profilePhotoPath) {
+		this.profilePhotoPath = profilePhotoPath;
 	}
 }
