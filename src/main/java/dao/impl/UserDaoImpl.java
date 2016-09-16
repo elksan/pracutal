@@ -293,6 +293,7 @@ public class UserDaoImpl implements UserDao {
 	public User findUserWithAddress(Integer userId){
 		EntityManager em = entityManagerProvider.get();
 		EntityGraph graph = em.getEntityGraph("organizationWithAddress");
+		EntityGraph graph2 = em.getEntityGraph("studentWithAddressAndCareer");
 		User user = null;
 		try {
 			Map<String, Object> hints = new HashMap<>();
@@ -306,9 +307,17 @@ public class UserDaoImpl implements UserDao {
 		return user;
 	}
 
+	@Override
+	public Student updateStudent(Student student) {
+		EntityManager em = entityManagerProvider.get();
+		em.merge(student);
+
+		return student;
+	}
+
 	public Student findStudentWithAddress(Integer userId){
 		EntityManager em = entityManagerProvider.get();
-		EntityGraph graph = em.getEntityGraph("studentWithAddress");
+		EntityGraph graph = em.getEntityGraph("studentWithAddressAndCareer");
 		Student user = null;
 		try {
 			Map<String, Object> hints = new HashMap<>();

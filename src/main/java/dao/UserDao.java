@@ -21,10 +21,12 @@ public interface UserDao {
 	List<Application> getStudentsWithInternshipAssigned();
 	List<Student> getAllStudents();
 	Organization updateOrganization(Organization organization);
-	/*Organization findOrganizationWithAddress(Integer userId);
-	Student findStudentWithAddress(Integer userId);*/
+	/*Organization findOrganizationWithAddress(Integer userId);*/
+	Student findStudentWithAddress(Integer userId);
 	User findUserById(int userId);
 	void updateUser(User user);
 
 	User findUserWithAddress(Integer userId);
+
+	Student updateStudent(Student student);
 }

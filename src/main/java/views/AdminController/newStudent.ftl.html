@@ -49,6 +49,36 @@
                                 <label for="${i18n('student.registrationNumber')}">${i18n('student.registrationNumber')}</label>
                             </div>
                         </div>
+                        <h5>${i18n('address.title')}</h5>
+                        <div class="row">
+                            <div class="input-field col s12 m6 l4">
+                                <input id="streetName" name="streetName"  type="text" class="validate"
+                                       value="<#if student??>${(student.address.streetName)!}</#if>">
+                                <label for="streetName">${i18n('address.streetName')}</label>
+                            </div>
+                            <div class="input-field col s12 m6 l4">
+                                <input id="streetNumber" name="streetNumber"  type="number" class="validate"
+                                       value="<#if student??>${(student.address.streetNumber)!}</#if>">
+                                <label for="streetNumber">${i18n('address.streetNumber')}</label>
+                            </div>
+                            <div class="input-field col s12 m6 l4">
+                                <input id="apartmentNumber" name="apartmentNumber"  type="number" class="validate"
+                                       value="<#if student??>${(student.address.apartmentNumber)!}</#if>">
+                                <label for="apartmentNumber">${i18n('student.address.apartmentNumber')}</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-field col s12 m6 l6">
+                                <input id="commune" name="commune"  type="text" class="validate"
+                                       value="<#if student??>${(student.address.commune)!}</#if>">
+                                <label for="commune">${i18n('address.commune')}</label>
+                            </div>
+                            <div class="input-field col s12 m6 l6">
+                                <input id="city" name="city"  type="text" class="validate"
+                                       value="<#if student??>${(student.address.city)!}</#if>">
+                                <label for="city">${i18n('address.city')}</label>
+                            </div>
+                        </div>
                         <div class="row">
                             <div class="input-field col s12">
                                 <input id="${i18n('student.birthDate')}" name="birthDate"  type="date" class="datepicker"

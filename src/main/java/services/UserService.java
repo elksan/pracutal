@@ -27,6 +27,6 @@ public interface UserService {
 	/*Organization findOrganizationWithAddress(Integer username);
 	Student findStudentWithAddress(Integer username);*/
 	void updateProfilePhoto(int userId, String filename);
-
 	User findUserWithAddress(Integer userId);
+	Student updateStudent(StudentVO studentVO);
 }

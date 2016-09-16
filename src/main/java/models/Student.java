@@ -15,9 +15,10 @@ import javax.persistence.*;
 						@NamedAttributeNode(value = "career")
 				}
 		),
-		@NamedEntityGraph(name = "studentWithAddress",
+		@NamedEntityGraph(name = "studentWithAddressAndCareer",
 				attributeNodes = {
-						@NamedAttributeNode(value = "address")
+						@NamedAttributeNode(value = "address"),
+						@NamedAttributeNode(value = "career")
 				}
 		)
 })
