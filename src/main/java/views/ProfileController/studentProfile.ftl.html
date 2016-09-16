@@ -83,16 +83,26 @@
 							</div>
 							<div class="col m12 s12 l9">
 								<div class="section">
-									<h6>${(user.address)!}</h6>
+									<h5>${(user.address.streetName)!} #${(user.address.streetNumber)!}</h5>
 									<span>${i18n("profile.address")}</span>
 								</div>
+								<#if (user.address.apartmentNumber)??>
+									<div class="section">
+										<h5>${(user.address.apartmentNumber)}</h5>
+										<span>${i18n("profile.officeNumber")}</span>
+									</div>
+								</#if>
+								<#if (user.address.commune)??>
+									<div class="section">
+										<h5>${(user.address.commune)}</h5>
+										<span>${i18n("profile.commune")}</span>
+									</div>
+								</#if>
 								<div class="section">
-									<h6>${(user.student.city)!}</h6>
+									<h5>${(user.address.city)!}</h5>
 									<span>${i18n("profile.city")}</span>
 								</div>
 								<div class="divider"></div>
-
-
 							</div>
 						</div>
 					</div>
@@ -105,7 +115,7 @@
 							<div class="col m12 s12 l9">
 
 								<div class="section">
-									<h6>${(user.student.birthdate)!}</h6>
+									<h6>${(user.birthdate)!}</h6>
 									<span>${i18n("profile.birthdate")}</span>
 								</div>
 								<div class="divider"></div>
@@ -121,7 +131,7 @@
 							<div class="col m12 s12 l9">
 
 								<div class="section">
-									<h6>${(user.student.citizenship)!}</h6>
+									<h6>${(user.citizenship)!}</h6>
 									<span>${i18n("profile.citizenship")}</span>
 								</div>
 								<div class="divider"></div>
@@ -137,7 +147,7 @@
 							<div class="col m12 s12 l9">
 
 								<div class="section">
-									<h6>${(user.student.gender)!}</h6>
+									<h6>${(user.gender)!}</h6>
 									<span>${i18n("profile.gender")}</span>
 								</div>
 								<div class="divider"></div>
@@ -162,16 +172,16 @@
 							<h2>${i18n("profile.education")}</h2>
 
 							<div class="section">
-								<h5>${(user.student.registrationNumber)!}</h5>
+								<h5>${(user.registrationNumber)!}</h5>
 								<span>${i18n("profile.registration.number")}</span>
 							</div>
 							<div class="section">
-								<h5>${(user.student.career.careerName)!}</h5>
+								<h5>${(user.career.careerName)!}</h5>
 								<span>${i18n("profile.career")}</span>
 							</div>
 
 							<div class="section">
-								<h5>${(user.student.entryYear)!}</h5>
+								<h5>${(user.entryYear)!}</h5>
 								<span>${i18n("profile.entry.year")}</span>
 							</div>
 
@@ -206,6 +216,16 @@
 					</div>
 				</div>
 			</section>
+		</div>
+
+		<div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
+			<a href="/editUserProfile" class="btn-floating btn-large pink tooltipped" data-position="left" data-delay="100" data-tooltip="${i18n('profile.edit')}">
+				<i class="large material-icons">mode_edit</i>
+			</a>
+			<ul>
+				<li><a class="btn-floating green modal-trigger tooltipped" href="#modal1"
+					   data-position="left" data-delay="100" data-tooltip="${i18n('profile.uploadPhoto')}"><i class="material-icons">photo</i></a></li>
+			</ul>
 		</div>
 	</div>
 

@@ -236,8 +236,7 @@ public class User {
 		this.profilePhotoPath = profilePhotoPath;
 	}
 
-	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@PrimaryKeyJoinColumn
+	@OneToOne(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
 	public Address getAddress() {
 		return address;
 	}

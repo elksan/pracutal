@@ -47,6 +47,7 @@ public class AdminController {
 
 	String tokenGlobal;
 	Integer organizationId;
+	Integer studentId;
 
 	public Result newStudent() {
 		return Results.html();
@@ -231,5 +232,29 @@ public class AdminController {
 		adminService.generateAdminAccount(userVO);
 
 		return Results.ok();
+	}
+
+	public Result editStudent(@PathParam("studentId") int studentId) {
+
+		Student student = (Student) userService.findUserWithAddress(studentId);
+		Result result = Results.html().template("views/AdminController/newStudent.ftl.html");
+		result.render("student", student);
+
+		this.studentId = student.getId();
+		return result;
+	}
+
+	public Result updateStudent(Context context, @JSR303Validation StudentVO studentVO, Validation validationd) {
+
+		studentVO.setId(studentId);
+		Student student = userService.updateStudent(studentVO);
+
+		ResultVO resultVO = new ResultVO();
+		resultVO.setRedirect("/admin");
+
+		FlashScope flashScope = context.getFlashScope();
+		flashScope.success("organization.updateSuccessful");
+
+		return Results.json().render(resultVO);
 	}
 }

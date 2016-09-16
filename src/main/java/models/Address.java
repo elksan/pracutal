@@ -1,8 +1,13 @@
 package models;
 
+import org.hibernate.annotations.*;
+import org.hibernate.annotations.Parameter;
 import vo.OrganizationVO;
+import vo.StudentVO;
 
 import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
 
 /**
  * Created by Diego on 10-09-2016.
@@ -29,9 +34,20 @@ public class Address {
 		this.commune = organizationVO.getCommune();
 		this.city = organizationVO.getCity();
 	}
+
+	public Address(StudentVO studentVO){
+		this.streetName = studentVO.getStreetName();
+		this.streetNumber = studentVO.getStreetNumber();
+		this.apartmentNumber = studentVO.getApartmentNumber();
+		this.commune = studentVO.getCommune();
+		this.city = studentVO.getCity();
+	}
+
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(columnDefinition = "serial")
+	@GenericGenerator(name = "generator", strategy = "foreign",
+			parameters = @Parameter(name = "property", value = "user"))
+	@GeneratedValue(generator = "generator")
+	@Column( unique = true, nullable = false)
 	public Integer getId() {
 		return id;
 	}
@@ -81,7 +97,8 @@ public class Address {
 		this.city = city;
 	}
 
-	@OneToOne(fetch = FetchType.LAZY, mappedBy = "address")
+	@OneToOne(fetch = FetchType.LAZY, optional = false)
+	@PrimaryKeyJoinColumn
 	public User getUser() {
 		return user;
 	}

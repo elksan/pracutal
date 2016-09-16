@@ -155,18 +155,26 @@ public class UserServiceImpl implements UserService {
 		organization.setPhoneNumber(organizationVO.getPhoneNumber());
 		if(organization.getAddress() != null){
 			Address address = organization.getAddress();
+
 			address.setStreetName(organizationVO.getStreetName());
 			address.setStreetNumber(organizationVO.getStreetNumber());
 			address.setApartmentNumber(organizationVO.getApartmentNumber());
 			address.setCommune(organizationVO.getCommune());
 			address.setCity(organizationVO.getCity());
+
+			address.setUser(organization);
 			organization.setAddress(address);
 		}
 		else if (!organizationVO.getStreetName().isEmpty()){
 			Address address = new Address(organizationVO);
+
+
 			organization.setAddress(address);
+			address.setUser(organization);
 		}
-		return userDao.updateOrganization(organization);
+
+		userDao.updateUser(organization);
+		return organization;
 	}
 
 	@Transactional
@@ -224,8 +232,47 @@ public class UserServiceImpl implements UserService {
 
 	@UnitOfWork
 	public User findUserWithAddress(Integer userId) {
+		User user = userDao.findUserWithAddress(userId);
+		if (user instanceof Student){
+			Hibernate.initialize(((Student) user).getCareer());
+		}
+		return user;
+	}
 
-		return userDao.findUserWithAddress(userId);
+	@Transactional
+	public Student updateStudent(StudentVO studentVO) {
+		Student student = (Student) userDao.findUserWithAddress(studentVO.getId());
+
+		student.setName(studentVO.getName());
+		student.setLastName(studentVO.getLastName());
+		student.setMotherLastName(studentVO.getMotherLastName());
+		student.setEmail(studentVO.getEmail());
+		student.setPhoneNumber(studentVO.getPhoneNumber());
+		student.setBirthdate(parseStringToDate(studentVO.getBirthDate()));
+		student.setJobObjective(studentVO.getJobObjective());
+		student.setEntryYear(Integer.parseInt(studentVO.getRegistrationNumber().toString().substring(0,4)));
+		student.setRut(studentVO.getRut());
+		student.setGender(studentVO.getGender());
+		student.setRegistrationNumber(studentVO.getRegistrationNumber());
+
+		if(student.getAddress() != null){
+			Address address = student.getAddress();
+			address.setStreetName(studentVO.getStreetName());
+			address.setStreetNumber(studentVO.getStreetNumber());
+			address.setApartmentNumber(studentVO.getApartmentNumber());
+			address.setCommune(studentVO.getCommune());
+			address.setCity(studentVO.getCity());
+			student.setAddress(address);
+			address.setUser(student);
+		}
+		else if (!studentVO.getStreetName().isEmpty()){
+			Address address = new Address(studentVO);
+			student.setAddress(address);
+			address.setUser(student);
+		}
+
+		userDao.updateUser(student);
+		return student;
 	}
 
 	/*@UnitOfWork
