@@ -7,8 +7,12 @@
 
                 <div class="card-panel  white margined-top">
                     <form id="formito" action="/addOrganization" method="post" class="form-horizontal" role="form">
+                        <#if organization??>
+                            <h4>${i18n("admin.editOrganization")}</h4>
+                        <#else>
+                            <h4>${i18n("admin.newOrganization")}</h4>
+                        </#if>
 
-                        <h4>${i18n("admin.newOrganization")}</h4>
                         <br>
                         <div class="row">
                             <div class="input-field col s12">

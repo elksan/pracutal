@@ -9,6 +9,7 @@ import etc.LoggedInUserId;
 import etc.UserRole;
 import models.Application;
 import models.Organization;
+import models.Student;
 import models.User;
 import ninja.*;
 import ninja.params.Param;
@@ -25,6 +26,7 @@ import services.UserService;
 import vo.OfferVO;
 import vo.OrganizationVO;
 import vo.ResultVO;
+import vo.StudentVO;
 
 import java.io.File;
 import java.io.IOException;
@@ -146,5 +148,28 @@ public class ProfileController {
 			e.printStackTrace();
 		}
 		return Results.json().render(path);
+	}
+
+	public Result editStudentProfile(@LoggedInUserId Integer studentId){
+
+		Student student = (Student) userService.findUserWithAddress(studentId);
+		Result result = Results.html().template("views/AdminController/newStudent.ftl.html");
+		result.render("student", student);
+		result.render("fromProfile", true);
+		return result;
+	}
+
+	public Result updateStudentProfile(@LoggedInUserId Integer studentId, StudentVO studentVO, Context context){
+
+		studentVO.setId(studentId);
+		userService.updateStudent(studentVO);
+
+		ResultVO resultVO = new ResultVO();
+		resultVO.setRedirect("/profile");
+
+		FlashScope flashScope = context.getFlashScope();
+		flashScope.success("profile.updateSuccessful");
+
+		return Results.json().render(resultVO);
 	}
 }
