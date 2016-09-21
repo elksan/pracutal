@@ -48,7 +48,7 @@
 		rgba(0,0,0,0.5),
 		rgba(0,0,0,0.5)
 	), url(/assets/images/barra.jpg) no-repeat top center;
-	height: 100vh;
+	height: 40vh;
 	background-size: cover;
 	position:relative;
 }
@@ -61,6 +61,18 @@
 	text-align: center;	
 	color: white;	
 	
+}
+
+.login{
+	position: absolute;
+	top: 35vh;
+	left: 50%;
+	transform: translate(-50%);
+	width: 500px;
+}
+
+.login button{
+	width: 100%;
 }
 /*.title h1{
 		
