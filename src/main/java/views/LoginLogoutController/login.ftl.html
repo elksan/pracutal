@@ -1,12 +1,12 @@
-<#import "../layout/defaultLayout.ftl.html" as layout> <@layout.myLayout "Home page">
 
-<div class="container">
-	
-	<div class="row">
+
+	<div class="row login">
+
 		<div class="col s12">
-			<div class="card-panel white darken-1">
+			<div class="card-panel  darken-1 z-depth-2">
+
 				<form action="/login" method="post" class="form-horizontal" role="form" onsubmit="loading()">
-			
+
 				    <div class="row">
 
 				    	<div class="input-field col s12">
@@ -21,20 +21,22 @@
 		                    <input type="password" class="validate" required="true" name="password" id="password" value="${(flash.password)!""}">	                 
 	                    </div>
 	                </div>
-
-					<input type="checkbox" name="rememberMe" id="rememberMe">
-					<label for="rememberMe">${i18n("login.rememberMe")}</label>
-
 					<div class="row">
 						<div class="input-field col s12">
-							<button type="submit" class="btn waves-effect waves-light">${i18n("login.loginNowButton")}</button>
+							<input type="checkbox" name="rememberMe" id="rememberMe">
+							<label for="rememberMe">${i18n("login.rememberMe")}</label>
+						</div>
+					</div>
+					<div class="row">
+						<div class="input-field col s12">
+							<button type="submit" class="btn pink waves-effect waves-light">${i18n("login.loginNowButton")}</button>
 						</div>
 					</div>
 				</form>
 			<div>
 		</div>
 	</div>
-</div>
+
 
 
 
@@ -52,4 +54,3 @@
 			submitButton.addClass("disabled");
 		}
 	</script>
-</@layout.myLayout>
