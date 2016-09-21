@@ -190,15 +190,18 @@
 					.done(function(data) {
 						console.log("success!");
 						$('#avatar').attr("src", data);
+						$('#modal1').closeModal();
 						Materialize.toast("${i18n('profile.updatePhoto.success')}");
 					})
 					.fail(function (data) {
 						// here we will handle errors and validation messages
 						console.log("error");
 						console.log(data);
+
 					})
 					.always(function (){
 						$('.progress').hide();
+						$('#modal1').closeModal();
 					});
 
 		});

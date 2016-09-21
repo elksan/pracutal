@@ -25,8 +25,7 @@ public interface UserDao {
 	Student findStudentWithAddress(Integer userId);
 	User findUserById(int userId);
 	void updateUser(User user);
-
 	User findUserWithAddress(Integer userId);
-
 	Student updateStudent(Student student);
+	List<Internship> getInternshipsCompletedByUserId(Integer userId);
 }

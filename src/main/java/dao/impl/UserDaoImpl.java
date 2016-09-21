@@ -21,6 +21,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
+import com.sun.mail.util.QEncoderStream;
 import etc.ApplicationStatus;
 import models.*;
 import org.mindrot.jbcrypt.BCrypt;
@@ -313,6 +314,18 @@ public class UserDaoImpl implements UserDao {
 		em.merge(student);
 
 		return student;
+	}
+
+	@Override
+	public List<Internship> getInternshipsCompletedByUserId(Integer userId) {
+		EntityManager em = entityManagerProvider.get();
+		EntityGraph graph = em.getEntityGraph("graph.Internship.offer.organization");
+
+		Query query = em.createQuery("select x from Internship x where student.id = :userId and closed = true");
+		query.setParameter("userId", userId);
+		query.setHint("javax.persistence.loadgraph", graph);
+
+		return query.getResultList();
 	}
 
 	public Student findStudentWithAddress(Integer userId){

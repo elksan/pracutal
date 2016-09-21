@@ -89,6 +89,7 @@ public class Routes implements ApplicationRoutes {
         router.POST().route("/uploadProfilePictureFinish").with(ProfileController.class, "uploadProfilePictureFinish");
         router.GET().route("/editStudentProfile").with(ProfileController.class, "editStudentProfile");
         router.POST().route("/updateStudentProfile").with(ProfileController.class, "updateStudentProfile");
+        router.POST().route("/uploadCurriculumFinish").with(ProfileController.class, "uploadCurriculumFinish");
         ///////////////////////////////////////////////////////////////////////
         // INTERNSHIP
         ///////////////////////////////////////////////////////////////////////
