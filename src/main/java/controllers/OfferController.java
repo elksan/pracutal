@@ -29,6 +29,7 @@ import services.UserService;
 import vo.OfferVO;
 import vo.OrganizationVO;
 
+import static etc.UserRole.*;
 import static etc.UserRole.ESTUDIANTE;
 
 @Singleton
@@ -150,7 +151,7 @@ public class OfferController {
 		result.render("offerTypes", offerTypes);
 
 		for(Role role : user.getRoles()){
-			if(role.getId() == UserRole.ADMINISTRADOR.getValue() || role.getId() == ESTUDIANTE.getValue()){
+			if(role.getId() == ADMINISTRADOR.getValue() || role.getId() == ESTUDIANTE.getValue()){
 				organizations = userService.getOrganizations();
 				result.render("organizations", organizations);
 			}
@@ -170,7 +171,8 @@ public class OfferController {
 				offer.setOrganizationId(userId);
 			}
 
-			switch (UserRole.valueOf(roleId.toString())){
+			UserRole role =  UserRole.getRoleFromInteger(roleId);
+			switch (role){
 
 				case ESTUDIANTE:
 					offer.setCreatedByStudent(true);

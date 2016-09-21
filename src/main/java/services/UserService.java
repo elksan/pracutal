@@ -1,10 +1,7 @@
 package services;
 
 import exceptions.UserAlreadyExistsException;
-import models.Application;
-import models.Organization;
-import models.Student;
-import models.User;
+import models.*;
 import vo.OrganizationVO;
 import vo.StudentVO;
 
@@ -29,4 +26,6 @@ public interface UserService {
 	void updateProfilePhoto(int userId, String filename);
 	User findUserWithAddress(Integer userId);
 	Student updateStudent(StudentVO studentVO);
+	void updateCurriculum(int userId, String filename);
+	List<Internship> getCompletedInternshipsByUserId(Integer userId);
 }

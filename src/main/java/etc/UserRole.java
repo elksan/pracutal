@@ -17,4 +17,20 @@ public enum UserRole {
 	}
 
 	public int getValue() { return value; }
+
+	public static UserRole getRoleFromInteger(int roleId) {
+
+		switch (roleId) {
+			case 1:
+				return ADMINISTRADOR;
+			case 2:
+				return EMPRESA;
+			case 3:
+				return ESTUDIANTE;
+			case 4:
+				return DIRECTOR;
+			default:
+				return null;
+		}
+	}
 }

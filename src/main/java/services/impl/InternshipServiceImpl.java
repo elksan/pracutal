@@ -130,7 +130,7 @@ public class InternshipServiceImpl implements InternshipService{
 			throw new Exception("could not find internship with id: " + internshipId);
 		}
 		internship.getEvaluations().add(evaluation);
-
+		internship.setClosed(true);
 		internshipDao.updateinternship(internship);
 
 	}

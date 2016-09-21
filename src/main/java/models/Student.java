@@ -36,6 +36,7 @@ public class Student extends User {
 	private String lastName;
 	private String motherLastName;
 	private Career career;
+	private String curriculum;
 	private List<Application> applications;
 	private List<Internship> internships;
 
@@ -57,6 +58,7 @@ public class Student extends User {
 		this.lastName = studentVO.getLastName();
 		this.motherLastName = studentVO.getMotherLastName();
 		this.email = studentVO.getEmail();
+		this.curriculum = studentVO.getCurriculum();
 	}
 
 	@Temporal(TemporalType.DATE)
@@ -173,4 +175,11 @@ public class Student extends User {
 		this.internships = internships;
 	}
 
+	public String getCurriculum() {
+		return curriculum;
+	}
+
+	public void setCurriculum(String curriculum) {
+		this.curriculum = curriculum;
+	}
 }

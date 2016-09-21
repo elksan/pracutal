@@ -18,6 +18,7 @@ import vo.OrganizationVO;
 import vo.StudentVO;
 import vo.VerificationToken;
 
+import javax.persistence.EntityManager;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -273,6 +274,18 @@ public class UserServiceImpl implements UserService {
 
 		userDao.updateUser(student);
 		return student;
+	}
+
+	@Transactional
+	public void updateCurriculum(int userId, String filename) {
+		Student student = (Student) userDao.findUserById(userId);
+		student.setCurriculum(filename);
+		userDao.updateUser(student);
+	}
+
+	@UnitOfWork
+	public List<Internship> getCompletedInternshipsByUserId(Integer userId) {
+		return userDao.getInternshipsCompletedByUserId(userId);
 	}
 
 	/*@UnitOfWork

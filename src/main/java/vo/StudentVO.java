@@ -24,6 +24,7 @@ public class StudentVO extends UserVO{
 	private String lastName;
 	private String motherLastName;
 	private Integer careerId;
+	private String curriculum;
 
 	private String streetName;
 	private Integer streetNumber;
@@ -165,5 +166,13 @@ public class StudentVO extends UserVO{
 
 	public void setCity(String city) {
 		this.city = city;
+	}
+
+	public String getCurriculum() {
+		return curriculum;
+	}
+
+	public void setCurriculum(String curriculum) {
+		this.curriculum = curriculum;
 	}
 }

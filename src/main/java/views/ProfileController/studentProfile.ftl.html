@@ -10,7 +10,7 @@
 
 					<div class="heading">
 						<div>
-							<img class="responsive-img"
+							<img id="avatar" class="responsive-img"
 							<#if user.profilePhotoPath??>src="/assets/uploadedContent/${user.profilePhotoPath}"
 							<#else>src="/assets/images/user.png"
 							</#if> >
@@ -198,33 +198,39 @@
 
 						<div class="col s12 m12 l10">
 
-							<div class="section">
-								<h5>Section 1</h5>
-								<p>Stuff</p>
-							</div>
-							<div class="divider"></div>
-							<div class="section">
-								<h5>Section 2</h5>
-								<p>Stuff</p>
-							</div>
-							<div class="divider"></div>
-							<div class="section">
-								<h5>Section 3</h5>
-								<p>Stuff</p>
-							</div>
-						<div>
+							<#list completedInternships as internship>
+
+								<div class="section">
+									<h5>${internship.offer.title}</h5>
+									<p>${internship.organization.name}</p>
+								</div>
+								<div class="divider"></div>
+							</#list>
+						</div>
+
+						<div class="col s12 m12 l10 offset-l2">
+							<h5>${i18n("profile.curriculum")}</h5>
+							<#if user.curriculum??>
+								<a href="/assets/uploadedContent/curriculums/${user.curriculum}" >${i18n("profile.view.curriculum")}</a>
+								<#else>
+									${i18n("profile.view.noCurriculum")}
+							</#if>
+						</div>
 					</div>
 				</div>
 			</section>
+
 		</div>
 
 		<div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
-			<a href="/editUserProfile" class="btn-floating btn-large pink tooltipped" data-position="left" data-delay="100" data-tooltip="${i18n('profile.edit')}">
+			<a id="cvLocation" href="/editStudentProfile" class="btn-floating btn-large pink tooltipped" data-position="left" data-delay="100" data-tooltip="${i18n('profile.edit')}">
 				<i class="large material-icons">mode_edit</i>
 			</a>
 			<ul>
 				<li><a class="btn-floating green modal-trigger tooltipped" href="#modal1"
-					   data-position="left" data-delay="100" data-tooltip="${i18n('profile.uploadPhoto')}"><i class="material-icons">photo</i></a></li>
+					   data-position="left" data-delay="100" data-tooltip="${i18n('profile.uploadPhoto')}"><i class="material-icons">portrait</i></a></li>
+				<li><a class="btn-floating blue modal-trigger tooltipped" href="#modalCV"
+					   data-position="left" data-delay="100" data-tooltip="${i18n('profile.viewCurriculum')}"><i class="material-icons">picture_as_pdf</i></a></li>
 			</ul>
 		</div>
 	</div>
@@ -234,7 +240,7 @@
 		<!-- Modal Structure -->
 		<div id="modal1" class="modal">
 
-			<form method="post" enctype="multipart/form-data" action="/uploadProfilePictureFinish">
+			<form id="profilePictureForm" method="post" enctype="multipart/form-data" action="/uploadProfilePictureFinish">
 			<div class="modal-content">
 
 				<h5>${i18n("profile.uploadMessage")}</h5>
@@ -243,7 +249,8 @@
 				<div class="file-field input-field">
 					<div class="btn">
 						<span>File</span>
-						<input type="file" name="upfile" accept=".png,.jpg, .jpeg"><br />
+						<input type="file" name="upfile" accept=".png,.jpg, .jpeg"/>
+						<br />
 					</div>
 					<div class="file-path-wrapper">
 						<input class="file-path validate" type="text">
@@ -252,8 +259,34 @@
 
 			</div>
 			<div class="modal-footer">
-				<button type="submit" class="btn waves-effect waves-light">${i18n("offer.submit")}<i class="material-icons right">send</i></button>
+				<button type="submit" class="btn waves-effect waves-light">${i18n("offer.submit")}<i class="material-icons right">file_upload</i></button>
 			</div>
+			</form>
+		</div>
+
+		<div id="modalCV" class="modal">
+
+			<form id="curriculumForm" method="post" enctype="multipart/form-data" action="/uploadCurriculumFinish">
+				<div class="modal-content">
+
+					<h5>${i18n("profile.uploadMessage")}</h5>
+					<br>
+
+					<div class="file-field input-field">
+						<div class="btn">
+							<span>File</span>
+							<input type="file" name="upfile" accept=".doc, .docx, .pdf" />
+							<br/>
+						</div>
+						<div class="file-path-wrapper">
+							<input class="file-path validate" type="text">
+						</div>
+					</div>
+
+				</div>
+				<div class="modal-footer">
+					<button type="submit" class="btn waves-effect waves-light">${i18n("offer.submit")}<i class="material-icons right">file_upload</i></button>
+				</div>
 			</form>
 		</div>
 
@@ -264,6 +297,80 @@
 			$('#menus #profile-btn').addClass('active');
 
 			$('.modal-trigger').leanModal();
+		});
+
+		$('#profilePictureForm').submit(function (e) {
+			event.preventDefault();
+			e.returnValue = false;
+			$('.progress').show();
+
+			var data = new FormData($(this)[0]);
+			/*jQuery.each(jQuery('#file')[0].files, function(i, file) {
+			 data.append('upfile'+i, file);
+			 });*/
+
+			console.log(data);
+			$.ajax({
+				url: "/uploadProfilePictureFinish",
+				type: "post",
+				data: data,
+				cache: false,
+				contentType: false,
+				processData: false,
+				dataType: "json"
+			})
+					.done(function(data) {
+						console.log("success!");
+						$('#avatar').attr("src", data);
+						Materialize.toast("${i18n('profile.updatePhoto.success')}", 5000);
+					})
+					.fail(function (data) {
+						// here we will handle errors and validation messages
+						console.log("error");
+						console.log(data);
+					})
+					.always(function (){
+						$('.progress').hide();
+						$('#modal1').closeModal();
+					});
+
+		});
+
+		$('#curriculumForm').submit(function (e) {
+			event.preventDefault();
+			e.returnValue = false;
+			$('.progress').show();
+
+			var data = new FormData($(this)[0]);
+			/*jQuery.each(jQuery('#file')[0].files, function(i, file) {
+			 data.append('upfile'+i, file);
+			 });*/
+
+			console.log(data);
+			$.ajax({
+				url: "/uploadCurriculumFinish",
+				type: "post",
+				data: data,
+				cache: false,
+				contentType: false,
+				processData: false,
+				dataType: "json"
+			})
+					.done(function(data) {
+						console.log("success!");
+						$('#cvLocation').attr("src", data);
+						Materialize.toast("${i18n('profile.curriculum.success')}", 5000);
+					})
+					.fail(function (data) {
+						// here we will handle errors and validation messages
+						console.log("error");
+						console.log(data);
+					})
+					.always(function (){
+						$('#modalCV').closeModal();
+						$('.progress').hide();
+					});
+
 		});
 	</script>
 	</@layout.myLayout>

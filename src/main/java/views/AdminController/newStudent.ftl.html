@@ -5,7 +5,12 @@
                 <div class="card-panel  white margined-top">
                     <form id="formito" action="/saveStudent" method="post" class="form-horizontal" role="form">
 
-                        <h4>${i18n("admin.newStudent")}</h4>
+                        <#if student??>
+                            <h4>${i18n("admin.editStudent")}</h4>
+                        <#else>
+                            <h4>${i18n("admin.newStudent")}</h4>
+                        </#if>
+
                         <br>
                         <div class="row">
                             <div class="input-field col s12">
@@ -168,7 +173,11 @@
             formData.rut = rutSinDigito;
             var url = "/addStudent";
             <#if student??>
-            url = "/updateStudent";
+                <#if fromProfile?? && fromProfile>
+                    url = "/updateStudentProfile";
+                <#else>
+                    url = "/updateStudent";
+                </#if>
             </#if>
             $.ajax({
                 type: "POST",
@@ -186,7 +195,6 @@
                             // data.redirect contains the string URL to redirect to
 
                             window.location.replace(data.redirect);
-                            Materialize.toast("${i18n('student.successful')}");
                         }
                         else {
                             // data.form contains the HTML for the replacement form

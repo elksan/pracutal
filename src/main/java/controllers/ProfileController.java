@@ -7,9 +7,7 @@ import com.google.inject.Singleton;
 import etc.LoggedInUser;
 import etc.LoggedInUserId;
 import etc.UserRole;
-import models.Application;
-import models.Organization;
-import models.User;
+import models.*;
 import ninja.*;
 import ninja.params.Param;
 import ninja.params.PathParam;
@@ -25,6 +23,7 @@ import services.UserService;
 import vo.OfferVO;
 import vo.OrganizationVO;
 import vo.ResultVO;
+import vo.StudentVO;
 
 import java.io.File;
 import java.io.IOException;
@@ -65,7 +64,9 @@ public class ProfileController {
 					break;
 				case ESTUDIANTE:
 					result = Results.html().template("views/ProfileController/studentProfile.ftl.html");
+					List<Internship> completedInternships = userService.getCompletedInternshipsByUserId(user.getId());
 					result.render("user", user);
+					result.render("completedInternships", completedInternships);
 					break;
 			}
 		} catch (Exception e) {
@@ -135,10 +136,60 @@ public class ProfileController {
 		File destination = new File("src/main/java/assets/uploadedContent/"+ filename);
 		String path = "/assets/uploadedContent/" + filename;
 		try {
-			if(!destination.createNewFile())
-				return Results.badRequest();
+			if(!destination.createNewFile()) {
+				logger.info("File " + destination + "already exists!, deleting...");
+				destination.delete();
+				logger.info("Deletion successful");
+			}
 			Files.copy(upfile.getFile(), destination );
 			userService.updateProfilePhoto(userId, filename);
+
+		}
+		catch (IOException e) {
+			logger.error(e.getLocalizedMessage());
+			e.printStackTrace();
+		}
+		return Results.json().render(path);
+	}
+
+	public Result editStudentProfile(@LoggedInUserId Integer studentId){
+
+		Student student = (Student) userService.findUserWithAddress(studentId);
+		Result result = Results.html().template("views/AdminController/newStudent.ftl.html");
+		result.render("student", student);
+		result.render("fromProfile", true);
+		return result;
+	}
+
+	public Result updateStudentProfile(@LoggedInUserId Integer studentId, StudentVO studentVO, Context context){
+
+		studentVO.setId(studentId);
+		userService.updateStudent(studentVO);
+
+		ResultVO resultVO = new ResultVO();
+		resultVO.setRedirect("/profile");
+
+		FlashScope flashScope = context.getFlashScope();
+		flashScope.success("profile.updateSuccessful");
+
+		return Results.json().render(resultVO);
+	}
+
+	@FileProvider(DiskFileItemProvider.class)
+	public Result uploadCurriculumFinish(@Param("upfile") FileItem upfile, @LoggedInUserId int userId, FlashScope flashScope) {
+		String filename = userId + "_" + upfile.getFileName();
+		File destination = new File("src/main/java/assets/uploadedContent/curriculums/"+ filename);
+		String path = "/assets/uploadedContent/curriculum" + filename;
+		try {
+			if(!destination.createNewFile()) {
+				logger.info("File " + destination + "already exists!, deleting...");
+				destination.delete();
+				logger.info("Deletion successful");
+			}
+			Files.copy(upfile.getFile(), destination );
+			logger.info("File " + destination + "successfully created");
+			userService.updateCurriculum(userId, filename);
+			logger.info("Pofile updated");
 
 		}
 		catch (IOException e) {
