@@ -80,7 +80,7 @@ public class LoginLogoutController {
             // something is wrong with the input or password not found.
         	flashScope.error("login.errorLogin");
 
-            return Results.redirect("/login");
+            return Results.redirect("/");
             
         }
         

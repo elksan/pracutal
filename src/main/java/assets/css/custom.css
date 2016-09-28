@@ -68,7 +68,7 @@
 	top: 35vh;
 	left: 50%;
 	transform: translate(-50%);
-	width: 500px;
+	width: 30vw;
 }
 
 .login button{
@@ -82,7 +82,10 @@
 
 @media only screen and (max-width: 320px) {
 
-  .title h1 { font-size: 2rem; }
+  	.title h1 { font-size: 2rem; }
+	.login{
+		width: 900%;
+	}
 
 }
 
@@ -298,5 +301,9 @@ main, footer{
 
 	main, footer {
 		padding-left: 0;
+	}
+
+	.login{
+		width: 90%;
 	}
 }
