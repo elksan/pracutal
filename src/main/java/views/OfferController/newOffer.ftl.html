@@ -150,12 +150,6 @@
 	</div>
 </div>
 	<script type="text/javascript">
-	
-	/*$('.datepicker').pickadate({
-	    selectMonths: true, // Creates a dropdown to control month
-	    selectYears: 15 // Creates a dropdown of 15 years to control year
-	});*/
-
 
 	$('.datepicker').pickadate({
 		selectMonths: true,//Creates a dropdown to control month
@@ -182,21 +176,39 @@
 		
 	});
 
-	var $startDatePicker = $('#startDate').pickadate({
-		onSet: function(context) {
-			console.log('Just set stuff:', context)
+	var startDateInput = $('#startDate').pickadate();
+	var endDatePicker = $('#endDate').pickadate();
 
+	var pickerStart = startDateInput.pickadate('picker');
+	var pickerEnd = $endDatePicker.pickadate('picker');
 
-			var $input = $('#endDate').pickadate();
-			var picker = $input.pickadate('picker');
-
-			picker.set('max', '-1');
-		}
-	});
-
-	var $endDatePicker = $('#endDate').pickadate();
 	var startDateAvailable = $('#startDateAvailable').pickadate('picker');
 	var endDateAvailable = $('#endDateAvailable').pickadate('picker');
+
+	if ( startDateInput.get('value') ) {
+		to_picker.set('min', pickerStart.get('select'))
+	}
+	if ( to_picker.get('value') ) {
+		from_picker.set('max', to_picker.get('select'))
+	}
+
+	// When something is selected, update the “from” and “to” limits.
+	from_picker.on('set', function(event) {
+		if ( event.select ) {
+			to_picker.set('min', from_picker.get('select'))
+		}
+		else if ( 'clear' in event ) {
+			to_picker.set('min', false)
+		}
+	})
+	to_picker.on('set', function(event) {
+		if ( event.select ) {
+			from_picker.set('max', to_picker.get('select'))
+		}
+		else if ( 'clear' in event ) {
+			from_picker.set('max', false)
+		}
+	})
 
 	$(document).ready(function() {
 		$('select').material_select();
@@ -209,10 +221,10 @@
 		});
 
 		<#if selectedOffer??>
-			var pickerStart = $startDatePicker.pickadate('picker');
+
 			pickerStart.set('select', "${(selectedOffer.startDateInternshipEdit)!}", { format: 'dd-mm-yyyy' });
 
-			var pickerEnd = $endDatePicker.pickadate('picker');
+
 			pickerEnd.set('select', "${(selectedOffer.endDate)!}", { format: 'dd-mm-yyyy' });
 			startDateAvailable.set('select', "${(selectedOffer.endDate)!}", { format: 'dd-mm-yyyy' });
 			endDateAvailable.set('select', "${(selectedOffer.endDate)!}", { format: 'dd-mm-yyyy' });
