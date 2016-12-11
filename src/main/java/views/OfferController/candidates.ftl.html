@@ -16,7 +16,7 @@
                             <p>${application.student.jobObjective!}</p>
                         </div>
                         <div class="card-action">
-                            <a href="#">Ver Perfil</a>
+                            <a href="/viewStudentProfile/${application.student.id}" <#if application.offer.closed>class="disabled"</#if> >Ver Perfil</a>
                             <a  href="/chooseFinalCandidate/${application.id}" <#if application.offer.closed>class="disabled" > ${i18n("offer.alreadyClosed")}<#else> >${i18n("offer.setAsTheFinalCandidate")}</#if></a>
                         </div>
                     </div>
