@@ -152,6 +152,24 @@ public class ProfileController {
 		return Results.json().render(path);
 	}
 
+	public Result viewStudentProfile(@PathParam("studentId") int studentId){
+
+		Result result = null;
+
+		try {
+			User user = userService.findUserWithAddress(studentId);
+			result = Results.html().template("views/ProfileController/studentProfile.ftl.html");
+			List<Internship> completedInternships = userService.getCompletedInternshipsByUserId(user.getId());
+			result.render("user", user);
+			result.render("completedInternships", completedInternships);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return result;
+	}
+
 	public Result editStudentProfile(@LoggedInUserId Integer studentId){
 
 		Student student = (Student) userService.findUserWithAddress(studentId);

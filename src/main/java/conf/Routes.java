@@ -90,6 +90,8 @@ public class Routes implements ApplicationRoutes {
         router.GET().route("/editStudentProfile").with(ProfileController.class, "editStudentProfile");
         router.POST().route("/updateStudentProfile").with(ProfileController.class, "updateStudentProfile");
         router.POST().route("/uploadCurriculumFinish").with(ProfileController.class, "uploadCurriculumFinish");
+        router.GET().route("/viewOrganizationProfile/{organizationId}").with(ProfileController.class, "viewOrganizationProfile");
+        router.GET().route("/viewStudentProfile/{studentId}").with(ProfileController.class, "viewStudentProfile");
         ///////////////////////////////////////////////////////////////////////
         // INTERNSHIP
         ///////////////////////////////////////////////////////////////////////
@@ -120,7 +122,6 @@ public class Routes implements ApplicationRoutes {
         router.POST().route("/setAdmin").with(AdminController.class, "generateAdminAccount");
         router.GET().route("/reports").with(AdminController.class, "reports");
         router.GET().route("/getStudentsWithInternshipAssigned").with(AdminController.class, "getStudentsWithInternshipAssigned");
-		router.GET().route("/viewOrganizationProfile/{organizationId}").with(ProfileController.class, "viewOrganizationProfile");
         router.GET().route("/editStudent/{studentId}").with(AdminController.class, "editStudent");
         router.POST().route("/updateStudent").with(AdminController.class, "updateStudent");
         ///////////////////////////////////////////////////////////////////////
