@@ -33,7 +33,10 @@
                     <#items  as offer>
                         <li id="offerBlock" class="collection-item offer-item avatar" data-type="${offer.offerType.id}" data-closed="${offer.closed?c}" data-id="${offer.organization.id}">
                             <div class="row">
-                                <img src="/assets/images/company-logo.jpg" alt="" class="circle">
+                                <img
+                                <#if offer.organization.profilePhotoPath??>src="/assets/uploadedContent/${offer.organization.profilePhotoPath}"
+                                <#else>src="/assets/images/company-logo.jpg"
+                                </#if> alt="" class="circle">
                                 <h5>${offer.title}</h5>
                                 <p>
                                     <strong>${(offer.organization.name)!"N/A"}</strong> en ${offer.location}
