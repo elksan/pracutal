@@ -16,7 +16,7 @@ import javax.persistence.*;
 		@NamedEntityGraph(
 				name = "graph.Internship.offer.organization",
 				attributeNodes = {
-						@NamedAttributeNode(value = "offer", subgraph = "organizationSubgraph"),
+						@NamedAttributeNode(value = "offer"),// subgraph = "organizationSubgraph"),
 						@NamedAttributeNode(value = "organization")
 				},
 				subgraphs = {

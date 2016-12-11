@@ -24,6 +24,7 @@ import javax.persistence.Query;
 import com.sun.mail.util.QEncoderStream;
 import etc.ApplicationStatus;
 import models.*;
+import org.hibernate.Hibernate;
 import org.mindrot.jbcrypt.BCrypt;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -321,9 +322,18 @@ public class UserDaoImpl implements UserDao {
 		EntityManager em = entityManagerProvider.get();
 		EntityGraph graph = em.getEntityGraph("graph.Internship.offer.organization");
 
-		Query query = em.createQuery("select x from Internship x where student.id = :userId and closed = true");
+		Query query = em.createQuery("select x from Internship x where x.student.id = :userId");
+
+//		List<Internship> internships = query.getResultList();
+
+		/*for (Internship internship : internships
+			 ) {
+			Hibernate.initialize(internship.getOffer().getor);
+		}*/
+		//		Query query = em.createQuery("select x from Internship x inner join x.student s where s.id = :userId and  closed = true ");
+//		Query query = em.createQuery("select x from Student s inner join s.internships x where s.id = :userId and  closed = true ");
 		query.setParameter("userId", userId);
-		query.setHint("javax.persistence.loadgraph", graph);
+		query.setHint("javax.persistence.fetchgraph", graph);
 
 		return query.getResultList();
 	}
