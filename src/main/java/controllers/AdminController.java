@@ -6,9 +6,7 @@ import etc.ExcelReader;
 import models.Application;
 import models.Organization;
 import models.Student;
-import ninja.Context;
-import ninja.Result;
-import ninja.Results;
+import ninja.*;
 import ninja.exceptions.BadRequestException;
 import ninja.params.Param;
 import ninja.params.PathParam;
@@ -29,6 +27,7 @@ import vo.*;
 import java.util.List;
 
 @Singleton
+@FilterWith(SecureFilter.class)
 public class AdminController {
 
 	@Inject
