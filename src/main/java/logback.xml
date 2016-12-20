@@ -4,9 +4,9 @@
        daily (or size exceeding) gzip archival.
        Also uncomment the "ROLLING" reference in <root>.-->
   <appender name="ROLLING" class="ch.qos.logback.core.rolling.RollingFileAppender">
-    <file>mylog.log</file>
+    <file>pracutal.log</file>
     <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-      <FileNamePattern>mylog.%d{yyyy-MM-dd}.%i.log.gz</FileNamePattern>
+      <FileNamePattern>pracutal.%d{yyyy-MM-dd}.%i.log.gz</FileNamePattern>
       <MaxHistory>30</MaxHistory>
       <timeBasedFileNamingAndTriggeringPolicy
         class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
