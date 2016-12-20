@@ -26,7 +26,7 @@
                 <#elseif session.role == "3">
                     <a href="/myApplications" class="waves-effect waves-light btn">Mis Postulaciones</a>
                 </#if>
-                <a href="/newOffer" class="waves-effect waves-light btn">${i18n("offer.new")}</a>
+                <a href="/newOffer" class="waves-effect waves-light btn"><#if session.role == "3">${i18n("offer.newExternal")}<#else>${i18n("offer.new")}</#if></a>
             </div>
             <#list offers>
                 <ul id="offerList" class="collection z-depth-1">
