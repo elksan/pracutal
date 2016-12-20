@@ -177,43 +177,43 @@
 	});
 
 	var startDateInput = $('#startDate').pickadate();
-	var endDatePicker = $('#endDate').pickadate();
+	var endDateInput = $('#endDate').pickadate();
 
 	var pickerStart = startDateInput.pickadate('picker');
-	var pickerEnd = $endDatePicker.pickadate('picker');
+	var pickerEnd = endDateInput.pickadate('picker');
 
 	var startDateAvailable = $('#startDateAvailable').pickadate('picker');
 	var endDateAvailable = $('#endDateAvailable').pickadate('picker');
 
 	if ( startDateInput.get('value') ) {
-		to_picker.set('min', pickerStart.get('select'))
+		pickerEnd.set('min', pickerStart.get('select'))
 	}
-	if ( to_picker.get('value') ) {
-		from_picker.set('max', to_picker.get('select'))
+	if ( pickerEnd.get('value') ) {
+		startDateInput.set('max', pickerEnd.get('select'))
 	}
 
 	// When something is selected, update the “from” and “to” limits.
-	from_picker.on('set', function(event) {
+	pickerStart.on('set', function(event) {
 		if ( event.select ) {
-			to_picker.set('min', from_picker.get('select'))
+			pickerEnd.set('min', pickerStart.get('select'))
 		}
 		else if ( 'clear' in event ) {
-			to_picker.set('min', false)
+			pickerEnd.set('min', false)
 		}
 	})
-	to_picker.on('set', function(event) {
+	pickerEnd.on('set', function(event) {
 		if ( event.select ) {
-			from_picker.set('max', to_picker.get('select'))
+			pickerStart.set('max', pickerEnd.get('select'))
 		}
 		else if ( 'clear' in event ) {
-			from_picker.set('max', false)
+			pickerStart.set('max', false)
 		}
 	})
 
 	$(document).ready(function() {
 		$('select').material_select();
 		tinymce.init({
-			selector: '#${i18n("offer.description")}',
+			selector: '#${i18n('offer.description')}',
 			init_instance_callback : function(editor) {
 				var noescapedDescription = <#if selectedOffer??><#noescape>'${selectedOffer.description?js_string}';</#noescape></#if>
 				editor.setContent(noescapedDescription);
