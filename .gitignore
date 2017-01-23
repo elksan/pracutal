@@ -8,7 +8,8 @@ dependency-reduced-pom.xml
 *idea
 *.tmp
 *.iml
-src/main/java/assets/uploadedContent/
 *.backup
 *.sql
+*.png
+*.jpg
 src/main/java/views/AdminController/react.ftl.html
