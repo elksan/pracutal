@@ -9,19 +9,21 @@
     <meta name="author" content="">
 
     <!-- Le styles -->
-    <link href="/assets/webjars/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Optional theme -->
-    <link rel="stylesheet" href="/assets/webjars/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+    <!--<link href="/assets/webjars/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">-->
+     <!-- Optional theme -->
+<!--     <link rel="stylesheet" href="/assets/webjars/bootstrap/3.3.4/css/bootstrap-theme.min.css"> -->
+    <link rel="stylesheet" href="/assets/webjars/materializecss/0.97.5/css/materialize.min.css">
     <link rel="stylesheet" href="/assets/css/custom.css">
 	<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Lato">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!-- Latest compiled and minified JavaScript -->
     
-    <style type="text/css">
+   <!-- <style type="text/css">
       body {
         padding-top: 60px;
         padding-bottom: 40px;
       }
-    </style>
+    </style>-->
 
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
@@ -33,37 +35,43 @@
   <body>
 
     <script type="text/javascript" src="/assets/webjars/jquery/2.1.3/jquery.js"></script>
-    <script type="text/javascript" src="/assets/webjars/tinymce-jquery/4.0.16/tinymce.min.js" ></script>
+    <script type="text/javascript" src="/assets/webjars/tinymce-jquery/4.3.1/tinymce.min.js" ></script>
     <script type="text/javascript" src="/assets/webjars/bootstrap/3.3.4/js/bootstrap.min.js"></script>  
     <script type="text/javascript" src="/assets/webjars/isotope/2.2.2/isotope.pkgd.min.js"></script>
-    <script type="text/javascript" src="/assets/webjars/imagesloaded/3.1.8/imagesloaded.pkgd.min.js"></script>
-        
+    <!-- Compiled and minified JavaScript -->
+    <script type="text/javascript" src="/assets/webjars/materializecss/0.97.5/js/materialize.min.js"></script>
+    <script type="text/javascript" src="/assets/webjars/jquery-validation/1.14.0/jquery.validate.min.js"></script>
+    <script type="text/javascript" src="/assets/js/messages_es.js"> </script>
+
+    <script type="text/javascript" src="/assets/js/utils.js"></script>
+    <script type="text/javascript" src="/assets/js/jquery.rut.min.js"></script>
+
+    <!--REACT LIBRARIES
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/react/15.1.0/react.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/react/15.1.0/react-dom.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+        -->
         <#include "header.ftl.html"/>
         
-        <#if (flash.error)??>
-            <div class="alert alert-danger">
-                ${flash.error}
-            </div>
-        </#if>
         
-        <#if (flash.success)??>
-            <div class="alert alert-success">
-                ${flash.success}
-            </div>
-        </#if>
-
         <#nested/>
 
-        <#include "footer.ftl.html"/>
-        
-   
 
     <script type="text/javascript">
     	$(document).ready(function(){
     		
     		$('.alert-success').fadeOut(4000);
-    		
     	});
+
+        <#if (flash.error)??>
+            Materialize.toast('${flash.error}', 10000);
+                
+        </#if>
+
+        <#if (flash.success)??>
+            Materialize.toast('${flash.success}', 10000);
+        </#if>
+
     </script>
  
 </body>

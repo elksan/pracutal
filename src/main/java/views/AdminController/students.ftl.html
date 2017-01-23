@@ -1,0 +1,27 @@
+
+<div id="studentList" class="row" style="display:none;">
+    <#list students as student>
+        <div class="col s12 m4 l3">
+            <div class="card ">
+                <div class="card-image">
+                    <img class="responsive-img" src="/assets/images/user.png">
+                    <span class="card-title">${student.name} ${student.lastName}</span>
+                </div>
+                <div class="card-content">
+                    ${student.career.careerName}
+                </div>
+                <div class="card-action">
+                    <a href="/viewStudentProfile/${student.id}">Ver Perfil</a>
+                    <a  class="right" href="/editStudent/${student.id}">Editar</a>
+                </div>
+            </div>
+        </div>
+    </#list>
+</div>
+<script type="text/javascript">
+            
+            $(document).ready(function () {
+                $("#studentList").fadeIn(2000);
+            })
+        </script>
+

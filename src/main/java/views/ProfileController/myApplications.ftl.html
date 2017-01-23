@@ -1,0 +1,38 @@
+<#import "../layout/defaultLayout.ftl.html" as layout> 
+<@layout.myLayout "Mis Postulaciones">
+	<div class="container">
+		<div class="row">
+			<div class="col s12">
+				<br>
+				<#list applications>
+					<table class="responsive-table highlight white z-depth-1">
+						<thead>
+							<tr>
+								<th data-field="title">Titulo</th>
+								<th data-field="organization">Empresa</th>
+								<th data-field="status">Estado</th>
+								<th data-field="status">Fecha postulacion</th>
+							</tr>
+						</thead>
+						<tbody>
+							<#items as application>
+								<tr>
+									<td> <a href="/offerDetails/${application.offer.id}">${application.offer.title}</a> </td>
+									<td> <a href="#!">${application.offer.organization.name}</a></td>
+									<td> ${(application.status!"N/A")}</td>
+									<td> ${(application.createdAt!)}</td>
+								</tr>
+							</#items>
+						</tbody>
+
+					</table>
+				<#else>
+						<h2> Usted no ha realizado postulaciones </h2>
+				</#list>
+
+
+			</div>
+		</div>
+	</div>
+
+</@layout.myLayout>

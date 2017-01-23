@@ -1,0 +1,226 @@
+<#import "../layout/defaultLayout.ftl.html" as layout> <@layout.myLayout i18n("title")>
+    <div class="container">
+        <div class="row">
+            <div class="col s12">
+                <div class="card-panel  white margined-top">
+                    <form id="formito" action="/saveStudent" method="post" class="form-horizontal" role="form">
+
+                        <#if student??>
+                            <h4>${i18n("admin.editStudent")}</h4>
+                        <#else>
+                            <h4>${i18n("admin.newStudent")}</h4>
+                        </#if>
+
+                        <br>
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <input id="${i18n('student.name')}" name="name"  type="text" required aria-required="true"
+                                       value="<#if student??>${(student.name)!}</#if>">
+                                <label for="${i18n('student.name')}">${i18n('student.name')}</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <input id="${i18n('student.lastName')}" name="lastName"  type="text" required aria-required="true"
+                                       value="<#if student??>${(student.lastName)!}</#if>">
+                                <label for="${i18n('student.lastName')}">${i18n('student.lastName')}</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <input id="${i18n('student.motherLastName')}" name="motherLastName"  type="text"
+                                       value="<#if student??>${(student.motherLastName)!}</#if>">
+                                <label for="${i18n('student.motherLastName')}">${i18n('student.motherLastName')}</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <input id="${i18n('student.email')}" name="email"  type="email" class="validate"
+                                       value="<#if student??>${(student.email)!}</#if>">
+                                <label for="${i18n('student.email')}">${i18n('student.email')}</label>
+                            </div>
+                        </div>
+                        <#if student ?? && (session.username == student.email) >
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <textarea id="${i18n('student.presentation')}" name="jobObjective"  type="text" class="materialize-textarea validate"
+                                              value="<#if student??>${(student.jobObjective)!}</#if>"></textarea>
+                                    <label for="${i18n('student.presentation')}">${i18n('student.presentation')}</label>
+                                </div>
+                            </div>
+                        </#if>
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <input id="rut" name="rut"  type="text" class="validate"
+                                       value="<#if student??>${(student.rut)!}</#if>">
+                                <label for="rut">${i18n('student.rut')}</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <input id="${i18n('student.registrationNumber')}" name="registrationNumber"  type="text" class="validate"
+                                       value="<#if student??>${(student.registrationNumber)!}</#if>">
+                                <label for="${i18n('student.registrationNumber')}">${i18n('student.registrationNumber')}</label>
+                            </div>
+                        </div>
+                        <h5>${i18n('address.title')}</h5>
+                        <div class="row">
+                            <div class="input-field col s12 m6 l4">
+                                <input id="streetName" name="streetName"  type="text" class="validate"
+                                       value="<#if student??>${(student.address.streetName)!}</#if>">
+                                <label for="streetName">${i18n('address.streetName')}</label>
+                            </div>
+                            <div class="input-field col s12 m6 l4">
+                                <input id="streetNumber" name="streetNumber"  type="number" class="validate"
+                                       value="<#if student??>${(student.address.streetNumber)!}</#if>">
+                                <label for="streetNumber">${i18n('address.streetNumber')}</label>
+                            </div>
+                            <div class="input-field col s12 m6 l4">
+                                <input id="apartmentNumber" name="apartmentNumber"  type="number" class="validate"
+                                       value="<#if student??>${(student.address.apartmentNumber)!}</#if>">
+                                <label for="apartmentNumber">${i18n('student.address.apartmentNumber')}</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-field col s12 m6 l6">
+                                <input id="commune" name="commune"  type="text" class="validate"
+                                       value="<#if student??>${(student.address.commune)!}</#if>">
+                                <label for="commune">${i18n('address.commune')}</label>
+                            </div>
+                            <div class="input-field col s12 m6 l6">
+                                <input id="city" name="city"  type="text" class="validate"
+                                       value="<#if student??>${(student.address.city)!}</#if>">
+                                <label for="city">${i18n('address.city')}</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <input id="${i18n('student.birthDate')}" name="birthDate"  type="date" class="datepicker"
+                                       value="<#if student??>${(student.birthDate)!}</#if>">
+                                <label for="${i18n('student.birthDate')}">${i18n('student.birthDate')}</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <input id="${i18n('student.gender')}" name="gender"  type="text"
+                                       value="<#if student??>${(student.gender)!}</#if>">
+                                <label for="${i18n('student.gender')}">${i18n('student.gender')}</label>
+                            </div>
+                        </div>
+                        <input type="submit" value="${i18n("offer.submit")}" class="btn btn-success pull-right" />
+
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+
+        $("#rut").rut();
+
+        var rutSinDigito;
+        $("#rut").rut().on('rutValido', function(e, rut, dv) {
+            alert("El rut " + rut + "-" + dv + " es correcto");
+
+            rutSinDigito = rut;
+        });
+
+        $('.datepicker').pickadate({
+            selectMonths: true,//Creates a dropdown to control month
+            selectYears: 15,//Creates a dropdown of 15 years to control year
+            //The title label to use for the month nav buttons
+            labelMonthNext: 'Próximo Mes',
+            labelMonthPrev: 'Mes Anterior',
+            //The title label to use for the dropdown selectors
+            labelMonthSelect: 'Seleccione Mes',
+            labelYearSelect: 'Seleccione año',
+            //Months and weekdays
+            monthsFull: [ '${i18n("datepicker.january")!}', '${i18n("datepicker.february")!}', '${i18n("datepicker.march")!}', '${i18n("datepicker.april")!}', '${i18n("datepicker.may")!}', '${i18n("datepicker.june")!}', '${i18n("datepicker.july")!}', '${i18n("datepicker.august")!}', '${i18n("datepicker.september")!}', '${i18n("datepicker.october")!}', '${i18n("datepicker.november")!}', '${i18n("datepicker.december")!}' ],
+            monthsShort: [ '${i18n("datepicker.jan")}', '${i18n("datepicker.feb")}', '${i18n("datepicker.mar")}', '${i18n("datepicker.apr")}', '${i18n("datepicker.may")}', '${i18n("datepicker.jun")}', '${i18n("datepicker.jul")}', '${i18n("datepicker.aug")}', '${i18n("datepicker.sep")}', '${i18n("datepicker.oct")}', '${i18n("datepicker.nov")}', '${i18n("datepicker.dec")}' ],
+            weekdaysFull: [ 'Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sábado' ],
+            weekdaysShort: [ 'Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab' ],
+            //Materialize modified
+            weekdaysLetter: [ 'D', 'L', 'M', 'M', 'J', 'V', 'S' ],
+            //Today and clear
+            today: 'Hoy',
+            clear: 'Limpiar',
+            close: 'Cerrar',
+            //The format to show on the `input` element
+            format: 'd mmmm, yyyy',
+
+        });
+        $(document).ready(function() {
+            $('.progress').hide();
+
+            $.validator.setDefaults({
+                errorClass: 'invalid',
+                validClass: "valid",
+                ignore: '',
+                errorPlacement: function (error, element) {
+                    $(element)
+                            .closest("form")
+                            .find("label[for='" + element.attr("id") + "']")
+                            .attr('data-error', error.text());
+                },
+                submitHandler: function (form) {
+                    console.log('form ok');
+                }
+            });
+
+
+            $('form').validate();
+        });
+
+        $('form').submit(function(e) {
+            $('.progress').show();
+            event.preventDefault();
+            e.returnValue = false;
+
+            var formData = $('form').serializeObject();
+            formData.rut = rutSinDigito;
+            var url = "/addStudent";
+            <#if student??>
+                <#if fromProfile?? && fromProfile>
+                    url = "/updateStudentProfile";
+                <#else>
+                    url = "/updateStudent";
+                </#if>
+            </#if>
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: JSON.stringify(formData),
+                dataType: "json",
+                async: "false",
+                contentType: "application/json"
+            })
+
+                    .done(function(data) {
+                        console.log("success!");
+                        $('.progress').hide();
+                        if (data.redirect) {
+                            // data.redirect contains the string URL to redirect to
+
+                            window.location.replace(data.redirect);
+                        }
+                        else {
+                            // data.form contains the HTML for the replacement form
+                            $("#myform").replaceWith(data.form);
+                        }
+                    })
+
+                    .fail(function (data) {
+                        $('.progress').hide();
+                        // here we will handle errors and validation messages
+                        console.log("error");
+                        console.log(data);
+
+                        Materialize.toast(data.responseJSON.text);
+                    })
+                    .always(function (){
+                    });
+        });
+    </script>
+</@layout.myLayout>

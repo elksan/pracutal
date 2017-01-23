@@ -1,0 +1,252 @@
+<#import "../layout/defaultLayout.ftl.html" as layout> <@layout.myLayout "Ofertas">
+<div class="container">
+
+
+	<div class="row">
+
+		<div class="col s12">
+			<div class="card-panel  white margined-top">
+				<#if selectedOffer??>
+				<form id="editOfferForm" action="/updateOffer" method="post" class="form-horizontal" novalidate>
+
+					<div class="row">
+						<div class="input-field col s12">
+							<h4>${i18n("offer.details")}</h4>
+						</div>
+					</div>
+					<div class="row">
+						<div class="input-field col s12">
+							<input placeholder="${i18n('offer.title.placeholder')}" id="title" name="title"  type="text"
+								   class="validate" required aria-required="true" value="<#if selectedOffer??>${(selectedOffer.title)!}</#if>">
+							<label for="title">${i18n("offer.title")}</label>
+						</div>
+					</div>
+					<div class="row">	
+						<div class="input-field col s12">
+							<textarea id="description" name="description" placeholder="${i18n('offer.description.placeholder')}"
+									  class="validate" required="" aria-required="true"></textarea>
+							<label for="description">${i18n("offer.description")}</label>
+						</div>
+					</div>
+					<div class="row">
+						<div class="input-field col s6">
+							<input id="startDate" name="startDateInternship" type="date" class="datepicker" readonly="false" required
+								   >
+							<label for="startDate">${i18n("offer.startDate")}</label>
+						</div>
+						<div class="input-field col s6">
+							<input id="endDate" name="endDate" type="date" class="datepicker" required
+								   >
+							<label for="endDate">${i18n("offer.endDate")}</label>
+						</div>
+					</div>
+					<div class="row">
+						<div class="input-field col s12 m4 l4">
+							<input type="checkbox" id="locomotion" name="hasLocomotion" value="true" <#if selectedOffer.hasLocomotion> checked </#if>/>
+							<label for="locomotion">${i18n("offer.hasLocomotion")}</label>
+						</div>
+						<div class="input-field col s12 m4 l4">
+							<input type="checkbox" id="income" name="hasIncome" value="true" <#if selectedOffer.hasIncome> checked </#if>/>
+							<label for="income">${i18n("offer.hasIncome")}</label>
+						</div>
+						<div class="input-field col s12 m4 l4">
+							<input type="checkbox" id="lunch" name="hasLunch" value="true" <#if selectedOffer.hasLunch> checked </#if>/>
+							<label for="lunch">${i18n("offer.hasLunch")}</label>
+						</div>
+					</div>					
+					<div class="row">
+						<div class="input-field col s12">
+
+							<select name="offerTypeId" class="validate" required>
+
+								<option value="" disabled <#if !selectedOffer.offerTypeId??> selected </#if> >Seleccione</option>
+								<#list offerTypes as type>
+									<option value="${type.id}" <#if selectedOffer.offerTypeId == type.id> selected </#if> > ${type.name}</option>
+								</#list>
+							</select>
+							<label>${i18n("offer.type")}</label>
+						</div>
+					</div>
+					<div class="row">
+						<div class="input-field col s12">
+							<input type="text" id="offerLocation" name="location" required
+                                   class="validate" aria-required="true" value="${(selectedOffer.location)!}"/>
+							<label for="offerLocation">${i18n("offer.location")}</label>
+						</div>
+					</div>
+					<div class="row">
+						<div class="input-field col s12">
+							<input type="text" id="offerArea" name="area" value="${(selectedOffer.area)!}"/>
+							<label for="offerArea">${i18n("offer.area")}</label>
+						</div>
+					</div>
+					<div class="row">
+						<div class="input-field col s12">
+							<input type="text" id="offerPosition" name="position" value="${(selectedOffer.position)!}"/>
+							<label for="offerPosition">${i18n("offer.position")}</label>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="input-field col s12">
+							<h4>${i18n("offer.requirements")}</h4>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="input-field col s12">
+							<select name="careers" multiple required>
+								<option value="" disabled <#if !selectedOffer.careers??> selected </#if> >Seleccione</option>
+								<#list careers as career>
+									<option value="${career.careerId}" <#if selectedOffer.careers?seq_contains(career.careerId)> selected </#if> >${career.careerName}</option>
+								</#list>
+							</select>
+							<label>${i18n("offer.career")}</label>
+						</div>
+					</div>
+					<div class="row valign-wrapper">
+						<div class="input-field col s6">
+							<input type="number" id="offerLevelRequired" name="minimalLevelRequired" min="1" max="12" value="${(selectedOffer.minimalLevelRequired)!}"/>
+							<label for="offerLevelRequired">${i18n("offer.levelRequired")}</label>
+						</div>
+						<div class="col s6">
+							<span class="valign">Semestre</span>
+						</div>
+					</div>
+					<div class="row">
+						<div class="input-field col s12">
+							<input type="text" id="language" name="language" value="${(selectedOffer.language)!}"/>
+							<label for="language">${i18n("offer.language")}</label>
+						</div>
+					</div>
+					<button type="submit" class="btn waves-effect waves-light">${i18n("offer.submit")}<i class="material-icons right">send</i></button>
+				</form>
+				<#else>
+					<div class="alert alert-error">
+						INVALID offer
+					</div>
+				</#if>
+
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<script type="text/javascript">
+	
+	/*$('.datepicker').pickadate({
+	    selectMonths: true, // Creates a dropdown to control month
+	    selectYears: 15 // Creates a dropdown of 15 years to control year
+	});*/
+
+
+	$('.datepicker').pickadate({
+		selectMonths: true,//Creates a dropdown to control month
+		selectYears: 15,//Creates a dropdown of 15 years to control year
+		//The title label to use for the month nav buttons
+		labelMonthNext: 'Próximo Mes',
+		labelMonthPrev: 'Mes Anterior',
+		//The title label to use for the dropdown selectors
+		labelMonthSelect: 'Seleccione Mes',
+		labelYearSelect: 'Seleccione año',
+		//Months and weekdays
+		monthsFull: [ '${i18n("datepicker.january")!}', '${i18n("datepicker.february")!}', '${i18n("datepicker.march")!}', '${i18n("datepicker.april")!}', '${i18n("datepicker.may")!}', '${i18n("datepicker.june")!}', '${i18n("datepicker.july")!}', '${i18n("datepicker.august")!}', '${i18n("datepicker.september")!}', '${i18n("datepicker.october")!}', '${i18n("datepicker.november")!}', '${i18n("datepicker.december")!}' ],
+		monthsShort: [ '${i18n("datepicker.jan")}', '${i18n("datepicker.feb")}', '${i18n("datepicker.mar")}', '${i18n("datepicker.apr")}', '${i18n("datepicker.may")}', '${i18n("datepicker.jun")}', '${i18n("datepicker.jul")}', '${i18n("datepicker.aug")}', '${i18n("datepicker.sep")}', '${i18n("datepicker.oct")}', '${i18n("datepicker.nov")}', '${i18n("datepicker.dec")}' ],
+		weekdaysFull: [ 'Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sábado' ],
+		weekdaysShort: [ 'Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab' ],
+		//Materialize modified
+		weekdaysLetter: [ 'D', 'L', 'M', 'M', 'J', 'V', 'S' ],
+		//Today and clear
+		today: 'Hoy',
+		clear: 'Limpiar',
+		close: 'Cerrar',
+		//The format to show on the `input` element
+		format: 'd mmmm, yyyy',
+		
+	});
+
+	var $startDatePicker = $('#startDate').pickadate({
+		onSet: function(context) {
+		    console.log('Just set stuff:', context)
+
+
+			var $input = $('#endDate').pickadate();
+			var picker = $input.pickadate('picker');
+
+			picker.set('max', '-1');
+		}
+	});
+
+	var $endDatePicker = $('#endDate').pickadate();
+
+
+	$(document).ready(function() {
+		$('select').material_select();
+//		$('label').addClass('active');
+		tinymce.init({
+			selector: '#description',
+			init_instance_callback : function(editor) {
+				var noescapedDescription = <#noescape>'${selectedOffer.description?js_string}';</#noescape>
+				editor.setContent(noescapedDescription);
+			}
+		});
+		console.log(noescapedDescription);
+
+		var pickerStart = $startDatePicker.pickadate('picker');
+		pickerStart.set('select', "${(selectedOffer.startDateInternshipEdit)!}", { format: 'dd-mm-yyyy' });
+
+		var pickerStart = $endDatePicker.pickadate('picker');
+		pickerStart.set('select', "${(selectedOffer.endDate)!}", { format: 'dd-mm-yyyy' });
+	});
+
+	// Extension pour comptabilité avec materialize.css
+	$.validator.setDefaults({
+		errorClass: 'invalid',
+		validClass: "valid",
+		errorPlacement: function (error, element) {
+			$(element)
+					.closest("form")
+					.find("label[for='" + element.attr("id") + "']")
+					.attr('data-error', error.text());
+
+		}
+	});
+
+	$('form').on('submit',function(e){
+		$(".error_note").remove();
+		var select = $(this).find('select,textarea').filter("[required]");
+		$.each(select , function(index, elm){
+			val = $(this).val();
+			target = $(this).closest('.input-field');
+			if (typeof target !== "undefined") {
+				input_target = target.find('input.select-dropdown');
+				if(input_target.length == 0){
+					input_target = target.find('.note-editor');
+				}
+				if (typeof input_target !== "undefined") {
+					if(val == '' || val == false || val == 0 || val == null){
+
+						input_target.css({'border-color':'rgb(234, 69, 75)','box-shadow':'0 1px 0 0 #EA454B'});
+						input_target.after('<span class="error_note" style="color: #EA454B;font-size: 12px;">${i18n("newOffer.fillThisField")}</span>');
+
+						$('html,body').animate({ scrollTop: $("body").offset().top},'slow' );
+						e.preventDefault();
+
+					}else{
+						input_target.css({'border-color':'#9e9e9e', 'box-shadow':''});
+					}
+
+				}
+			}
+		});
+	});
+
+
+	$('#editOfferForm').validate();
+
+
+
+</script>
+
+</@layout.myLayout>

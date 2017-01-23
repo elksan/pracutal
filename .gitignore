@@ -4,3 +4,12 @@ target/
 .project
 dependency-reduced-pom.xml
 *.log
+*.log.gz
+*idea
+*.tmp
+*.iml
+*.backup
+*.sql
+*.png
+*.jpg
+src/main/java/views/AdminController/react.ftl.html

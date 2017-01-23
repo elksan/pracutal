@@ -1,0 +1,17 @@
+<#import "mailLayout.ftl.html" as layout>
+<@layout.mailLayout>
+
+    <h2>Bienvenido ${user.name} ! </h2>
+    <p>
+        El Centro de Pr&aacute;cticas de la Universidad de Talca le informa que su cuenta para la plataforma de trabajo pr&aacute;ctico, ha sido creada.
+        Por favor, haga click en el siguiente link para as&iacute; ingresar su nueva clave y de esta forma, activar su cuenta.
+        <br>
+        <a href="http://${url}">Activar Cuenta</a>
+        <br>
+        Una vez realizada esta operaci&oacute;n, ser&aacute; redireccionado al login de inicio donde deber&aacute; entrar con su email y su clave que crear&aacute;.
+        <br>
+        Una vez dentro, podr&aacute; editar los campos seg&uacute;n sea su requerimiento.
+
+    </p>
+
+</@layout.mailLayout>

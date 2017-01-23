@@ -48,12 +48,12 @@
 		rgba(0,0,0,0.5),
 		rgba(0,0,0,0.5)
 	), url(/assets/images/barra.jpg) no-repeat top center;
-	height: 700px;
+	height: 40vh;
 	background-size: cover;
 	position:relative;
 }
 
-.title{
+.index-title{
 	top: 50%;
 	left: 50%;
 	position: absolute;
@@ -62,15 +62,30 @@
 	color: white;	
 	
 }
-.title h1{
+
+.login{
+	position: absolute;
+	top: 35vh;
+	left: 50%;
+	transform: translate(-50%);
+	width: 30vw;
+}
+
+.login button{
+	width: 100%;
+}
+/*.title h1{
 		
 	font-weight: 700;
 	font-size: 3em;
-}
+}*/
 
 @media only screen and (max-width: 320px) {
 
-  .title h1 { font-size: 2rem; }
+  	.title h1 { font-size: 2rem; }
+	.login{
+		width: 900%;
+	}
 
 }
 
@@ -82,7 +97,213 @@
 	height : 600px;
 }
 
-body{
+/*body{
 	
 	font-family: 'Lato'
+}
+*/
+
+/*css modifications for materialize.css*/
+
+/*nav ul a, nav i,
+nav .brand-logo {
+  color: #444;
+}*/
+
+.page-footer {
+	margin-top: 0 !important ;
+}
+
+
+.info {
+    padding-left: 32px !important;
+    text-align: left;
+}
+
+
+
+
+
+
+
+.info .section-wrapper {
+    background-color: #ffffff;
+    overflow: hidden;
+    margin-bottom: 24px;
+    padding-bottom: 24px !important;
+}
+
+.info .section-wrapper .section-icon {
+    margin-top: 40px;
+}
+
+
+
+.profile-sidebar {
+    text-align: left;
+    color: #ffffff;
+    background-color: #5da4d9;
+    overflow: hidden;
+    display: block;
+}
+
+.profile-sidebar .icon {
+    margin-top: 40px;
+}
+
+.heading{
+	position: relative;
+	background-color: white;
+}
+.profile-sidebar .heading .name {
+    position: absolute;
+    right: 11px;
+    bottom: 46px;
+	text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+
+.container-general {
+    margin-top: 24px; 
+}
+
+.section span{
+	opacity: 0.7;
+}
+
+.margined-top{
+	
+	margin-top: 40px;
+}
+
+body{
+	background-color: #f2f2f2;
+	/* #eae8e7;*/ 
+}
+
+.chip.indigo{
+	color: #ffffff;
+}
+
+/*
+.collection .collection-item.active{
+
+	background-color: #ffffff;
+	color: rgba(0,0,0,0.87);
+}
+*/
+
+#offerBlock .fixed-action-btn{
+	position: static !important;
+}
+
+/*This is for preventing calls in the <a> element when in disabled class*/
+a.disabled {
+	pointer-events: none;
+	cursor: default;
+}
+
+/*JQUERY VALIDATION PLUGIN FIXES for error messages https://github.com/Dogfalo/materialize/issues/1562*!*/
+/*label {
+width: 100%;
+}
+.input-field label {
+
+	font-size: 0.8rem;
+	-webkit-transform: translateY(-140%);
+	-moz-transform: translateY(-140%);
+	-ms-transform: translateY(-140%);
+	-o-transform: translateY(-140%);
+	transform: translateY(-140%);
+}*/
+/*END JQUeRY VALIDATION */
+
+/*label:after {
+	transition-property: all !important;
+	font-size: 0.8rem;
+	transform: none;
+}
+label:not(.active):after {
+	transform: translateY(-140%);
+}*/
+
+
+form label {
+	width: 100%;
+}
+
+li span label{
+	width: inherit;
+}
+label:after {
+	-moz-transition-property: all !important;
+	-o-transition-property: all !important;
+	-webkit-transition-property: all !important;
+	transition-property: all !important;
+	font-size: 0.8rem;
+	-moz-transform: none;
+	-ms-transform: none;
+	-o-transform: none;
+	-webkit-transform: none;
+	transform: none;
+}
+
+label:not(.active):after {
+	-moz-transform: translateY(-140%);
+	-ms-transform: translateY(-140%);
+	-o-transform: translateY(-140%);
+	-webkit-transform: translateY(-140%);
+	transform: translateY(-140%);
+}
+.loader{
+
+	height: 50px;
+	width: 60px;
+}
+#toast-container .toast {
+	cursor: pointer;
+}
+
+.admin-menu{
+	z-index: inherit;
+	margin-top: 64px;
+	color: #000;
+}
+main, footer{
+
+	padding-left: 240px;
+
+}
+
+.progress{
+	margin: 0;
+	background-color: rgba(255,64,129,0.22);
+}
+.progress .indeterminate{
+	background-color: deeppink;
+}
+.offer-item{
+	width: 100%;
+}
+
+@media only screen and (max-width: 992px){
+	.info {
+	    text-align: center;
+	    margin-top: 30px;
+	    padding-left: 0.75rem !important;
+	
+	}
+
+	.profile-sidebar{
+
+		text-align: center;
+	}
+
+
+	main, footer {
+		padding-left: 0;
+	}
+
+	.login{
+		width: 90%;
+	}
 }

@@ -1,0 +1,329 @@
+<#import "../layout/defaultLayout.ftl.html" as layout> <@layout.myLayout "Ofertas">
+<div class="container">
+
+
+	<div class="row">
+
+		<div class="col s12">
+			<div class="card-panel  white margined-top">
+				<form id="newOfferForm" <#if selectedOffer??>action="/updateOffer"<#else>action="/saveOffer"</#if> method="post" class="form-horizontal" novalidate>
+
+
+					<div id="errors">
+					</div>
+
+					<div class="row">
+						<div class="input-field col s12">
+							<h4>${i18n("offer.details")}</h4>
+						</div>
+					</div>
+					<div class="row">
+						<div class="input-field col s12">
+							<input id="${i18n('offer.title')}" name="title"  type="text" <#if selectedOffer??>value="${(selectedOffer.title)!}"</#if>
+								    required="" aria-required="true">
+							<label for="${i18n('offer.title')}" <#if selectedOffer??> class="active"</#if>>Nombre</label>
+						</div>
+					</div>
+					<div class="row">	
+						<div class="input-field col s12">
+							<textarea id="${i18n('offer.description')}" name="description" placeholder="${i18n('offer.description.placeholder')}"
+									  class="validate"></textarea><br/>
+							<label for="${i18n('offer.description')}" <#if selectedOffer??> class="active"</#if>>${i18n("offer.description")}</label>
+						</div>
+					</div>
+					<div class="row">
+						<div class="input-field col s6">
+							<input id="startDate" name="startDateInternship" type="date" class="datepicker" readonly="false" required>
+							<label for="startDate">${i18n("offer.startDate")}</label>
+						</div>
+						<div class="input-field col s6">
+							<input id="endDate" name="endDate" type="date" class="datepicker" required>
+							<label for="endDate">${i18n("offer.endDate")}</label>
+						</div>
+					</div>
+					<div class="row">
+						<div class="input-field col s12 m4 l4">
+							<input type="checkbox" id="locomotion" name="hasLocomotion" value="true" <#if selectedOffer?? && selectedOffer.hasLocomotion> checked </#if>/>
+							<label for="locomotion">${i18n("offer.hasLocomotion")}</label>
+						</div>
+						<div class="input-field col s12 m4 l4">
+							<input type="checkbox" id="income" name="hasIncome" value="true" <#if selectedOffer?? && selectedOffer.hasIncome> checked </#if>/>
+							<label for="income">${i18n("offer.hasIncome")}</label>
+						</div>
+						<div class="input-field col s12 m4 l4">
+							<input type="checkbox" id="lunch" name="hasLunch" value="true" <#if selectedOffer?? && selectedOffer.hasLunch> checked </#if>/>
+							<label for="lunch">${i18n("offer.hasLunch")}</label>
+						</div>
+					</div>
+					<br/>
+					<div class="row">
+						<div class="input-field col s12">
+							<select id="offerId" name="offerTypeId" class="validate" required>
+								<option value="" disabled <#if selectedOffer??> <#if !selectedOffer.offerTypeId??> selected </#if> <#else>selected</#if>>Seleccione</option>
+								<#list offerTypes as type>
+									<option value="${type.id}" <#if selectedOffer?? && selectedOffer.offerTypeId == type.id> selected </#if>>${type.name}</option>
+								</#list>
+							</select>
+							<label for="offerId">${i18n("offer.type")}</label>
+						</div>
+					</div>
+					<#if organizations??>
+						<div class="row">
+							<div class="input-field col s12">
+								<select id="organizationId" name="organizationId" class="validate" required>
+									<option value="" disabled selected>Seleccione</option>
+									<#list organizations as organization>
+										<option value="${organization.id}">${organization.name}</option>
+									</#list>
+								</select>
+								<label for="organizationId">Empresa</label>
+							</div>
+						</div>
+					</#if>
+					<div class="row">
+						<div class="input-field col s12">
+							<input type="text" id="offerLocation" name="location" required value="${(selectedOffer.location)!}"
+                                   class="validate" aria-required="true"/>
+							<label for="offerLocation" <#if selectedOffer??> class="active"</#if>>${i18n("offer.location")}</label>
+						</div>
+					</div>
+					<div class="row">
+						<div class="input-field col s12">
+							<input type="text" id="offerArea" name="area" value="${(selectedOffer.area)!}"/>
+							<label for="offerArea" <#if selectedOffer??> class="active"</#if>>${i18n("offer.area")}</label>
+						</div>
+					</div>
+					<div class="row">
+						<div class="input-field col s12">
+							<input type="text" id="offerPosition" name="position" value="${(selectedOffer.position)!}"/>
+							<label for="offerPosition" <#if selectedOffer??> class="active"</#if>>${i18n("offer.position")}</label>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="input-field col s6">
+							<input id="startDateAvailable" name="startDateAvailable" type="date" class="datepicker" readonly="false" required>
+							<label for="startDateAvailable">${i18n("offer.startDateAvailable")}</label>
+						</div>
+						<div class="input-field col s6">
+							<input id="endDateAvailable" name="endDateAvailable" type="date" class="datepicker" required>
+							<label for="endDateAvailable">${i18n("offer.endDateAvailable")}</label>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="input-field col s12">
+							<h4>${i18n("offer.requirements")}</h4>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="input-field col s12">
+							<select name="careers" multiple required>
+								<option value="" disabled <#if selectedOffer?? && !selectedOffer.careers??> selected </#if>>Seleccione</option>
+								<#list careers as career>
+									<option value="${career.careerId}" <#if selectedOffer?? && selectedOffer.careers?seq_contains(career.careerId)> selected </#if>>${career.careerName}</option>
+								</#list>
+							</select>
+							<label>${i18n("offer.career")}</label>
+						</div>
+					</div>
+					<div class="row valign-wrapper">
+						<div class="input-field col s6">
+							<input type="number" id="offerLevelRequired" name="minimalLevelRequired" min="1" max="12" value="${(selectedOffer.minimalLevelRequired)!}"/>
+							<label for="offerLevelRequired" <#if selectedOffer??> class="active"</#if>>${i18n("offer.levelRequired")}</label>
+						</div>
+						<div class="col s6">
+							<span class="valign">Semestre</span>
+						</div>
+					</div>
+					<div class="row">
+						<div class="input-field col s12">
+							<input type="text" id="language" name="language" value="${(selectedOffer.language)!}"/>
+							<label for="language">${i18n("offer.language")}</label>
+						</div>
+					</div>
+					<button type="submit" class="btn waves-effect waves-light">${i18n("offer.submit")}<i class="material-icons right">send</i></button>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+	<script type="text/javascript">
+
+	$('.datepicker').pickadate({
+		selectMonths: true,//Creates a dropdown to control month
+		selectYears: 15,//Creates a dropdown of 15 years to control year
+		//The title label to use for the month nav buttons
+		labelMonthNext: 'Próximo Mes',
+		labelMonthPrev: 'Mes Anterior',
+		//The title label to use for the dropdown selectors
+		labelMonthSelect: 'Seleccione Mes',
+		labelYearSelect: 'Seleccione año',
+		//Months and weekdays
+		monthsFull: [ '${i18n("datepicker.january")!}', '${i18n("datepicker.february")!}', '${i18n("datepicker.march")!}', '${i18n("datepicker.april")!}', '${i18n("datepicker.may")!}', '${i18n("datepicker.june")!}', '${i18n("datepicker.july")!}', '${i18n("datepicker.august")!}', '${i18n("datepicker.september")!}', '${i18n("datepicker.october")!}', '${i18n("datepicker.november")!}', '${i18n("datepicker.december")!}' ],
+		monthsShort: [ '${i18n("datepicker.jan")}', '${i18n("datepicker.feb")}', '${i18n("datepicker.mar")}', '${i18n("datepicker.apr")}', '${i18n("datepicker.may")}', '${i18n("datepicker.jun")}', '${i18n("datepicker.jul")}', '${i18n("datepicker.aug")}', '${i18n("datepicker.sep")}', '${i18n("datepicker.oct")}', '${i18n("datepicker.nov")}', '${i18n("datepicker.dec")}' ],
+		weekdaysFull: [ 'Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sábado' ],
+		weekdaysShort: [ 'Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab' ],
+		//Materialize modified
+		weekdaysLetter: [ 'D', 'L', 'M', 'M', 'J', 'V', 'S' ],
+		//Today and clear
+		today: 'Hoy',
+		clear: 'Limpiar',
+		close: 'Cerrar',
+		//The format to show on the `input` element
+		format: 'd mmmm, yyyy',
+		
+	});
+
+	var startDateInput = $('#startDate').pickadate();
+	var endDateInput = $('#endDate').pickadate();
+
+	var pickerStart = startDateInput.pickadate('picker');
+	var pickerEnd = endDateInput.pickadate('picker');
+
+	var startDateAvailable = $('#startDateAvailable').pickadate('picker');
+	var endDateAvailable = $('#endDateAvailable').pickadate('picker');
+
+	if ( startDateInput.get('value') ) {
+		pickerEnd.set('min', pickerStart.get('select'))
+	}
+	if ( pickerEnd.get('value') ) {
+		startDateInput.set('max', pickerEnd.get('select'))
+	}
+
+	// When something is selected, update the “from” and “to” limits.
+	pickerStart.on('set', function(event) {
+		if ( event.select ) {
+			pickerEnd.set('min', pickerStart.get('select'))
+		}
+		else if ( 'clear' in event ) {
+			pickerEnd.set('min', false)
+		}
+	})
+	pickerEnd.on('set', function(event) {
+		if ( event.select ) {
+			pickerStart.set('max', pickerEnd.get('select'))
+		}
+		else if ( 'clear' in event ) {
+			pickerStart.set('max', false)
+		}
+	})
+
+	$(document).ready(function() {
+		$('select').material_select();
+		tinymce.init({
+			selector: '#${i18n('offer.description')}',
+			init_instance_callback : function(editor) {
+				var noescapedDescription = <#if selectedOffer??><#noescape>'${selectedOffer.description?js_string}';</#noescape></#if>
+				editor.setContent(noescapedDescription);
+			}
+		});
+
+		<#if selectedOffer??>
+
+			pickerStart.set('select', "${(selectedOffer.startDateInternshipEdit)!}", { format: 'dd-mm-yyyy' });
+
+
+			pickerEnd.set('select', "${(selectedOffer.endDate)!}", { format: 'dd-mm-yyyy' });
+			startDateAvailable.set('select', "${(selectedOffer.endDate)!}", { format: 'dd-mm-yyyy' });
+			endDateAvailable.set('select', "${(selectedOffer.endDate)!}", { format: 'dd-mm-yyyy' });
+
+		</#if>
+		/*$.ajax({
+			url: "/getOrganizationsJSON",
+			type: "get",
+			async: false,
+			dataType: "json"
+		})
+				.done(function(data) {
+
+					console.log("success!");
+
+
+				});
+*/
+		/*$('#organizationId').autocomplete({
+			data: {
+
+
+			}
+		});*/
+		$('#newOfferForm').validate({
+			errorClass: 'invalid',
+			errorPlacement: function (error, element) {
+				element.next("label").attr("data-error", error.contents().text());
+			},
+			submitHandler: function (form) {
+				$.ajax({
+					url: "/validateOffer",
+					type: "post",
+					data: $('#newOfferForm').serializeObject(),
+					dataType: "json"
+				})
+				// using the done promise callback
+						.done(function(data) {
+
+							// log data to the console so we can see
+							console.log("success!");
+
+							//clearing handler
+							$('form').off('submit');
+
+							//actually submit the form
+							$('form').submit();
+
+						})
+						.fail(function (data) {
+							// here we will handle errors and validation messages
+							console.log("error");
+							console.log(data);
+
+							var errorInfo = "";
+							$.each(data.responseJSON.violations, function (key, value) {
+
+								if($("[name='" + value.field + "']").attr("id") == null){
+									Materialize.toast($("[name='" + value.field + "']:eq(1)").attr("id") + " " + value.constraintViolation.messageKey, 10000);
+								}else {
+									Materialize.toast($("[name='" + value.field + "']").attr("id") + " " + value.constraintViolation.messageKey, 10000);
+								}
+
+							});
+
+						})
+						.always(function (){
+							$('.progress').hide();
+						});
+			}
+		});
+	});
+
+
+
+	$('form').submit(function (e) {
+
+		// stop the form from submitting the normal way and refreshing the page
+		event.preventDefault();
+		e.returnValue = false;
+		$('.progress').show();
+		tinyMCE.triggerSave();
+
+		$('form').valid();
+
+		$('.progress').hide();
+
+
+
+
+		$(document).on('click', '#toast-container .toast', function() {
+			$(this).fadeOut(function(){
+				$(this).remove();
+			});
+		});
+	});
+
+
+
+</script>
+
+</@layout.myLayout>

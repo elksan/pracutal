@@ -1,49 +1,66 @@
 package models;
 
-import java.util.Date;
+import vo.StudentVO;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import java.util.Date;
+import java.util.List;
+
+import javax.persistence.*;
 
 @Entity
-public class Student {
-	
-	private String address;
+@NamedEntityGraphs({
+
+		@NamedEntityGraph(name = "studentWithCareer",
+				attributeNodes = {
+						@NamedAttributeNode(value = "career")
+				}
+		),
+		@NamedEntityGraph(name = "studentWithAddressAndCareer",
+				attributeNodes = {
+						@NamedAttributeNode(value = "address"),
+						@NamedAttributeNode(value = "career")
+				}
+		)
+})
+
+public class Student extends User {
 	private Date birthdate;
-	private String city;
-	private String communeId;
-	private Date createdAt;
 	private Integer entryYear;
 	private Integer rut;
 	private Integer phoneNumber;
 	private Integer internshipsApproved;
 	private Integer priorityScore;
-	private Integer regionId;
-	private String citizenship;
 	private String gender;
-	private Date updateAt;	
 	private String jobObjective;
 	private Integer registrationNumber;
-	
-	private User user;
+	private String lastName;
+	private String motherLastName;
 	private Career career;
-	
+	private String curriculum;
+	private List<Application> applications;
+	private List<Internship> internships;
 
-	
-	public String getAddress() {
-		return address;
+	public Student(){
+		this.internshipsApproved = 0;
+		this.priorityScore = 0;
 	}
-	public void setAddress(String address) {
-		this.address = address;
+
+	public Student(StudentVO studentVO) {
+
+		this.entryYear = Integer.parseInt(studentVO.getRegistrationNumber().toString().substring(0,4));
+		this.phoneNumber = studentVO.getPhoneNumber();
+		this.rut = studentVO.getRut();
+		this.internshipsApproved = 0;
+		this.priorityScore = 0;
+		this.gender = studentVO.getGender();
+		this.registrationNumber = studentVO.getRegistrationNumber();
+		this.name = studentVO.getName();
+		this.lastName = studentVO.getLastName();
+		this.motherLastName = studentVO.getMotherLastName();
+		this.email = studentVO.getEmail();
+		this.curriculum = studentVO.getCurriculum();
 	}
-	
+
 	@Temporal(TemporalType.DATE)
 	public Date getBirthdate() {
 		return birthdate;
@@ -51,30 +68,7 @@ public class Student {
 	public void setBirthdate(Date birthdate) {
 		this.birthdate = birthdate;
 	}
-	
-	public String getCity() {
-		return city;
-	}
-	public void setCity(String city) {
-		this.city = city;
-	}
-	
-	@Column(name="commune_id")
-	public String getCommuneId() {
-		return communeId;
-	}
-	public void setCommuneId(String communeId) {
-		this.communeId = communeId;
-	}
-	
-	@Column(name="created_at")
-	public Date getCreatedAt() {
-		return createdAt;
-	}
-	public void setCreatedAt(Date createdAt) {
-		this.createdAt = createdAt;
-	}
-	
+
 	@Column(name="entry_year")
 	public Integer getEntryYear() {
 		return entryYear;
@@ -82,8 +76,7 @@ public class Student {
 	public void setEntryYear(Integer entryYear) {
 		this.entryYear = entryYear;
 	}
-	
-	@Id
+
 	@Column(name="rut")
 	public Integer getRut() {
 		return rut;
@@ -91,7 +84,23 @@ public class Student {
 	public void setRut(Integer rut) {
 		this.rut = rut;
 	}
-	
+
+	@Column(name="last_name")
+	public String getLastName() {
+		return lastName;
+	}
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	@Column(name="mother_last_name")
+	public String getMotherLastName() {
+		return motherLastName;
+	}
+	public void setMotherLastName(String motherLastName) {
+		this.motherLastName = motherLastName;
+	}
+
 	@Column(name="phone_number")
 	public Integer getPhoneNumber() {
 		return phoneNumber;
@@ -115,44 +124,14 @@ public class Student {
 	public void setPriorityScore(Integer priorityScore) {
 		this.priorityScore = priorityScore;
 	}
-	
-	@Column(name="region_id")
-	public Integer getRegionId() {
-		return regionId;
-	}
-	public void setRegionId(Integer regionId) {
-		this.regionId = regionId;
-	}
-	
-	@Column(name="updated_at")
-	public Date getUpdateAt() {
-		return updateAt;
-	}	
-	public void setUpdateAt(Date updateAt) {
-		this.updateAt = updateAt;
-	}
-	
-	@OneToOne(fetch=FetchType.LAZY)
-	@PrimaryKeyJoinColumn
-	public User getUser() {
-		return user;
-	}
-	public void setUser(User user) {
-		this.user = user;
-	}
-	public String getCitizenship() {
-		return citizenship;
-	}
-	public void setCitizenship(String citizenship) {
-		this.citizenship = citizenship;
-	}
+
 	public String getGender() {
 		return gender;
 	}
 	public void setGender(String gender) {
 		this.gender = gender;
 	}
-	
+
 	@Column(name="job_objective")
 	public String getJobObjective() {
 		return jobObjective;
@@ -160,7 +139,7 @@ public class Student {
 	public void setJobObjective(String jobObjective) {
 		this.jobObjective = jobObjective;
 	}
-	
+
 	@Column(name="registration_number")
 	public Integer getRegistrationNumber() {
 		return registrationNumber;
@@ -168,13 +147,39 @@ public class Student {
 	public void setRegistrationNumber(Integer registrationNumber) {
 		this.registrationNumber = registrationNumber;
 	}
-	
-	@OneToOne(fetch=FetchType.LAZY)
+
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="career_id", unique=true, nullable=false)
 	public Career getCareer() {
 		return career;
 	}
 	public void setCareer(Career career) {
 		this.career = career;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "student")
+	public List<Application> getApplications() {
+		return applications;
+	}
+
+	public void setApplications(List<Application> applications) {
+		this.applications = applications;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "student")
+	public List<Internship> getInternships() {
+		return internships;
+	}
+
+	public void setInternships(List<Internship> internships) {
+		this.internships = internships;
+	}
+
+	public String getCurriculum() {
+		return curriculum;
+	}
+
+	public void setCurriculum(String curriculum) {
+		this.curriculum = curriculum;
 	}
 }

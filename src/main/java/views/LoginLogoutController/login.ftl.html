@@ -1,48 +1,56 @@
-<#import "../layout/defaultLayout.ftl.html" as layout> <@layout.myLayout "Home page">
 
-<style type="text/css">
-	body { 
-	  padding-top: 60px; 
-	  padding-bottom: 40px; 
-	} 
-</style>
 
-<div class="container">
-	<div class="alert alert-info">
-		<b>Pssst.</b> Default user is "bob@gmail.com" / password is "secret".
-	</div>
+	<!--<div class="row login">-->
 
-	<!-- Example row of columns -->
-	<div class="row">
-		<div class="col-lg-8">
+		<!--<div class="col s12">-->
+			<div class="card-panel hoverable login darken-1">
 
-			<form action="/login" method="post" class="form-horizontal" role="form">
-			
-			    <div class="form-group">
-                    <label for="username" class="col-lg-4 control-label">${i18n("login.username")}</label>
-                    <div class="col-lg-8">
-                        <input type="text" id="username" class="form-control" value="${(flash.username)!""}" name="username" id="username">
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <label for="password" class="col-lg-4 control-label">${i18n("login.password")}</label>
-                    <div class="col-lg-8">
-                        <input type="password" class="form-control" name="password" id="password" value="${(flash.password)!""}">
-                    </div>
-                </div>
-			
-				<button type="submit" class="btn btn-success pull-right">${i18n("login.loginNowButton")}</button>
-			</form>
+				<form action="/login" method="post" class="form-horizontal" role="form" onsubmit="loading()">
 
-		</div>
-	</div>
-</div>
+				    <div class="row">
+
+				    	<div class="input-field col s12">
+				    		<label for="username">${i18n("login.username")}</label>
+				    		<input type="text" id="username" required="true" class="validate" value="${(flash.username)!""}" name="username" id="username">
+				    	</div>
+	                </div>
+	                
+	                <div class="row">
+	                	<div class="input-field col s12">
+		                    <label for="password">${i18n("login.password")}</label>
+		                    <input type="password" class="validate" required="true" name="password" id="password" value="${(flash.password)!""}">	                 
+	                    </div>
+	                </div>
+					<div class="row">
+						<div class="input-field col s12">
+							<input type="checkbox" name="rememberMe" id="rememberMe">
+							<label for="rememberMe">${i18n("login.rememberMe")}</label>
+						</div>
+					</div>
+					<div class="row">
+						<div class="input-field col s12">
+							<button type="submit" class="btn pink waves-effect waves-light">${i18n("login.loginNowButton")}</button>
+						</div>
+					</div>
+				</form>
+			<div>
+		<!--</div>-->
+	<!--</div>-->
+
+
+
 
 	<script type="text/javascript">
 		$(document).ready(function(){
-			
-			$('#username').focus();
+
+			$('.navbar-fixed li.active').removeClass('active');
+			$('#menus #login-btn').addClass('active');
 		});
+
+		function loading(){
+			$('.progress').show();
+			var submitButton = $('button[type=submit]');
+			submitButton.text("cargando...");
+			submitButton.addClass("disabled");
+		}
 	</script>
-</@layout.myLayout>

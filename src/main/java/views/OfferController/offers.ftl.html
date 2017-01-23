@@ -3,52 +3,157 @@
 
 <div class="container">
 	
-	
-	<div class="grid">
-	<#list offers as offer>
-		
-		<div class="grid-item">
-			<div class="thumbnail">
-				<img alt="" src="">
-				<div class="caption">
-					<h3>Nombre Oferta</h3>
-					<p>${offer.description}</p>
-					<p><a href="/" class="btn btn-primary">Ver Más</a>
-				</div>
-			</div>	
+	<div class="row">
+        <div class="col s12 m4 l3">
+            <div id="aside">
+                <br/>
+                <div id="filters" class="collection z-depth-1">
+                    <a id="showAll" class="collection-item active" data-filter="*">${i18n("offers.showAll")}<span class="badge">${offers?size}</span></a>
+
+                    <#list offerTypes as offerType>
+                        <a href="#!" class="collection-item" data-filter="${offerType.id}">${offerType.name}<span class="badge">${offerType.offersAvailable}</span></a>
+                        <#else>
+                    </#list>
+                </div>
+            </div>
+        </div>
+        <div class="col s12 m8 l9">
+            <br>
+            <div id="offerButtonList">
+                <#if session.role == "4"|| session.role == "1">
+                    <a id="openOffersBtn" data-filter="open" class="waves-effect waves-light btn">Ofertas Vigentes</a>
+                    <a id="closedOffersBtn" data-filter="closed" class="waves-effect waves-light btn">Ofertas Cerradas</a>
+                <#elseif session.role == "3">
+                    <a href="/myApplications" class="waves-effect waves-light btn">Mis Postulaciones</a>
+                </#if>
+                <a href="/newOffer" class="waves-effect waves-light btn"><#if session.role == "3">${i18n("offer.newExternal")}<#else>${i18n("offer.new")}</#if></a>
+            </div>
+            <#list offers>
+                <ul id="offerList" class="collection z-depth-1">
+                    <#items  as offer>
+                        <li id="offerBlock" class="collection-item offer-item avatar" data-type="${offer.offerType.id}" data-closed="${offer.closed?c}" data-id="${offer.organization.id}">
+                            <div class="row">
+                                <img
+                                <#if offer.organization.profilePhotoPath??>src="/assets/uploadedContent/${offer.organization.profilePhotoPath}"
+                                <#else>src="/assets/images/company-logo.jpg"
+                                </#if> alt="" class="circle">
+                                <h5>${offer.title}</h5>
+                                <p>
+                                    <strong>${(offer.organization.name)!"N/A"}</strong> en ${offer.location}
+                                </p>
+                                <br>
+                                <div class="chip indigo">
+                                    ${offer.offerType.name}
+                                </div>
+                                <div class="row secondary-content">
+                                    <div class="col s4">
+                                        <a href="/offerDetails/${offer.id}" class="tooltipped"
+                                           data-position="left" data-delay="50" data-tooltip="${i18n("offer.seeDetails")}"><i class="material-icons right">pageview</i></a>
+                                    </div>
+                                    <#if session.role == "1" || session.role == "4" || (session.role == "2" && session.userId == offer.organization.id?c)>
+                                        <div class="col s4">
+                                            <a href="/deleteOffer/${offer.id}" class="tooltipped <#if session.role == "2" && offer.approved>disabled</#if>"
+                                            data-position="left" data-delay="50" data-tooltip="${i18n("offer.delete")}"><i class="material-icons right">delete</i></a>
+                                        </div>
+                                        <div class="col s4">
+                                            <a href="/editOffer/${offer.id}" class="tooltipped <#if session.role == "2" && offer.approved>disabled</#if>"
+                                            data-position="left" data-delay="50" data-tooltip="${i18n("offer.edit")}"><i class="material-icons right">edit</i></a>
+                                        </div>
+                                    </#if>
+                                </div>
+                            </div>
+                        </li>
+                    </#items>
+                </ul>
+            <#else>
+                <p>No hay ofertas disponibles</p>
+            </#list>
+            </div>
 		</div>
-		
-	<#else>
-  		<p>No users</p>
-	</#list>
-	
-	
-	 
-		
-		
 	</div>
+
+    <!-- Modal Structure -->
+    <div id="deleteOffer" class="modal">
+        <div class="modal-content">
+            <h4>${i18n("offers.deleteOffer")}</h4>
+            <p>${i18n("offers.deleteOfferMessage")}</p>
+        </div>
+        <div class="modal-footer">
+            <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">${i18n("offers.offerDeleteAccept")}</a>
+        </div>
+    </div>
+
 </div>
+<script type="text/javascript">
+    $(document).ready(function() {
+
+        $('.navbar li.active').removeClass('active');
+        $('#menus #offers-btn').addClass('active');
 
 
- 	<script type="text/javascript">
-		$(document).ready(function(){
-			
-			$('.navbar li.active').removeClass('active');
-			$('#menus #offers-btn').addClass('active');
-			
-			var $grid = $('.grid').isotope({
-    			itemSelector: '.grid-item',
-    			masonry: {
-    				columnWidth: 50
-    			}
-    		});
-			
-    		$grid.imagesLoaded().progress( function() {
-    			  $grid.isotope('layout');
-    			});
-				 
-		});	
-	</script>
-	
-	
+    });
+       // init Isotope
+    var $grid = $('#offerList').isotope({
+        itemSelector: '.offer-item',
+        layoutMode: 'vertical'
+    });
+
+    /*$('#filters a').on('click', function() {
+     $(this).toggleClass(
+     "active");
+     });*/
+
+    // filter functions
+    var filterFns = {
+
+        1: function() {
+            var type = $(this).data('type');
+            return type == '1';
+        },
+        2: function() {
+            var type = $(this).data('type');
+            return type == '2';
+        },
+        3: function() {
+            var type = $(this).data('type');
+            return type == '3';
+        },
+        4: function() {
+            var type = $(this).data('type');
+            return type == '4';
+        },
+        5: function() {
+            var type = $(this).data('type');
+            return type == '5';
+        },
+        open: function() {
+            var closed = $(this).data('closed');
+            return !closed;
+        },
+        closed: function() {
+            var closed = $(this).data('closed');
+            return closed;
+        },
+    };
+
+    // bind filter button click
+    $('#filters').on( 'click', 'a', function() {
+        var filterValue = $( this ).data('filter');
+        // use filterFn if matches value
+        filterValue = filterFns[ filterValue ] || filterValue;
+        $grid.isotope({ filter: filterValue });
+
+        $('#filters a').removeClass('active');
+        $(this).addClass('active');
+    });
+
+    $('#offerButtonList').on( 'click', 'a[data-filter]', function() {
+        var filterValue = $( this ).data('filter');
+        // use filterFn if matches value
+        filterValue = filterFns[ filterValue ] || filterValue;
+        $grid.isotope({ filter: filterValue });
+    });
+
+
+</script>
 </@layout.myLayout>

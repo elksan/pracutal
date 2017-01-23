@@ -1,0 +1,212 @@
+	<#import "../layout/defaultLayout.ftl.html" as layout>
+	<@layout.myLayout "Home page">
+
+	<div id="profile" class="container container-general">
+		<div class="row">
+
+			<aside class="col l4 s12 m12 profile-sidebar z-depth-1">
+
+				<div class="row">
+					<div class="heading">
+						<div class="center-align">
+							<img id="avatar" class="responsive-img"
+							<#if organization.profilePhotoPath??>src="/assets/uploadedContent/${organization.profilePhotoPath}"
+							<#else>src="/assets/images/company-logo.jpg"
+							</#if> >
+						</div>
+					</div>
+					<div class="col l12 m12 s12 ">
+						<div class="row">
+							<div class="col m12 s12 l3 center">
+								<i class="material-icons icon">profile</i>
+							</div>
+							<div class="col m12 s12 l9">
+								<div class="section">
+									<h5>${(organization.name)!}</h5>
+									<span>${i18n("profile.name")}</span>
+								</div>
+								<div class="divider"></div>
+							</div>
+						</div>
+					</div>
+					<div class="col l12 m12 s12 ">
+						<div class="row">
+							<div class="col m12 s12 l3 center">
+							   <i class="material-icons icon">phone</i>
+							</div>
+							<div class="col m12 s12 l9">
+								<div class="section">
+									<h5>${(organization.phoneNumber)!}</h5>
+									<span>${i18n("profile.phone")}</span>
+								</div>
+								<div class="divider"></div>
+							</div>
+						</div>
+					</div>
+					<div class="col l12 m12 s12 ">
+						<div class="row">
+							<div class="col m12 s12 l3 center">
+							   <i class="material-icons icon">mail</i>
+							</div>
+							<div class="col m12 s12 l9">
+								<div class="section">
+									<h5>${(organization.email)!}</h5>
+									<span>${i18n("profile.email")}</span>
+								</div>
+								<div class="divider"></div>
+							</div>
+						</div>
+					</div>
+					<div class="col l12 m12 s12 ">
+						<div class="row">
+							<div class="col m12 s12 l3 center">
+							   <i class="material-icons icon">home</i>
+							</div>
+							<div class="col m12 s12 l9">
+								<div class="section">
+									<h5>${(organization.address.streetName)!} #${(organization.address.streetNumber)!}</h5>
+									<span>${i18n("profile.address")}</span>
+								</div>
+								<#if (organization.address.apartmentNumber)??>
+									<div class="section">
+										<h5>${(organization.address.apartmentNumber)}</h5>
+										<span>${i18n("profile.officeNumber")}</span>
+									</div>
+								</#if>
+								<#if (organization.address.commune)??>
+									<div class="section">
+										<h5>${(organization.address.commune)}</h5>
+										<span>${i18n("profile.commune")}</span>
+									</div>
+								</#if>
+								<div class="section">
+									<h5>${(organization.address.city)!}</h5>
+									<span>${i18n("profile.city")}</span>
+								</div>
+								<div class="divider"></div>
+
+
+							</div>
+						</div>
+					</div>
+				 </div>
+			</aside>
+			<section  class="col l8 s12 m12 info">
+				<div class="row">
+					<div class="section-wrapper z-depth-1">
+						<div class="section-icon col s12 m12 l2 center">
+							<i class="material-icons medium">info</i>
+						</div>
+						<div class="col s12 m12 l10">
+							<h4>${i18n("profile.description")}</h4>
+							<div class="section">
+								<#noescape>${organization.description!}</#noescape>
+							</div>
+						</div>
+					</div>
+					<div class="section-wrapper z-depth-1">
+						<div class="section-icon col s12 m12 l2 center">
+							<i class="material-icons medium">work</i>
+						</div>
+						<div class="col s12 m12 l10">
+							<h4>${i18n("profile.offers")}</h4>
+							<#list offers as offer>
+								<div class="section">
+									<h5>${offer.title}</h5>
+									<p>${offer.offerType.name}</p>
+								</div>
+								<div class="divider"></div>
+							<#else>
+								No existen ofertas disponibles para esta empresa
+							</#list>
+						<div>
+					</div>
+				</div>
+			</section>
+		</div>
+
+		<#if (session.username == organization.email) >
+			<div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
+				<a href="/editOrganizationProfile" class="btn-floating btn-large pink tooltipped" data-position="left" data-delay="100" data-tooltip="${i18n('profile.edit')}">
+					<i class="large material-icons">mode_edit</i>
+				</a>
+				<ul>
+					<li><a class="btn-floating green modal-trigger tooltipped" href="#modal1"
+						   data-position="left" data-delay="100" data-tooltip="${i18n('profile.uploadPhoto')}"><i class="material-icons">photo</i></a></li>
+				</ul>
+			</div>
+		</#if>
+	</div>
+
+		<!-- Modal Structure -->
+		<div id="modal1" class="modal">
+
+			<form method="post" enctype="multipart/form-data" action="javascript:;">
+			<div class="modal-content">
+
+				<h5>${i18n("profile.uploadMessage")}</h5>
+				<br>
+
+				<div class="file-field input-field">
+					<div class="btn">
+						<span>File</span>
+						<input id="file" type="file" name="upfile" accept=".png,.jpg, .jpeg"><br />
+					</div>
+					<div class="file-path-wrapper">
+						<input class="file-path validate" type="text">
+					</div>
+				</div>
+
+			</div>
+			<div class="modal-footer">
+				<button type="submit" class="btn waves-effect waves-light">${i18n("offer.submit")}<i class="material-icons right">send</i></button>
+			</div>
+			</form>
+		</div>
+
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$('.navbar li.active').removeClass('active');
+			$('#menus #profile-btn').addClass('active');
+			$('.modal-trigger').leanModal();
+		});
+		$('form').submit(function (e) {
+			event.preventDefault();
+			e.returnValue = false;
+			$('.progress').show();
+
+			var data = new FormData($(this)[0]);
+			/*jQuery.each(jQuery('#file')[0].files, function(i, file) {
+				data.append('upfile'+i, file);
+			});*/
+
+			console.log(data);
+			$.ajax({
+				url: "/uploadProfilePictureFinish",
+				type: "post",
+				data: data,
+				cache: false,
+				contentType: false,
+				processData: false,
+				dataType: "json"
+			})
+					.done(function(data) {
+						console.log("success!");
+						$('#avatar').attr("src", data);
+						$('#modal1').closeModal();
+						Materialize.toast("${i18n('profile.updatePhoto.success')}");
+					})
+					.fail(function (data) {
+						// here we will handle errors and validation messages
+						console.log("error");
+						console.log(data);
+
+					})
+					.always(function (){
+						$('.progress').hide();
+						$('#modal1').closeModal();
+					});
+
+		});
+	</script>
+	</@layout.myLayout>

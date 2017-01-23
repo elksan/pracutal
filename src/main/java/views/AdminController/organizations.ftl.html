@@ -1,0 +1,30 @@
+
+        <div id="organizationList" class="row" style="display:none;">
+            <#list organizations as organization>
+                <div class="col s12 m4 l3">
+                    <div class="card ">
+                        <div class="card-image">
+                            <img class="responsive-img"
+                            <#if organization.profilePhotoPath??>src="/assets/uploadedContent/${organization.profilePhotoPath}"
+                            <#else>src="/assets/images/company-logo.jpg"
+                            </#if> >
+                        </div>
+                        <div class="card-content">
+                            <span class="card-title">${organization.name}</span>
+                            <#noescape>${organization.description}</#noescape>
+                        </div>
+                        <div class="card-action">
+                            <a href="/viewOrganizationProfile/${organization.id}">Ver Perfil</a>
+                            <a href="/editOrganization/${organization.id}" class="right" href="#">Editar</a>
+                        </div>
+                    </div>
+                </div>
+            </#list>
+        </div>
+        <script type="text/javascript">
+            
+            $(document).ready(function () {
+                $("#organizationList").fadeIn(2000);
+            })
+        </script>
+

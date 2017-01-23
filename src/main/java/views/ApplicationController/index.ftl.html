@@ -4,14 +4,16 @@
 
 	<div id="first_logo" >
 	
-		<div class="title">
-			<h1 >${i18n("title.welcome")}</h1>
-			<h2>${i18n("title.h2")}</h2>
+		<div class="index-title">
+			<h2 class="hide-on-med-and-down">${i18n("title.welcome")}</h2>
+			<!--<h4>${i18n("title.h2")}</h2>-->
+
 		</div>
 		
 	
 	</div>
-
+    <#include "../LoginLogoutController/login.ftl.html"/>
+    <!--<#include "footer.ftl.html"/>-->
 
 
 	<#if frontArticle??>
@@ -37,4 +39,12 @@
     
 </#if>
 
+
+<script type="text/javascript">
+    
+    $('.navbar-fixed nav').removeClass('indigo');
+    $('.navbar-fixed nav').addClass('white');
+
+    $('nav ul a, nav i, nav .brand-logo').css("color","#444");
+</script>
 </@layout.myLayout>

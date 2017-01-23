@@ -1,21 +1,57 @@
 package models;
 
+import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
+
+import vo.OfferVO;
 
 @Entity
-public class Offer {
+@Table(name = "offer")
+@NamedEntityGraphs({
+		@NamedEntityGraph(name = "offer.organization+offertype", attributeNodes = {
+				@NamedAttributeNode(value = "organization"),
+				@NamedAttributeNode(value = "offerType")
+		}),
 
-	private Integer organizationId;
+		@NamedEntityGraph(
+				name = "graph.offer.internships",
+				attributeNodes = {
+						@NamedAttributeNode(value = "internships", subgraph = "student")
+				},
+				subgraphs = {
+						@NamedSubgraph(
+								name = "student",
+								attributeNodes = @NamedAttributeNode(value = "student")
+						)
+				}
+		),
+		@NamedEntityGraph(name = "offer.organization", attributeNodes = {
+				@NamedAttributeNode(value = "organization")
+		}),
+		@NamedEntityGraph(name = "offer.applications",
+				attributeNodes = {
+					@NamedAttributeNode(value = "applications", subgraph = "student"),
+				},
+				subgraphs = {
+						@NamedSubgraph(
+								name = "student",
+								attributeNodes = @NamedAttributeNode(value = "student")
+						)
+				}
+		)
+})
+public class Offer implements Serializable {
+
+	//private Integer organizationId;
 	private Date createdAt;
+	private Date updatedAt;
 	private String description;
 	private boolean disabled;
 	private String duration;
 	private String email;
-	private Date endDate;
 	private boolean hasIncome;
 	private boolean hasLocomotion;
 	private boolean hasLunch;
@@ -23,23 +59,65 @@ public class Offer {
 	private Integer income;
 	private Integer locomotion;
 	private Integer lunch;
-	private String post;
-	private Integer quota;
 	private String requirements;
 	private Date startDateAvailable;
+	private Date endDateAvailable;
 	private Date startDateInternship;
+	private Date endDateInternship;
 	private String area;
 	private boolean available;
+	private String location;
+	private String title;
+	private String position;
+	private Integer minimalLevelRequired;
+	private String language;
+	private boolean approved;
+	private boolean closed;
+	private boolean createdByStudent;
+	private boolean studentOfferApproved;
+	private Integer createdBy;
+
+	private OfferType offerType;
+	private List<Career> careers;
+	private Organization organization;
+	private List<Application> applications;
+	private List<Internship> internships;
 	
-	@Column(name="organization_id")
-	public Integer getOrganizationId() {
-		return organizationId;
-	}
-	public void setOrganizationId(Integer organizationId) {
-		this.organizationId = organizationId;
+	public Offer() {
+		
 	}
 	
-	@Column(name="created_at")
+	public Offer(OfferVO offerVO) {
+		super();
+
+		this.createdAt = offerVO.getCreatedAt();
+		this.description = offerVO.getDescription();
+		this.disabled = offerVO.isDisabled();
+		this.duration = offerVO.getDuration();
+		this.email = offerVO.getEmail();
+		this.hasIncome = offerVO.isHasIncome();
+		this.hasLocomotion = offerVO.isHasLocomotion();
+		this.hasLunch = offerVO.isHasLunch();
+		this.id = offerVO.getId();
+		this.income = offerVO.getIncome();
+		this.locomotion = offerVO.getLocomotion();
+		this.lunch = offerVO.getLunch();
+		this.requirements = offerVO.getRequirements();
+		this.area = offerVO.getArea();
+		this.available = offerVO.isAvailable();
+		this.location = offerVO.getLocation();
+		this.title = offerVO.getTitle();
+		this.position = offerVO.getPosition();
+		this.minimalLevelRequired = offerVO.getMinimalLevelRequired();
+		this.language = offerVO.getLanguage();
+		this.approved = offerVO.isApproved();
+		this.closed = false;
+		this.createdByStudent = offerVO.isCreatedByStudent();
+		this.createdBy = offerVO.getCreatedBy();
+		this.studentOfferApproved = offerVO.isStudentOfferApproved();
+	}
+
+	@Column(name="created_at", updatable = false)
 	public Date getCreatedAt() {
 		return createdAt;
 	}
@@ -71,15 +149,7 @@ public class Offer {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
-	@Column(name="end_date")
-	public Date getEndDate() {
-		return endDate;
-	}
-	public void setEndDate(Date endDate) {
-		this.endDate = endDate;
-	}
-	
+
 	@Column(name="has_income")
 	public boolean isHasIncome() {
 		return hasIncome;
@@ -105,6 +175,8 @@ public class Offer {
 	}
 	
 	@Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(columnDefinition = "serial")
 	public Integer getId() {
 		return id;
 	}
@@ -129,18 +201,6 @@ public class Offer {
 	public void setLunch(Integer lunch) {
 		this.lunch = lunch;
 	}
-	public String getPost() {
-		return post;
-	}
-	public void setPost(String post) {
-		this.post = post;
-	}
-	public Integer getQuota() {
-		return quota;
-	}
-	public void setQuota(Integer quota) {
-		this.quota = quota;
-	}
 	public String getRequirements() {
 		return requirements;
 	}
@@ -155,6 +215,14 @@ public class Offer {
 	public void setStartDateAvailable(Date startDateAvailable) {
 		this.startDateAvailable = startDateAvailable;
 	}
+
+	@Column(name = "end_date_available")
+	public Date getEndDateAvailable() {
+		return endDateAvailable;
+	}
+	public void setEndDateAvailable(Date endDateAvailable) {
+		this.endDateAvailable = endDateAvailable;
+	}
 	
 	@Column(name="start_date_internship")
 	public Date getStartDateInternship() {
@@ -163,6 +231,15 @@ public class Offer {
 	public void setStartDateInternship(Date startDateInternship) {
 		this.startDateInternship = startDateInternship;
 	}
+
+	@Column(name="end_date_internship")
+	public Date getEndDateInternship() {
+		return endDateInternship;
+	}
+	public void setEndDateInternship(Date endDate) {
+		this.endDateInternship = endDate;
+	}
+
 	public String getArea() {
 		return area;
 	}
@@ -175,5 +252,159 @@ public class Offer {
 	public void setAvailable(boolean available) {
 		this.available = available;
 	}
-	
+
+	public String getLocation() {
+		return location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
+	}
+
+	@Column(name = "title")
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	@Column(name = "updated_at")
+	public Date getUpdatedAt() {
+		return updatedAt;
+	}
+
+	public void setUpdatedAt(Date updatedAt) {
+		this.updatedAt = updatedAt;
+	}
+
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="offer_type_id", unique=true, nullable=false)
+	public OfferType getOfferType() {
+		return offerType;
+	}
+
+	public void setOfferType(OfferType offerType) {
+		this.offerType = offerType;
+	}
+
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name="offer_career", joinColumns = @JoinColumn(name = "offer_id"), inverseJoinColumns = @JoinColumn(name = "career_id"))
+	public List<Career> getCareers() {
+		return careers;
+	}
+
+	public void setCareers(List<Career> careers) {
+		this.careers = careers;
+	}
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "organization_id")
+	public Organization getOrganization() {
+		return organization;
+	}
+
+	public void setOrganization(Organization organization) {
+		this.organization = organization;
+	}
+
+
+	@PrePersist
+	protected void onCreate() {
+		createdAt = new Date();
+	}
+
+	@PreUpdate
+	protected void onUpdate() {
+		 updatedAt = new Date();
+	}
+
+
+	public String getPosition() {
+		return position;
+	}
+
+	public void setPosition(String position) {
+		this.position = position;
+	}
+
+	@Column(name = "minimal_level_required")
+	public Integer getMinimalLevelRequired() {
+		return minimalLevelRequired;
+	}
+
+	public void setMinimalLevelRequired(Integer minimalLevelRequired) {
+		this.minimalLevelRequired = minimalLevelRequired;
+	}
+
+	public String getLanguage() {
+		return language;
+	}
+
+	public void setLanguage(String language) {
+		this.language = language;
+	}
+
+
+	public boolean isApproved() {
+		return approved;
+	}
+
+	public void setApproved(boolean approved) {
+		this.approved = approved;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL, mappedBy = "offer")
+	public List<Application> getApplications() {
+		return applications;
+	}
+
+	public void setApplications(List<Application> applications) {
+		this.applications = applications;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "offer")
+	public List<Internship> getInternships() {
+		return internships;
+	}
+
+	public void setInternships(List<Internship> internships) {
+		this.internships = internships;
+	}
+
+	public boolean isClosed() {
+		return closed;
+	}
+
+	public void setClosed(boolean closed) {
+		this.closed = closed;
+	}
+
+	@Column(name = "created_by_student")
+	public boolean isCreatedByStudent() {
+		return createdByStudent;
+	}
+
+	public void setCreatedByStudent(boolean createdByStudent) {
+		this.createdByStudent = createdByStudent;
+	}
+
+	@Column(name = "student_offer_approved")
+	public boolean isStudentOfferApproved() {
+		return studentOfferApproved;
+	}
+
+	public void setStudentOfferApproved(boolean studentOfferApproved) {
+		this.studentOfferApproved = studentOfferApproved;
+	}
+
+	@Column(name = "created_by")
+	public Integer getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(Integer createdBy) {
+		this.createdBy = createdBy;
+	}
 }

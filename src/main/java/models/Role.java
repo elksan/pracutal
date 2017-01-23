@@ -1,6 +1,7 @@
 package models;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -16,14 +17,14 @@ public class Role {
 	private String name;
 	private Date updatedAt;
 	private Date createdAt;
-	private Set<User> users;
+	private List<User> users;
 	
 	public Role(){
 		
 		
 	}
 	
-	public Role(Integer id, String name, Date updatedAt, Date createdAt, Set<User> users) {
+	public Role(Integer id, String name, Date updatedAt, Date createdAt, List<User> users) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -64,10 +65,10 @@ public class Role {
 	}
 	
 	@ManyToMany(fetch=FetchType.LAZY, mappedBy="roles")
-	public Set<User> getUsers() {
+	public List<User> getUsers() {
 		return users;
 	}
-	public void setUsers(Set<User> users) {
+	public void setUsers(List<User> users) {
 		this.users = users;
 	}
 	

@@ -16,6 +16,9 @@
 
 package controllers;
 
+import com.sun.org.apache.xerces.internal.impl.dv.xs.BooleanDV;
+import com.sun.org.apache.xpath.internal.operations.Bool;
+import models.User;
 import ninja.Context;
 import ninja.Result;
 import ninja.Results;
@@ -45,6 +48,7 @@ public class LoginLogoutController {
 
     public Result loginPost(@Param("username") String username,
                             @Param("password") String password,
+                            @Param("rememberMe") Boolean rememberMe,
                             Context context) {
 
         boolean isUserNameAndPasswordValid = userService.isUserAndPasswordValid(username, password);
@@ -55,17 +59,28 @@ public class LoginLogoutController {
         if (isUserNameAndPasswordValid) {
         	
             session.put("username", username);
-            session.put("isAdmin", "true");
             flashScope.success("login.loginSuccessful");
-            
+
+            User user = userService.getUserById(username);
+
+            session.put("role", user.getRoles().get(0).getId().toString());
+            session.put("userId", user.getId().toString());
+
+            if(rememberMe != null && rememberMe)
+                session.setExpiryTime(30 * 24 * 60 * 60 * 1000L);
+            else
+                session.setExpiryTime(60 * 60 * 1000L);
+
+
             return Results.redirect("/profile");
             
-        } else {
+        }
+        else {
             
             // something is wrong with the input or password not found.
         	flashScope.error("login.errorLogin");
 
-            return Results.redirect("/login");
+            return Results.redirect("/");
             
         }
         
@@ -81,10 +96,8 @@ public class LoginLogoutController {
         
         // remove any user dependent information    	
         session.clear();
-        flashScope.success("login.logoutSuccessful");
 
-//        return Results.redirect("/");
-        return Results.html();
+        return Results.redirect("/");
 
     }
 

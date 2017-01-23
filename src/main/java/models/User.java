@@ -1,76 +1,61 @@
 package models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import org.hibernate.annotations.*;
+import vo.VerificationToken;
+
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
+import javax.persistence.*;
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.JoinTable;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.OrderBy;
 
 @Entity
+@DynamicUpdate(value = true)
+@Inheritance(strategy=InheritanceType.JOINED)
 public class User {
-      
-    private Integer rut;
-    
-    private String password;
-    
-    private String firstName;
-    
-    private String lastName;
-    
-    private String motherLastName;
-    
-    private Date createdAt;
-    
-    private Date currentSignInAt;
-    
-    private String currentSignInIp;
-    
-    private String email;
-    
-    private Date lastSignInAt;
-    
-    private String lastSignInIp;
-    
-    private Date rememberCreatedAt;
-    
-    private Date resetPasswordSentAt;
-    
-    private String resetPasswordToken;
-    
-    private int signInCount;
-    
-    private Date updatedAt;
-    
-    private Student student;
-    
-    private Set<Role> roles;
-    
-    
-    //private boolean isAdmin;
-    
-    public User() {
+
+    protected Integer id;
+	protected String password;
+	protected String name;
+	protected Date createdAt;
+	protected Date currentSignInAt;
+	protected String currentSignInIp;
+	protected String email;
+	protected Date lastSignInAt;
+	protected String lastSignInIp;
+	protected Date rememberCreatedAt;
+	protected Date resetPasswordSentAt;
+	protected String resetPasswordToken;
+	protected int signInCount;
+	protected Date updatedAt;
+	protected Boolean disabled;
+	protected String profilePhotoPath;
+	protected List<Role> roles;
+	protected List<VerificationToken> tokens;
+	protected Address address;
+
+	public User() {
     	
     	this.signInCount = 0;
+		this.disabled = true;
     }
     
                                                                                                 
     
 
-    public User(int rut, String password, String firstName, String lastName, Date createdAt, Date currentSignInAt,
+    public User(int id, String password, Date createdAt, Date currentSignInAt,
 			String currentSignInIp, String email, Date lastSignInAt, String lastSignInIp, Date rememberCreatedAt,
 			Date resetPasswordSentAt, String resetPasswordToken, int signInCount, Date updatedAt) {
 		super();
-		this.rut = rut;
+		this.id = id;
 		this.password = password;
-		this.firstName = firstName;
-		this.lastName = lastName;
 		this.createdAt = createdAt;
 		this.currentSignInAt = currentSignInAt;
 		this.currentSignInIp = currentSignInIp;
@@ -84,13 +69,15 @@ public class User {
 		this.updatedAt = updatedAt;
 	}
 
-	@Id    
-	public Integer getRut() {
-		return rut;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(columnDefinition = "serial")
+	public Integer getId() {
+		return id;
 	}
 
-	public void setRut(Integer rut) {
-		this.rut = rut;
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 	public String getPassword() {
@@ -101,25 +88,9 @@ public class User {
 		this.password = password;
 	}
 
-	@Column(name="first_name")
-	public String getFirstName() {
-		return firstName;
-	}
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	@Column(name="last_name")
-	public String getLastName() {
-		return lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-
-	@Column(name="created_at")
+	@Column(name="created_at", updatable = false)
+	@CreationTimestamp
 	public Date getCreatedAt() {
 		return createdAt;
 	}
@@ -209,6 +180,7 @@ public class User {
 	}
 
 	@Column(name="updated_at")
+	@UpdateTimestamp
 	public Date getUpdatedAt() {
 		return updatedAt;
 	}
@@ -217,34 +189,69 @@ public class User {
 		this.updatedAt = updatedAt;
 	}
 
+	public Boolean getDisabled() {
+		return disabled;
+	}
 
-	@OneToOne(fetch=FetchType.LAZY, mappedBy="user")
-	public Student getStudent() {
-		return student;
+	public void setDisabled(Boolean disabled) {
+		this.disabled = disabled;
 	}
-	public void setStudent(Student student) {
-		this.student = student;
-	}
+
 
 	@ManyToMany(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
 	@JoinTable(name = "role_user", joinColumns = {
-			@JoinColumn(name = "rut", nullable = false, updatable = false) }, 
+			@JoinColumn(name = "user_id", nullable = false, updatable = false) },
 			inverseJoinColumns = { @JoinColumn(name = "role_id", nullable = false, updatable = false) })
-	public Set<Role> getRoles() {
+	public List<Role> getRoles() {
 		return roles;
 	}
-	public void setRoles(Set<Role> roles) {
+	public void setRoles(List<Role> roles) {
 		this.roles = roles;
 	}
 
-	@Column(name="mother_last_name")
-	public String getMotherLastName() {
-		return motherLastName;
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
+	public List<VerificationToken> getTokens() {
+		return tokens;
 	}
 
-	public void setMotherLastName(String motherLastName) {
-		this.motherLastName = motherLastName;
+	@OrderBy(value = "id DESC ")
+	public void setTokens(List<VerificationToken> tokens) {
+		this.tokens = tokens;
 	}
 
+	public String getName() {
+		return name;
+	}
 
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	@Column(name = "profile_photo_path")
+	public String getProfilePhotoPath() {
+		return profilePhotoPath;
+	}
+
+	public void setProfilePhotoPath(String profilePhotoPath) {
+		this.profilePhotoPath = profilePhotoPath;
+	}
+
+	@OneToOne(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
+	public Address getAddress() {
+		return address;
+	}
+
+	public void setAddress(Address address) {
+		this.address = address;
+	}
+
+/*@PrePersist
+	protected void onCreate() {
+		createdAt = new Date();
+	}
+
+	@PreUpdate
+	protected void onUpdate() {
+		updatedAt = new Date();
+	}*/
 }
