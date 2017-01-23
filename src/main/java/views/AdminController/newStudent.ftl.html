@@ -40,7 +40,7 @@
                                 <label for="${i18n('student.email')}">${i18n('student.email')}</label>
                             </div>
                         </div>
-                        <#if (session.username == student.email) >
+                        <#if student ?? && (session.username == student.email) >
                             <div class="row">
                                 <div class="input-field col s12">
                                     <textarea id="${i18n('student.presentation')}" name="jobObjective"  type="text" class="materialize-textarea validate"

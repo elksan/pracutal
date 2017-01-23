@@ -125,16 +125,22 @@ public class Routes implements ApplicationRoutes {
         router.GET().route("/editStudent/{studentId}").with(AdminController.class, "editStudent");
         router.POST().route("/updateStudent").with(AdminController.class, "updateStudent");
         ///////////////////////////////////////////////////////////////////////
+        // Careers
+        ///////////////////////////////////////////////////////////////////////
+        router.GET().route("/careers").with(AdminController.class,"careers");
+        router.GET().route("/newCareer").with(AdminController.class,"newCareer");
+        router.POST().route("/saveCareer").with(AdminController.class,"saveCareer");
+        router.GET().route("/editCareer/{careerId}").with(AdminController.class,"editCareer");
+        router.POST().route("/updateCareer").with(AdminController.class,"updateCareer");
+        ///////////////////////////////////////////////////////////////////////
         // Validations
         ///////////////////////////////////////////////////////////////////////
         router.POST().route("/validateOffer").with(ValidationController.class, "validateOffer");
- 
         ///////////////////////////////////////////////////////////////////////
         // Assets (pictures / javascript)
         ///////////////////////////////////////////////////////////////////////    
         router.GET().route("/assets/webjars/{fileName: .*}").with(AssetsController.class, "serveWebJars");
         router.GET().route("/assets/{fileName: .*}").with(AssetsController.class, "serveStatic");
-        
         ///////////////////////////////////////////////////////////////////////
         // Index / Catchall shows index page
         ///////////////////////////////////////////////////////////////////////

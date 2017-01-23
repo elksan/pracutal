@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import etc.ExcelReader;
 import models.Application;
+import models.Career;
 import models.Organization;
 import models.Student;
 import ninja.*;
@@ -47,6 +48,7 @@ public class AdminController {
 	String tokenGlobal;
 	Integer organizationId;
 	Integer studentId;
+	Integer careerId;
 
 	public Result newStudent() {
 		return Results.html();
@@ -254,6 +256,49 @@ public class AdminController {
 		FlashScope flashScope = context.getFlashScope();
 		flashScope.success("student.updateSuccessful");
 
+		return Results.json().render(resultVO);
+	}
+
+	public Result careers() {
+		List<Career> careers = adminService.getCareers();
+		Result result = Results.html();
+		result.render("careers", careers);
+
+		return  result;
+	}
+	public Result newCareer() {
+		return Results.html();
+	}
+
+	public Result saveCareer(FlashScope flashScope, @JSR303Validation CareerVO careerVO, Validation validation){
+
+		adminService.saveCareer(careerVO);
+
+		ResultVO resultVO = new ResultVO();
+		resultVO.setRedirect("/admin");
+
+		flashScope.success("admin.career.createSuccessful");
+		return Results.json().render(resultVO);
+	}
+
+	public Result editCareer(@PathParam("careerId") Integer careerId) {
+		Career career = adminService.findCareerById(careerId);
+		CareerVO careerVO = new CareerVO(career);
+		Result result = Results.html().template("views/AdminController/newCareer.ftl.html");
+		result.render("career", careerVO);
+
+		this.careerId = career.getCareerId();
+		return result;
+	}
+
+	public Result updateCareer(FlashScope flashScope, @JSR303Validation CareerVO careerVO, Validation validation){
+
+		adminService.updateCareer(careerVO);
+
+		ResultVO resultVO = new ResultVO();
+		resultVO.setRedirect("/admin");
+
+		flashScope.success("admin.career.updateSuccessful");
 		return Results.json().render(resultVO);
 	}
 }

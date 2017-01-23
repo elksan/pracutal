@@ -1,44 +1,35 @@
 <#import "../layout/defaultLayout.ftl.html" as layout> <@layout.myLayout i18n("admin.adminitration")>
 
+	<nav id="slide-out" class="side-nav fixed admin-menu">
+		<ul class="">
+			<li class="collection-item"><a id="studentsBtn"><i class="material-icons left">local_library</i>${i18n("admin.students")}</a></li>
+			<li class="collection-item"><a id="organizationsBtn"><i class="material-icons left">business_center</i>${i18n("admin.organizations")}</a></li>
+			<li class="collection-item"><a id="reportsBtn"><i class="material-icons left">insert_chart</i>${i18n("admin.reports")}</a></li>
+			<li class="collection-item"><a id="careersBtn"><i class="material-icons left">local_library</i>${i18n("admin.careers")}</a></li>
+		</ul>
+	</nav>
 
-
-
-		<nav id="slide-out" class="side-nav fixed admin-menu">
-			<ul class="">
-				<li class="collection-item"><a id="studentsBtn"><i class="material-icons left">local_library</i>${i18n("admin.students")}</a></li>
-				<li class="collection-item"><a id="organizationsBtn"><i class="material-icons left">business_center</i>${i18n("admin.organizations")}</a></li>
-				<li class="collection-item"><a id="reportsBtn"><i class="material-icons left">insert_chart</i>${i18n("admin.reports")}</a></li>
-<!--
-				<li class="collection-item"><a><i class="material-icons left">insert_chart</i>${i18n("admin.reports")}</a></li>
--->
-			</ul>
-
-		</nav>
 	<a href="#" data-activates="slide-out" class="button-collapse show-on-large"><i class="material-icons">menu</i></a>
-
-		<main>
-
-			<div class="container" id="content">
-
-				<h2> ${i18n("admin.administation")}</h2>
-
-			</div>
-
-		</main>
-		<div class="fixed-action-btn" >
-			<a class="btn-floating btn-large pink">
-				<i class="material-icons">menu</i>
-			</a>
-			<ul>
-				<li><a href="/newStudent" class="btn-floating green tooltipped"
-					   data-position="left" data-delay="50" data-tooltip="Nuevo estudiante"><i class="material-icons right">school</i></a></li>
-				<li><a  href="/newOrganization" class="btn-floating blue tooltipped"
-					   data-position="left" data-delay="50" data-tooltip="Nueva empresa"><i class="material-icons right">business_center</i></a></li>
-				<li><a  href="/addStudents" class="btn-floating orange tooltipped"
-						data-position="left" data-delay="50" data-tooltip="Importar estudiantes"><i class="material-icons right">playlist_add</i></a></li>
-
-			</ul>
+	<main>
+		<div class="container" id="content">
+			<h2> ${i18n("admin.administation")}</h2>
 		</div>
+	</main>
+	<div class="fixed-action-btn" >
+		<a class="btn-floating btn-large pink">
+			<i class="material-icons">menu</i>
+		</a>
+		<ul>
+			<li><a  href="/newCareer" class="btn-floating yellow tooltipped"
+					data-position="left" data-delay="50" data-tooltip="${i18n('admin.career.new')}"><i class="material-icons right">playlist_add</i></a></li>
+			<li><a  href="/addStudents" class="btn-floating orange tooltipped"
+					data-position="left" data-delay="50" data-tooltip="Importar estudiantes"><i class="material-icons right">playlist_add</i></a></li>
+			<li><a href="/newStudent" class="btn-floating green tooltipped"
+				   data-position="left" data-delay="50" data-tooltip="Nuevo estudiante"><i class="material-icons right">school</i></a></li>
+			<li><a  href="/newOrganization" class="btn-floating blue tooltipped"
+					data-position="left" data-delay="50" data-tooltip="Nueva empresa"><i class="material-icons right">business_center</i></a></li>
+		</ul>
+	</div>
 
 	<script type="text/javascript">
 		$(document).ready(function () {
@@ -72,8 +63,18 @@
 						$('.progress').hide();
 					})
 			});
-
-
+			$('#careersBtn').click(function () {
+				$('.progress').show();
+				$.ajax({
+					url: "/careers",
+					type: "get"
+				})
+						.done(function (data) {
+							console.log("success");
+							$('#content').html(data);
+							$('.progress').hide();
+						})
+			});
 
 			$('#reportsBtn').click(function () {
 

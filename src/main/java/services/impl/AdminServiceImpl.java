@@ -4,19 +4,14 @@ import com.google.inject.Inject;
 import com.google.inject.persist.Transactional;
 import dao.AdminDao;
 import dao.UserDao;
-import etc.SessionIdentifierGenerator;
 import etc.UserRole;
-import models.Organization;
+import models.Career;
 import models.Role;
 import models.User;
 import ninja.jpa.UnitOfWork;
-import ninja.utils.NinjaProperties;
 import org.mindrot.jbcrypt.BCrypt;
 import services.AdminService;
-import vo.ActivationFormVO;
-import vo.OrganizationVO;
-import vo.UserVO;
-import vo.VerificationToken;
+import vo.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -86,6 +81,29 @@ public class AdminServiceImpl implements AdminService {
 		user.getRoles().add(role);
 
 		userDao.saveUser(user);
+	}
 
+    @UnitOfWork
+    public List<Career> getCareers() {
+        return adminDao.getCareers();
+    }
+
+	@Transactional
+	public void saveCareer(CareerVO careerVO) {
+
+		Career career = new Career(careerVO);
+		adminDao.saveCareer(career);
+	}
+
+	@Transactional
+	public void updateCareer(CareerVO careerVO) {
+		Career career = adminDao.findCareerById(careerVO.getCareerId());
+		career.setCareerName(careerVO.getCareerName());
+		adminDao.updateCareer(career);
+	}
+
+	@Override
+	public Career findCareerById(Integer careerId) {
+		return adminDao.findCareerById(careerId);
 	}
 }

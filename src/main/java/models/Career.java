@@ -1,5 +1,7 @@
 package models;
 
+import vo.CareerVO;
+
 import java.util.List;
 
 import javax.persistence.*;
@@ -11,8 +13,16 @@ public class Career {
 	private String careerName;
 	private List<Student> students;
 	private List<Offer> offers;
-	
-	@Id
+
+	public Career(){
+	}
+
+    public Career(CareerVO careerVO) {
+    	this.careerId = careerVO.getCareerId();
+    	this.careerName = careerVO.getCareerName();
+    }
+
+    @Id
 	@Column(name="career_id")
 	public Integer getCareerId() {
 		return careerId;
